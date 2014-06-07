@@ -28,7 +28,7 @@ return array(
     |
     */
 
-    'css_build_path' => '/css/builds/',
+    'css_build_path' => '/assets/css/builds/',
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return array(
     |
     */
 
-    'js_build_path' => '/js/builds/',
+    'js_build_path' => '/assets/js/builds/',
 
 	/*
     |--------------------------------------------------------------------------

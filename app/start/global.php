@@ -46,9 +46,52 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
+App::fatal(function($exception)
+{
+	Log::error($exception);
+	
+	if ( ! Config::get('app.debug'))
+	{
+		return Response::make(View::make('error/500'), 500);
+	}
+});
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
+	
+	if ( ! Config::get('app.debug'))
+	{
+		switch ($code)
+		{
+			case 403:
+				return Response::make(View::make('error/403'), 403);
+
+			case 500:
+				return Response::make(View::make('error/500'), 500);
+				
+			case 503:
+				return Response::make(View::make('error/503'), 503);
+
+			default:
+				return Response::make(View::make('error/404'), 404);
+		}
+	}
+});
+
+// App::error(function(Exception $exception, $code)
+// {
+	// Log::error($exception);
+// });
+
+App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception, $code)
+{
+    return Response::make(View::make('error/404'), 404);
+});
+
+App::missing(function($exception)
+{
+    return Response::make(View::make('error/404'), 404);
 });
 
 /*
@@ -64,7 +107,9 @@ App::error(function(Exception $exception, $code)
 
 App::down(function()
 {
-	return Response::make("Be right back!", 503);
+	//return Response::make("Be right back!", 503);
+	
+	return Response::make(View::make('error/503'), 503);
 });
 
 /*
@@ -79,3 +124,55 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Validator Extends
+|--------------------------------------------------------------------------
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| Blade Extends
+|--------------------------------------------------------------------------
+|
+*/
+
+Blade::extend(function($value)
+{
+	return preg_replace('/@php((.|\s)*?)@endphp/', '<?php $1 ?>', $value);
+});
+
+Blade::extend(function($value)
+{
+	return preg_replace_callback('/@comment((.|\s)*?)@endcomment/',
+              function ($matches) {
+                    return '<?php /* ' . preg_replace('/@|\{/', '\\\\$0\\\\', $matches[1]) . ' */ ?>';
+              },
+              $value
+			);
+});
+
+
+/*
+|--------------------------
+| View Composers
+|--------------------------
+*/
+
+View::composer(Paginator::getViewName(), function($view) {
+	$queryString = array_except(Input::query(), Paginator::getPageName());
+	$view->paginator->appends($queryString);
+});
+
+/*
+|--------------------------------------------------------------------------
+| Global Constant
+|--------------------------------------------------------------------------
+|
+*/
+
+// To check if Views are run from inside the framework
+define('VIEW_IS_ALLOWED', true);
