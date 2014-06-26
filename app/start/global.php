@@ -170,25 +170,10 @@ View::composer(Paginator::getViewName(), function($view)
 	$view->paginator->appends($queryString);
 });
 
-View::creator('partials/navigation', function($view)
+View::composer('partials/navigation', function($view)
 {
-	
-	$array = Helpers::renderNavigation();
-	$view->with('tabs', $array['tabs']);
-});
-
-/*
-|--------------------------
-| Application Events
-|--------------------------
-*/
-
-App::before(function($request)
-{
-	header('Content-Type: text/html; charset=utf-8');
-	header('X-UA-Compatible: IE=edge');
-	
-	Helpers::loadXML();
+	$tabs = Session::pull('navigation.tabs', array(array(array('selected' => false, 'path' => '', 'group' => ''))));
+	$view->with('tabs', $tabs);
 });
 
 /*

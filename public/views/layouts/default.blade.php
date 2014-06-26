@@ -76,7 +76,7 @@
 	<tr>
 		<td colspan="2" class="sitelink">
 			<span>
-				@lang('app.footer_text', array('link' => sprintf('<a href="http://www.eShia.ir" title="%s">%s</a>', trans('app.feqahat_school'), trans('app.feqahat_school'))))
+				@lang('app.footer_text', array('link' => sprintf('<a href="http://www.eShia.ir" title="%s"> %s </a>', trans('app.feqahat_school'), trans('app.feqahat_school'))))
 			</span>
 			<br>
 			<span><a href="http://www.eShia.ir">www.eShia.ir</a></span>

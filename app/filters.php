@@ -88,3 +88,16 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+Route::filter('needs.xml.navigation', function()
+{
+	header('Content-Type: text/html; charset=utf-8');
+	header('X-UA-Compatible: IE=edge');
+	
+	Helpers::loadXML();
+	
+	Helpers::renderNavigation();
+	
+	
+});

@@ -11,11 +11,34 @@
 |
 */
 
-// index
-Route::get('/', function()
+
+
+Route::group(array('before' => 'needs.xml.navigation'), function()
 {
-	return 'index';
+	// index
+    Route::get('/', function()
+    {
+		$xml = unserialize(Cache::get('xml_object'));
+		
+		$xpath = new DOMXpath($xml);
+		
+        $xpath_query = sprintf('//%s', BOOK_NODE);
+		$books = $xpath->query($xpath_query, $xml);
+		$xpath_query = sprintf('//%s', VOL_NODE);
+		$vols = $xpath->query($xpath_query, $xml);
+		
+		$booksCount = $books->length;
+		$volsCount = $vols->length;
+
+		return View::make('index')->with(compact('booksCount', 'volsCount'));
+    });
+
+    
+	
+	
 });
+
+
 
 // search
 Route::get('/search/{term}', function($term)

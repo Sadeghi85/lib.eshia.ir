@@ -395,7 +395,10 @@ class Helpers {
 
 		//print_r($group_array);
 		//print_r($navigation);
-		return array('tabs' => $group_array, 'navigation' => $navigation);
+		//return array('tabs' => $group_array, 'navigation' => $navigation);
+		
+		Session::put('navigation.tabs', $group_array);
+		Session::put('navigation.segments', $navigation);
 	}
 	
 }
