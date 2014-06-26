@@ -18,6 +18,8 @@ ClassLoader::addDirectories(array(
 	app_path().'/models',
 	app_path().'/database/seeds',
 
+	app_path().'/helpers',
+	app_path().'/view_composers',
 ));
 
 /*
@@ -162,17 +164,55 @@ Blade::extend(function($value)
 |--------------------------
 */
 
-View::composer(Paginator::getViewName(), function($view) {
+View::composer(Paginator::getViewName(), function($view)
+{
 	$queryString = array_except(Input::query(), Paginator::getPageName());
 	$view->paginator->appends($queryString);
 });
 
+View::creator('partials/navigation', function($view)
+{
+	
+	$array = Helpers::renderNavigation();
+	$view->with('tabs', $array['tabs']);
+});
+
+/*
+|--------------------------
+| Application Events
+|--------------------------
+*/
+
+App::before(function($request)
+{
+	header('Content-Type: text/html; charset=utf-8');
+	header('X-UA-Compatible: IE=edge');
+	
+	Helpers::loadXML();
+});
+
 /*
 |--------------------------------------------------------------------------
-| Global Constant
+| Global Constants
 |--------------------------------------------------------------------------
 |
 */
 
 // To check if Views are run from inside the framework
 define('VIEW_IS_ALLOWED', true);
+
+define('MAIN_NODE', Config::get('xml_settings.main_node'));
+define('GROUP_NODE', Config::get('xml_settings.group_node'));
+define('GROUP_ATTR_NAME', Config::get('xml_settings.group_attr_name'));
+define('GROUP_ATTR_ORDER', Config::get('xml_settings.group_attr_order'));
+define('BOOK_NODE', Config::get('xml_settings.book_node'));
+define('BOOK_ATTR_NAME', Config::get('xml_settings.book_attr_name'));
+define('BOOK_ATTR_DISPLAYNAME', Config::get('xml_settings.book_attr_displayname'));
+define('BOOK_ATTR_AUTHOR', Config::get('xml_settings.book_attr_author'));
+define('VOLUMES_NODE', Config::get('xml_settings.volumes_node'));
+define('VOL_NODE', Config::get('xml_settings.vol_node'));
+define('VOL_ATTR_ID', Config::get('xml_settings.vol_attr_id'));
+define('VOL_ATTR_INDEX', Config::get('xml_settings.vol_attr_index'));
+define('VOL_ATTR_BASE', Config::get('xml_settings.vol_attr_base'));
+define('VOL_ATTR_PAGES', Config::get('xml_settings.vol_attr_pages'));
+
