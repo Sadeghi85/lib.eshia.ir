@@ -12,28 +12,19 @@
 */
 
 
-// list all books in parent group
-Route::get('/{segments1?}all/{segments2?}', function()
-{
-    return 'booklist all';
-})->where('segments1', '.*')->where('segments2', '.*');
 
-// list authors in parent group
-Route::get('/{segments1?}authors/{segments2?}', function()
-{
-    return 'authorlist';
-})->where('segments1', '.*')->where('segments2', '.*');
 
-// page
-Route::get('/{id}/{segments?}', function($bookId)
-{
-    return 'page';
-})->where('id', '\d+')->where('segments', '.*');
 
 
 Route::group(array('before' => 'needs.xml.navigation'), function()
 {
-	// index
+	// Page
+	Route::get('/{id}/{segments?}', function($bookId)
+	{
+		return 'page';
+	})->where('id', '\d+')->where('segments', '.*');
+
+	// Index
     Route::get('/', function()
     {
 		$xml = unserialize(Session::get('xml.object'));
@@ -51,9 +42,16 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 		return View::make('index')->with(compact('booksCount', 'volsCount'));
     });
 
-    
+    // Catch all
 	Route::get('{all}', function($uri)
 	{
+		//query_not_found
+		//author_booklist
+		//authorlist
+		//booklist
+	
+	
+	
 		return View::make('hello');
 	})->where('all', '.*');
 	
@@ -120,7 +118,7 @@ Route::get('/search/{term}', function($term)
 
 #######################
 # 1. tabs and navigation creator in form of "before filter" for routes that need it, will be two arrays that will be put in session
-# 2. view creator for "navigation partial" that will get the tabs array from session
+# 2. view composer for "navigation partial" that will get the tabs array from session
 # 3. navigation array is the "correct" url segments; routes that need it will retrieve it from the session
 # 4. remove tabs and navigation arrays from the session at the end of application
 #######################
