@@ -41,7 +41,7 @@ return array(
 	// $lang['Index Page'] = 'صفحه نخست';
 	'all_groups' => 'همه‌گروه‌ها',
 	'authors' => 'نویسندگان',
-	// $lang['PageDisplay Error'] = 'با عرض پوزش، مشکلی در نمایش این صفحه بوجود آمده است';
+	'page_display_error' => 'با عرض پوزش، مشکلی در نمایش این صفحه بوجود آمده است',
 	// $lang['First Page'] = 'صفحه‌اول';
 	// $lang['Show'] = 'نمایش';
 	// $lang['Book Page Not Found Message'] = 'این صفحه در کتاب اصلی بدون متن است';

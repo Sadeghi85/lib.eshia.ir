@@ -30,25 +30,27 @@ class Helpers {
 	
 	public static function loadXML()
 	{
-		if ( ! Cache::has('xml_object'))
+		if ( ! Cache::has('xml.object'))
 		{
 			$xml_path = base_path() . Config::get('app_settings.xml_path');
 			
 			$xml_content = file_get_contents($xml_path);
 			
 			$xml = new SerializableDomDocument;
-			$xml->formatOutput = true;
+			//$xml->formatOutput = true;
 			
-			if ($xml->loadxml($xml_content, LIBXML_NOBLANKS) === FALSE)
-			{
+			try	{
+				$xml->loadxml($xml_content, LIBXML_NOBLANKS);
+			}
+			catch (\Exception $e) {
 				Log::error('Error loading xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-				
+				Session::put('exception.error.message', Lang::get('app.page_display_error'));
 				App::abort(500);
 			}
 
 			// Persianize
 			$persianized_xml = new SerializableDomDocument;
-			$persianized_xml->formatOutput = true;
+			//$persianized_xml->formatOutput = true;
 			
 			$xml_content = preg_replace('#\x{EF}\x{BB}\x{BF}#', '', $xml_content);
 			$xml_content = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xml_content);
@@ -61,15 +63,17 @@ class Helpers {
 					
 			$xml_content = self::persianizeString($xml_content);
 			
-			if ($persianized_xml->loadxml($xml_content, LIBXML_NOBLANKS) === FALSE)
-			{
+			try	{
+				$persianized_xml->loadxml($xml_content, LIBXML_NOBLANKS);
+			}
+			catch (\Exception $e) {
 				Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-				
+				Session::put('exception.error.message', Lang::get('app.page_display_error'));
 				App::abort(500);
 			}
 			
-			Cache::put('xml_object', serialize($xml), \Carbon\Carbon::now()->addMinutes(60));
-			Cache::put('persianized_xml_object', serialize($persianized_xml), \Carbon\Carbon::now()->addMinutes(60));
+			Cache::put('xml.object', serialize($xml), \Carbon\Carbon::now()->addMinutes(60));
+			Cache::put('persianized.xml.object', serialize($persianized_xml), \Carbon\Carbon::now()->addMinutes(60));
 			
 			$xml = null;
 			$persianized_xml = null;
@@ -85,7 +89,7 @@ class Helpers {
 		
 		//dd($segments);
 		
-		$xml = unserialize(Cache::get('xml_object'));
+		$xml = unserialize(Cache::get('xml.object'));
 		
 		$xpath = new DOMXpath($xml);
 		

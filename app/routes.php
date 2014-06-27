@@ -12,13 +12,31 @@
 */
 
 
+// list all books in parent group
+Route::get('/{segments1?}all/{segments2?}', function()
+{
+    return 'booklist all';
+})->where('segments1', '.*')->where('segments2', '.*');
+
+// list authors in parent group
+Route::get('/{segments1?}authors/{segments2?}', function()
+{
+    return 'authorlist';
+})->where('segments1', '.*')->where('segments2', '.*');
+
+// page
+Route::get('/{id}/{segments?}', function($bookId)
+{
+    return 'page';
+})->where('id', '\d+')->where('segments', '.*');
+
 
 Route::group(array('before' => 'needs.xml.navigation'), function()
 {
 	// index
     Route::get('/', function()
     {
-		$xml = unserialize(Cache::get('xml_object'));
+		$xml = unserialize(Cache::get('xml.object'));
 		
 		$xpath = new DOMXpath($xml);
 		
@@ -34,7 +52,10 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
     });
 
     
-	
+	Route::get('{all}', function($uri)
+	{
+		return View::make('hello');
+	})->where('all', '.*');
 	
 });
 
@@ -113,30 +134,14 @@ Route::get('/search/{term}', function($term)
 // $route['search/(:any)/(:num)'] = 'search/index/$1/$2';
 
 
-// list all books in parent group
-Route::get('/{segments1?}all/{segments2?}', function()
-{
-    return 'booklist all';
-})->where('segments1', '.*')->where('segments2', '.*');
 
-// list authors in parent group
-Route::get('/{segments1?}authors/{segments2?}', function()
-{
-    return 'authorlist';
-})->where('segments1', '.*')->where('segments2', '.*');
-
-// page
-Route::get('/{id}/{segments?}', function($bookId)
-{
-    return 'page';
-})->where('id', '\d+')->where('segments', '.*');
 
 // Catch all
 // one of these:
 // 1. segment[1] => author => list author's books
 // 2. chain of groups => list books in last child group
 // 3. 404 not found
-Route::get('{all}', function($uri)
-{
-    return View::make('hello');
-})->where('all', '.*');
+// Route::get('{all}', function($uri)
+// {
+    // return View::make('hello');
+// })->where('all', '.*');

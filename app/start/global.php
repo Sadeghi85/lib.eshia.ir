@@ -64,19 +64,21 @@ App::error(function(Exception $exception, $code)
 	
 	if ( ! Config::get('app.debug'))
 	{
+		$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+		
 		switch ($code)
 		{
 			case 403:
-				return Response::make(View::make('error/403'), 403);
+				return Response::view('error.error', compact('message'), 403);
 
 			case 500:
-				return Response::make(View::make('error/500'), 500);
+				return Response::view('error.error', compact('message'), 500);
 				
 			case 503:
-				return Response::make(View::make('error/503'), 503);
+				return Response::view('error.error', compact('message'), 503);
 
 			default:
-				return Response::make(View::make('error/404'), 404);
+				return Response::view('error.error', compact('message'), 404);
 		}
 	}
 });
