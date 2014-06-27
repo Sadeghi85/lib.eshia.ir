@@ -72,11 +72,19 @@ class Helpers {
 				App::abort(500);
 			}
 			
-			Cache::put('xml.object', serialize($xml), \Carbon\Carbon::now()->addMinutes(60));
-			Cache::put('persianized.xml.object', serialize($persianized_xml), \Carbon\Carbon::now()->addMinutes(60));
+			$xml = serialize($xml);
+			$persianized_xml = serialize($persianized_xml);
 			
-			$xml = null;
-			$persianized_xml = null;
+			Cache::put('xml.object', $xml, Config::get('app_settings.xml_cache_timeout'));
+			Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.xml_cache_timeout'));
+			
+			Session::put('xml.object', $xml);
+			Session::put('persianized.xml.object', $persianized_xml);
+		}
+		else
+		{
+			Session::put('xml.object', Cache::get('xml.object'));
+			Session::put('persianized.xml.object', Cache::get('persianized.xml.object'));
 		}
 	}
 	
@@ -89,7 +97,7 @@ class Helpers {
 		
 		//dd($segments);
 		
-		$xml = unserialize(Cache::get('xml.object'));
+		$xml = unserialize(Session::get('xml.object'));
 		
 		$xpath = new DOMXpath($xml);
 		

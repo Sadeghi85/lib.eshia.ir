@@ -19,7 +19,11 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	//
+	Session::forget('xml.object');
+	Session::forget('persianized.xml.object');
+	Session::forget('exception.error.message');
+	Session::forget('navigation.tabs');
+	Session::forget('navigation.segments');
 });
 
 /*
