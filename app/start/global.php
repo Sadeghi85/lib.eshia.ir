@@ -168,7 +168,7 @@ Blade::extend(function($value)
 
 View::composer(Paginator::getViewName(), function($view)
 {
-	$queryString = array_except(Input::query(), Paginator::getPageName());
+	$queryString = array_except(Input::query(), array(Paginator::getPageName(), 'cache_key'));
 	$view->paginator->appends($queryString);
 });
 
