@@ -54,7 +54,8 @@ App::fatal(function($exception)
 	
 	if ( ! Config::get('app.debug'))
 	{
-		return Response::make(View::make('error/500'), 500);
+		$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+		return Response::view('error.error', compact('message'), 500);
 	}
 });
 
@@ -90,12 +91,14 @@ App::error(function(Exception $exception, $code)
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception, $code)
 {
-    return Response::make(View::make('error/404'), 404);
+	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+    return Response::view('error.error', compact('message'), 404);
 });
 
 App::missing(function($exception)
 {
-    return Response::make(View::make('error/404'), 404);
+    $message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+    return Response::view('error.error', compact('message'), 404);
 });
 
 /*
@@ -113,7 +116,8 @@ App::down(function()
 {
 	//return Response::make("Be right back!", 503);
 	
-	return Response::make(View::make('error/503'), 503);
+	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+    return Response::view('error.error', compact('message'), 503);
 });
 
 /*
