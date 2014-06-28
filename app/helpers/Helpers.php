@@ -3,6 +3,7 @@
 class Helpers {
 
 	private static $_xmlObject = null;
+	private static $_persianizedXMLObject = null;
 	
     public static function persianizeString($string)
 	{
@@ -99,6 +100,18 @@ class Helpers {
 		}
 		
 		return self::$_xmlObject;
+	}
+	
+	public static function getPersianizedXMLObject()
+	{
+		if ( ! is_object(self::$_persianizedXMLObject))
+		{
+			self::loadXML();
+			self::$_persianizedXMLObject = unserialize(Cache::get('xml.object'));
+			
+		}
+		
+		return self::$_persianizedXMLObject;
 	}
 	
 	public static function renderNavigation()

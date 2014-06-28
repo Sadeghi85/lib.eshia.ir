@@ -586,10 +586,10 @@ text-align:center;
 .Page-query-noresualt {
 	border:none;
 	background:#FFFFFF;
-	width:99.6%;
+	width:100%;
 	text-align:center;
 	font-size:1.5em;
-	margin:2em auto 0;
+	margin:2em 0;
 	padding:1em 0;
 	height:250px;
 	vertical-align:top;

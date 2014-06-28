@@ -83,36 +83,17 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	})->where('id', '\d+')->where('segments', '.*');
 
 	// Index
-    Route::get('/', function()
-    {
-		//$xml = unserialize(Session::get('xml.object'));
-		$xml = Helpers::getXMLObject();
-		
-		$xpath = new DOMXpath($xml);
-		
-        $xpath_query = sprintf('//%s', BOOK_NODE);
-		$books = $xpath->query($xpath_query, $xml);
-		$xpath_query = sprintf('//%s', VOL_NODE);
-		$vols = $xpath->query($xpath_query, $xml);
-		
-		$booksCount = $books->length;
-		$volsCount = $vols->length;
-
-		return View::make('index')->with(compact('booksCount', 'volsCount'));
-    });
+	Route::get('/', array('uses' => 'IndexController@showIndex'));
+	
 
     // Catch all
-	Route::get('{all}', function($uri)
-	{
-		//query_not_found
-		//author_booklist
-		//authorlist
-		//booklist
-	
-	
-	
-		return View::make('hello');
-	})->where('all', '.*');
+	// |
+	// ----query_not_found
+	// ----author_booklist
+	// ----authorlist
+	// ----booklist
+	Route::get('{all}', array('uses' => 'IndexController@showTheRest'))
+	->where('all', '.*');
 	
 });
 

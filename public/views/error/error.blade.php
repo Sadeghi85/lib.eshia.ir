@@ -12,7 +12,6 @@
 <td>
 <span class="not-found">
 {{ $message }}
-{{-- <\?= sprintf(lang('Query Search Result Not Found'), '<u>', '<font color="#000000">', (isset($term) ? $term : ''), '</font>', '</u>') ?> --}}
 </span>
 </td>
 </tr>

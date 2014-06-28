@@ -17,9 +17,9 @@ class BaseController extends Controller {
 		// CSRF Protection
 		//$this->beforeFilter('csrf', array('on' => 'post'));
 		
-		$this->messageBag = new Illuminate\Support\MessageBag;
+		//$this->messageBag = new Illuminate\Support\MessageBag;
 		
-		$this->trimInputBeforeValidation();
+		//$this->trimInputBeforeValidation();
 	}
 	
 	/**

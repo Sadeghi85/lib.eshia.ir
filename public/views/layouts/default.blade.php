@@ -90,15 +90,15 @@
 <!-- eShiaLibrary -->
 <script src="{{ asset('/assets/js/eShiaLibrary.js') }}"></script>
 
-<script type="text/javascript" defer>
-	function do_search($term, $id)
+<script type="text/javascript">
+	function do_search($query, $bookID)
 	{
-		$term = $term.replace(/^\s+|\s+$/g, '');
+		$query = $query.replace(/^\s+|\s+$/g, '');
 
-		if ($term && $term != "@lang('app.default_search')")
+		if ($query && $query != "@lang('app.default_search')")
 		{
-			$term = $term.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
-			window.location.assign('/wait/' + ($id ? $id + '/' : '') + encodeURIComponent($term));
+			$query = $query.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
+			window.location.assign('/search/' + ($bookID ? $bookID + '/' : '') + encodeURIComponent($query));
 		}
 
 		return false;
