@@ -2,6 +2,8 @@
 
 class Helpers {
 
+	private static $_xmlObject = null;
+	
     public static function persianizeString($string)
 	{
         $string = preg_replace('# +#iu', ' ', $string);
@@ -77,14 +79,26 @@ class Helpers {
 			Cache::put('xml.object', $xml, Config::get('app_settings.xml_cache_timeout'));
 			Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.xml_cache_timeout'));
 			
-			Session::put('xml.object', $xml);
-			Session::put('persianized.xml.object', $persianized_xml);
+			//Session::put('xml.object', $xml);
+			//Session::put('persianized.xml.object', $persianized_xml);
 		}
 		else
 		{
-			Session::put('xml.object', Cache::get('xml.object'));
-			Session::put('persianized.xml.object', Cache::get('persianized.xml.object'));
+			//Session::put('xml.object', Cache::get('xml.object'));
+			//Session::put('persianized.xml.object', Cache::get('persianized.xml.object'));
 		}
+	}
+	
+	public static function getXMLObject()
+	{
+		if ( ! is_object(self::$_xmlObject))
+		{
+			self::loadXML();
+			self::$_xmlObject = unserialize(Cache::get('xml.object'));
+			
+		}
+		
+		return self::$_xmlObject;
 	}
 	
 	public static function renderNavigation()
@@ -96,7 +110,8 @@ class Helpers {
 		
 		//dd($segments);
 		
-		$xml = unserialize(Session::get('xml.object'));
+		//$xml = unserialize(Session::get('xml.object'));
+		$xml = self::getXMLObject();
 		
 		$xpath = new DOMXpath($xml);
 		

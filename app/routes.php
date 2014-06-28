@@ -85,7 +85,8 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	// Index
     Route::get('/', function()
     {
-		$xml = unserialize(Session::get('xml.object'));
+		//$xml = unserialize(Session::get('xml.object'));
+		$xml = Helpers::getXMLObject();
 		
 		$xpath = new DOMXpath($xml);
 		
