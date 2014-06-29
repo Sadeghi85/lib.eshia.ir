@@ -107,7 +107,7 @@ class Helpers {
 		if ( ! is_object(self::$_persianizedXMLObject))
 		{
 			self::loadXML();
-			self::$_persianizedXMLObject = unserialize(Cache::get('xml.object'));
+			self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
 			
 		}
 		
