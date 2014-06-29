@@ -1,10 +1,5 @@
 <?php if ( ! defined('VIEW_IS_ALLOWED')) { ob_clean(); die(); } ?>
 
-@php
-	//print_r($tabs, true)
-	//$tabs = array(array(array('selected' => false, 'path' => 'ert', 'group' => 'شسی'),array('selected' => true, 'path' => 'sdf', 'group' => 'سیب')),array(array('selected' => false, 'path' => 'ert', 'group' => 'ثقص'),array('selected' => true, 'path' => 'sdf', 'group' => 'یبل')));
-@endphp
-
 @if (isset($tabs) and is_array($tabs))
 	@foreach ($tabs as $tabcontainer)
 	<div class="tab-panel">
@@ -15,7 +10,7 @@
 		<ul>
 			@foreach ($tabcontainer as $tab)
 			<li {{ ($tab['selected'] === TRUE) ? 'class="selected-tab"' : '' }}>
-				<a href="{{ $tab['path'] }}" title=""><span>{{ $tab['group'] }}</span></a>
+				<span>{{ Helpers::link_to($tab['path'], $tab['group']) }}</span>
 			</li>
 			@endforeach
 		</ul>

@@ -31,6 +31,93 @@ class Helpers {
 		return $string;
     }
 	
+	/**
+	 * psort : Persian array sorting function
+	 * 
+	 * 
+	 * Author : AHHP(Amir Hossein Hodjaty Pour) ~ Boplo@Boplo.ir
+	 * Modified by : Sadeghi85
+	 * License : GPL
+	 * Version : 1
+	 * Created on : 1388/02/29     03:09am
+	 * Modified on : 1391/11/05     02:53pm
+	 * 
+	 * @param array $inputArray Input array for Persian sorting.
+	 * @param string $function Function name for sorting pattern.
+	 * @return array Sorted array.
+	 */
+
+	public static function psort($inputArray, $function = 'asort')
+	{
+		$converted = $result = array();
+		
+		$alphabet = array(
+			'$A$' => '۰',	'$B$' => '۱',	'$C$' => '۲',
+			'$D$' => '۳',	'$E$' => '۴',	'$F$' => '۵',
+			'$G$' => '۶',	'$H$' => '۷',	'$I$' => '۸',
+			'$J$' => '۹',
+			'$A0$' => '0',	'$B1$' => '1',	'$C2$' => '2',
+			'$D3$' => '3',	'$E4$' => '4',	'$F5$' => '5',
+			'$G6$' => '6',	'$H7$' => '7',	'$I8$' => '8',
+			'$J9$' => '9',
+			'$K$' => 'آ',	'$L$' => 'ا',
+			'$M$' => 'أ',	'$N$' => 'إ',	'$O$' => 'ؤ',
+			'$P$' => 'ئ',	'$Q$' => 'ء',	'$R$' => 'ب',
+			'$S$' => 'پ',	'$T$' => 'ت',	'$U$' => 'ث',
+			'$V$' => 'ج',	'$W$' => 'چ',	'$X$' => 'ح',
+			'$Y$' => 'خ',	'$Z$' => 'د',	'$a$' => 'ذ',
+			'$b$' => 'ر',	'$c$' => 'ز',	'$d$' => 'ژ',
+			'$e$' => 'س',	'$f$' => 'ش',	'$g$' => 'ص',
+			'$h$' => 'ض',	'$i$' => 'ط',	'$j$' => 'ظ',
+			'$k$' => 'ع',	'$l$' => 'غ',	'$m$' => 'ف',
+			'$n$' => 'ق',	'$o$' => 'ک',	'$p$' => 'ك',	'$q$' => 'گ',
+			'$r$' => 'ل',	'$s$' => 'م',	'$t$' => 'ن',
+			'$u$' => 'و',	'$v$' => 'ه',	'$w$' => 'ی',
+			'$x$' => 'ي',	'$y$' => 'ۀ',	'$z$' => 'ة'
+		);
+		
+		foreach ($inputArray as $inputKey => $inputStr)
+		{
+			if (is_string($inputStr))
+			{
+				foreach ($alphabet as $eLetter => $fLetter)
+				{
+					$inputStr = str_replace($fLetter, $eLetter, $inputStr);
+				}
+			}
+			
+			if (is_array($inputStr))
+			{
+				$inputStr = self::psort($inputStr, $function);
+			}
+			
+			$converted[$inputKey] = $inputStr;
+		}
+		
+		$ret = $function($converted);	// Run function
+		$converted = is_array($ret) ? $ret : $converted;	// Check for function output. Some functions affect input itself and return bool...
+		
+		foreach ($converted as $convertedKey => $convertedStr)
+		{
+			if (is_string($convertedStr))
+			{
+				foreach ($alphabet as $eLetter => $fLetter)
+				{
+					$convertedStr = str_replace($eLetter, $fLetter, $convertedStr);
+				}
+			}
+			
+			if (is_array($convertedStr))
+			{
+				$convertedStr = self::psort($convertedStr, $function);
+			}
+			
+			$result[$convertedKey] = $convertedStr;
+		}
+		
+		return $result;
+	}
+	
 	public static function loadXML()
 	{
 		if ( ! Cache::has('xml.object'))
@@ -114,10 +201,23 @@ class Helpers {
 		return self::$_persianizedXMLObject;
 	}
 	
+	public static function link_to($url, $title = null, $attributes = array(), $secure = null)
+	{
+		$url = preg_replace('# +#', '_', $url);
+		
+		return link_to($url, $title, $attributes, $secure);
+	}
+	
+	public static function underline2space($str)
+	{
+		return str_replace('_', ' ', $str);
+	}
+	
 	public static function renderNavigation()
 	{
 		// one based array
 		$segments = array_map('urldecode', Request::segments());
+		$segments = array_map('self::underline2space', $segments);
 		array_unshift($segments, '');
 		unset($segments[0]);
 		

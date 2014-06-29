@@ -82,17 +82,14 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 		return 'page';
 	})->where('id', '\d+')->where('segments', '.*');
 
-	// Index
-	Route::get('/', array('uses' => 'IndexController@showIndex'));
-	
-
     // Catch all
 	// |
 	// ----query_not_found
+	// ----index
 	// ----author_booklist
 	// ----authorlist
 	// ----booklist
-	Route::get('{all}', array('uses' => 'IndexController@showTheRest'))
+	Route::get('{all}', array('uses' => 'IndexController@showPage'))
 	->where('all', '.*');
 	
 });

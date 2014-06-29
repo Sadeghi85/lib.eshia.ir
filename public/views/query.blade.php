@@ -8,7 +8,7 @@
 <tr>	
 <td class="Tools-serach">
 
-<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, '{{ $bookID ? $bookID : '' }}');return false;">
+<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, '{{ isset($bookID) ? $bookID : '' }}');return false;">
 <table class="Tools-serach-table">
 <tr>
 <td class="Tools-serach-input-td">
@@ -80,7 +80,7 @@
 
 <tr>	
 <td class="Tools-serach">
-<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, '{{ $bookID ? $bookID : '' }}');return false;">
+<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, '{{ isset($bookID) ? $bookID : '' }}');return false;">
 <table class="Tools-serach-table">
 <tr>
 <td class="Tools-serach-input-td">
