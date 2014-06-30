@@ -155,14 +155,36 @@ class IndexController extends BaseController {
 			
 			return View::make('authorlist')->with(compact('authorsBooksCount'));
 		}
-		// else
-		// {
-			// $books = $xpath->query($xpathQuery, $this->_xmlObject);
+		else
+		{
+			$books = $xpath->query($xpathQuery, $this->_xmlObject);
 			
-			// $tempBookArray = array('name'=>array(),'displayname'=>array(),'author'=>array(),'vols'=>array());
+			$tempBookArray = array(
+				'name'        => array(),
+				'displayname' => array(),
+				'author'      => array(),
+				'vols'        => array()
+			);
 			
-			// foreach ($books as $bookNode)
-			// {
+			foreach ($books as $bookNode)
+			{
+				
+				$bookNode = simplexml_import_dom($bookNode);
+				$volCount = 0;
+				$name = (string) $bookNode[BOOK_ATTR_NAME];
+				$displayName = (string) $bookNode[BOOK_ATTR_DISPLAYNAME];
+				$author = (string) $bookNode[BOOK_ATTR_AUTHOR];
+				
+				foreach ($bookNode->volumes[0]->vol as $vol)
+				{
+					++$volCount;
+				}
+	
+				$tempBookArray['name'][$name] = $name;
+				$tempBookArray['displayname'][$name] = $displayName;
+				$tempBookArray['author'][$name] = $author;
+				$tempBookArray['vols'][$name] = $volCount;
+				
 				// $vol_count = 0;
 				
 				// foreach ($bookNode->childNodes as $volumes_node)
@@ -184,34 +206,30 @@ class IndexController extends BaseController {
 					
 					// $tempBookArray['vols'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $vol_count;
 				// }
-			// }
+			}
 			
-			// $temp_array = array_map('replace_title_to_fa_title_for_search', $tempBookArray['displayname']);
-			// $temp_array = psort($temp_array);
-			// $temp_array2 = array();
-			// foreach ($temp_array as $key => $value)
-			// {
-				// $temp_array2[$key] = $tempBookArray['displayname'][$key];
-			// }
-			// $tempBookArray['displayname'] = $temp_array2;
+			$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
+			$tempSortedArray = Helpers::psort($tempSortedArray);
+			$tempSynchedArray = array();
+			foreach ($tempSortedArray as $key => $value)
+			{
+				$tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
+			}
+			$tempBookArray['displayname'] = $tempSynchedArray;
 			
-			// $book_array = array();
+			$books = array();
 			
-			// foreach (array_keys($tempBookArray['displayname']) as $id)
-			// {
-				// $book_array[] = array('id'=> $tempBookArray['name'][$id], 'name'=> $tempBookArray['displayname'][$id], 'author'=> $tempBookArray['author'][$id], 'vols'=> $tempBookArray['vols'][$id]);
-			// }
+			foreach (array_keys($tempBookArray['displayname']) as $id)
+			{
+				$books[] = array(
+					'id'     => $tempBookArray['name'][$id],
+					'name'   => $tempBookArray['displayname'][$id],
+					'author' => $tempBookArray['author'][$id],
+					'vols'   => $tempBookArray['vols'][$id]
+				);
+			}
 			
-			// $data['books'] = $book_array;
-			// $this->template->build('booklist', $data);
-			// return;
-		// }
-	
-	
-	
-	
-		return View::make('hello');
-	
-	
+			return View::make('booklist')->with(compact('books'));
+		}
 	}
 }
