@@ -39,51 +39,56 @@ class Helpers {
 	 * Modified by : Sadeghi85
 	 * License : GPL
 	 * Version : 1
-	 * Created on : 1388/02/29     03:09am
-	 * Modified on : 1391/11/05     02:53pm
+	 * Created on        : 1388/02/29     03:09am
+	 * Modified on       : 1391/11/05     02:53pm
+	 * Modified again on : 1393/04/09     05:15pm
 	 * 
 	 * @param array $inputArray Input array for Persian sorting.
 	 * @param string $function Function name for sorting pattern.
 	 * @return array Sorted array.
 	 */
-
 	public static function psort($inputArray, $function = 'asort')
 	{
 		$converted = $result = array();
 		
 		$alphabet = array(
-			'$A$' => '۰',	'$B$' => '۱',	'$C$' => '۲',
-			'$D$' => '۳',	'$E$' => '۴',	'$F$' => '۵',
-			'$G$' => '۶',	'$H$' => '۷',	'$I$' => '۸',
-			'$J$' => '۹',
-			'$A0$' => '0',	'$B1$' => '1',	'$C2$' => '2',
-			'$D3$' => '3',	'$E4$' => '4',	'$F5$' => '5',
-			'$G6$' => '6',	'$H7$' => '7',	'$I8$' => '8',
-			'$J9$' => '9',
-			'$K$' => 'آ',	'$L$' => 'ا',
-			'$M$' => 'أ',	'$N$' => 'إ',	'$O$' => 'ؤ',
-			'$P$' => 'ئ',	'$Q$' => 'ء',	'$R$' => 'ب',
-			'$S$' => 'پ',	'$T$' => 'ت',	'$U$' => 'ث',
-			'$V$' => 'ج',	'$W$' => 'چ',	'$X$' => 'ح',
-			'$Y$' => 'خ',	'$Z$' => 'د',	'$a$' => 'ذ',
-			'$b$' => 'ر',	'$c$' => 'ز',	'$d$' => 'ژ',
-			'$e$' => 'س',	'$f$' => 'ش',	'$g$' => 'ص',
-			'$h$' => 'ض',	'$i$' => 'ط',	'$j$' => 'ظ',
-			'$k$' => 'ع',	'$l$' => 'غ',	'$m$' => 'ف',
-			'$n$' => 'ق',	'$o$' => 'ک',	'$p$' => 'ك',	'$q$' => 'گ',
-			'$r$' => 'ل',	'$s$' => 'م',	'$t$' => 'ن',
-			'$u$' => 'و',	'$v$' => 'ه',	'$w$' => 'ی',
-			'$x$' => 'ي',	'$y$' => 'ۀ',	'$z$' => 'ة'
+			'~A~' => '۰',	'~B~' => '۱',	'~C~' => '۲',
+			'~D~' => '۳',	'~E~' => '۴',	'~F~' => '۵',
+			'~G~' => '۶',	'~H~' => '۷',	'~I~' => '۸',
+			'~J~' => '۹',
+			'~A0~' => '0',	'~B1~' => '1',	'~C2~' => '2',
+			'~D3~' => '3',	'~E4~' => '4',	'~F5~' => '5',
+			'~G6~' => '6',	'~H7~' => '7',	'~I8~' => '8',
+			'~J9~' => '9',
+			'~K~' => 'آ',	'~L~' => 'ا',
+			'~M~' => 'أ',	'~N~' => 'إ',	'~O~' => 'ؤ',
+			'~P~' => 'ئ',	'~Q~' => 'ء',	'~R~' => 'ب',
+			'~S~' => 'پ',	'~T~' => 'ت',	'~U~' => 'ث',
+			'~V~' => 'ج',	'~W~' => 'چ',	'~X~' => 'ح',
+			'~Y~' => 'خ',	'~Z~' => 'د',	'~a~' => 'ذ',
+			'~b~' => 'ر',	'~c~' => 'ز',	'~d~' => 'ژ',
+			'~e~' => 'س',	'~f~' => 'ش',	'~g~' => 'ص',
+			'~h~' => 'ض',	'~i~' => 'ط',	'~j~' => 'ظ',
+			'~k~' => 'ع',	'~l~' => 'غ',	'~m~' => 'ف',
+			'~n~' => 'ق',	'~o~' => 'ک',	'~p~' => 'ك',	'~q~' => 'گ',
+			'~r~' => 'ل',	'~s~' => 'م',	'~t~' => 'ن',
+			'~u~' => 'و',	'~v~' => 'ه',	'~w~' => 'ی',
+			'~x~' => 'ي',	'~y~' => 'ۀ',	'~z~' => 'ة'
 		);
+		
+		$searchArray = array_values($alphabet);
+		$replacementArray = array_keys($alphabet);
 		
 		foreach ($inputArray as $inputKey => $inputStr)
 		{
 			if (is_string($inputStr))
 			{
-				foreach ($alphabet as $eLetter => $fLetter)
-				{
-					$inputStr = str_replace($fLetter, $eLetter, $inputStr);
-				}
+				// foreach ($alphabet as $eLetter => $fLetter)
+				// {
+					// $inputStr = str_replace($fLetter, $eLetter, $inputStr);
+				// }
+				
+				$inputStr = str_replace($searchArray, $replacementArray, $inputStr);
 			}
 			
 			if (is_array($inputStr))
@@ -101,10 +106,12 @@ class Helpers {
 		{
 			if (is_string($convertedStr))
 			{
-				foreach ($alphabet as $eLetter => $fLetter)
-				{
-					$convertedStr = str_replace($eLetter, $fLetter, $convertedStr);
-				}
+				// foreach ($alphabet as $eLetter => $fLetter)
+				// {
+					// $convertedStr = str_replace($eLetter, $fLetter, $convertedStr);
+				// }
+				
+				$convertedStr = str_replace($replacementArray, $searchArray, $convertedStr);
 			}
 			
 			if (is_array($convertedStr))

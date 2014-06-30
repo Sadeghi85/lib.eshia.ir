@@ -63,17 +63,23 @@ class IndexController extends BaseController {
 			
 			$books = $xpath->query($xpathQuery, $this->_xmlObject);
 			
-			//$tempBookArray = array('name' => array(), 'displayname' => array(), 'author' => array(), 'vols' => array());
 			$tempBookArray = array('name' => array(), 'displayname' => array(), 'vols' => array());
 			
 			foreach ($books as $bookNode)
 			{
-				$vols = $xpath->query($xpathQuery . sprintf('[@%s=\'%s\'][@%s=\'%s\'][@%s=\'%s\']/%s/%s', BOOK_ATTR_NAME, $bookNode->getAttribute(BOOK_ATTR_NAME), BOOK_ATTR_DISPLAYNAME, $bookNode->getAttribute(BOOK_ATTR_DISPLAYNAME), BOOK_ATTR_AUTHOR, $bookNode->getAttribute(BOOK_ATTR_AUTHOR), VOLUMES_NODE, VOL_NODE), $this->_xmlObject);
+				$bookNode = simplexml_import_dom($bookNode);
+				$volCount = 0;
+				$name = (string) $bookNode[BOOK_ATTR_NAME];
+				$displayName = (string) $bookNode[BOOK_ATTR_DISPLAYNAME];
 				
-				$tempBookArray['name'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_NAME);
-				$tempBookArray['displayname'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_DISPLAYNAME);
-				//$tempBookArray['author'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_AUTHOR);
-				$tempBookArray['vols'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $vols->length;
+				foreach ($bookNode->volumes[0]->vol as $vol)
+				{
+					++$volCount;
+				}
+	
+				$tempBookArray['name'][$name] = $name;
+				$tempBookArray['displayname'][$name] = $displayName;
+				$tempBookArray['vols'][$name] = $volCount;
 			}
 			
 			$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
@@ -84,7 +90,6 @@ class IndexController extends BaseController {
 				$tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
 			}
 			$tempBookArray['displayname'] = $tempSynchedArray;
-			//asort($tempBookArray['DisplayName']);
 			
 			$books = array();
 			
@@ -93,7 +98,6 @@ class IndexController extends BaseController {
 				$books[] = array(
 					'id'     => $tempBookArray['name'][$id],
 					'name'   => $tempBookArray['displayname'][$id],
-					//'author' => $tempBookArray['author'][$id],
 					'vols'   => $tempBookArray['vols'][$id]
 				);
 			}
