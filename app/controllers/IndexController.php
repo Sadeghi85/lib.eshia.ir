@@ -104,6 +104,108 @@ class IndexController extends BaseController {
 			
 			return View::make('author_booklist')->with(compact('books', 'author'));
 		}
+		
+		$xpathQuery = '//';
+		
+		foreach($this->_navigationSegments as $groupName)
+		{
+			switch ($groupName)
+			{
+				case 'authors':
+					$xpathQuery .= sprintf('/%s/', GROUP_NODE);
+					break;
+					
+				case 'all':
+					$xpathQuery .= sprintf('/%s/', GROUP_NODE);
+					break;
+					
+				default:
+					$xpathQuery .= sprintf('%s[@%s=\'%s\']/', GROUP_NODE, GROUP_ATTR_NAME, $groupName);
+			}
+		}
+		
+		$xpathQuery .= BOOK_NODE;
+
+		if ($this->_navigationSegments[count($this->_navigationSegments) - 1] == 'authors')
+		{
+			$books = $xpath->query($xpathQuery, $this->_xmlObject);
+			
+			$tempBookArray = array('author' => array());
+			
+			foreach ($books as $bookNode)
+			{
+				$tempBookArray['author'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_AUTHOR);
+			}
+			
+			$books = $xpath->query(sprintf('//%s', BOOK_NODE), $this->_xmlObject);
+			
+			foreach ($books as $bookNode)
+			{
+				$tempBookArray['all_authors'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_AUTHOR);
+			}
+			
+			$authorsBooksCount = array_count_values($tempBookArray['all_authors']);
+			
+			foreach ($authorsBooksCount as $key => $value)
+			{
+				if ( ! in_array($key, $tempBookArray['author'])) unset($authorsBooksCount[$key]);
+			}
+			
+			$authorsBooksCount = Helpers::kpsort($authorsBooksCount);
+			
+			return View::make('authorlist')->with(compact('authorsBooksCount'));
+		}
+		// else
+		// {
+			// $books = $xpath->query($xpathQuery, $this->_xmlObject);
+			
+			// $tempBookArray = array('name'=>array(),'displayname'=>array(),'author'=>array(),'vols'=>array());
+			
+			// foreach ($books as $bookNode)
+			// {
+				// $vol_count = 0;
+				
+				// foreach ($bookNode->childNodes as $volumes_node)
+				// {
+					// foreach ($volumes_node->childNodes as $vol)
+					// {
+						// if ($vol->hasAttributes())
+						// {
+							// ++$vol_count;
+						// }
+					// }
+				// }
+				
+				// if ($vol_count > 0)
+				// {
+					// $tempBookArray['name'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_NAME);
+					// $tempBookArray['displayname'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_DISPLAYNAME);
+					// $tempBookArray['author'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_AUTHOR);
+					
+					// $tempBookArray['vols'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $vol_count;
+				// }
+			// }
+			
+			// $temp_array = array_map('replace_title_to_fa_title_for_search', $tempBookArray['displayname']);
+			// $temp_array = psort($temp_array);
+			// $temp_array2 = array();
+			// foreach ($temp_array as $key => $value)
+			// {
+				// $temp_array2[$key] = $tempBookArray['displayname'][$key];
+			// }
+			// $tempBookArray['displayname'] = $temp_array2;
+			
+			// $book_array = array();
+			
+			// foreach (array_keys($tempBookArray['displayname']) as $id)
+			// {
+				// $book_array[] = array('id'=> $tempBookArray['name'][$id], 'name'=> $tempBookArray['displayname'][$id], 'author'=> $tempBookArray['author'][$id], 'vols'=> $tempBookArray['vols'][$id]);
+			// }
+			
+			// $data['books'] = $book_array;
+			// $this->template->build('booklist', $data);
+			// return;
+		// }
 	
 	
 	

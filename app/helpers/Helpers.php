@@ -83,11 +83,6 @@ class Helpers {
 		{
 			if (is_string($inputStr))
 			{
-				// foreach ($alphabet as $eLetter => $fLetter)
-				// {
-					// $inputStr = str_replace($fLetter, $eLetter, $inputStr);
-				// }
-				
 				$inputStr = str_replace($searchArray, $replacementArray, $inputStr);
 			}
 			
@@ -106,11 +101,6 @@ class Helpers {
 		{
 			if (is_string($convertedStr))
 			{
-				// foreach ($alphabet as $eLetter => $fLetter)
-				// {
-					// $convertedStr = str_replace($eLetter, $fLetter, $convertedStr);
-				// }
-				
 				$convertedStr = str_replace($replacementArray, $searchArray, $convertedStr);
 			}
 			
@@ -119,6 +109,58 @@ class Helpers {
 				$convertedStr = self::psort($convertedStr, $function);
 			}
 			
+			$result[$convertedKey] = $convertedStr;
+		}
+		
+		return $result;
+	}
+	
+	public static function kpsort($inputArray, $function = 'ksort')
+	{
+		$converted = $result = array();
+		
+		$alphabet = array(
+			'~A~' => '۰',	'~B~' => '۱',	'~C~' => '۲',
+			'~D~' => '۳',	'~E~' => '۴',	'~F~' => '۵',
+			'~G~' => '۶',	'~H~' => '۷',	'~I~' => '۸',
+			'~J~' => '۹',
+			'~A0~' => '0',	'~B1~' => '1',	'~C2~' => '2',
+			'~D3~' => '3',	'~E4~' => '4',	'~F5~' => '5',
+			'~G6~' => '6',	'~H7~' => '7',	'~I8~' => '8',
+			'~J9~' => '9',
+			'~K~' => 'آ',	'~L~' => 'ا',
+			'~M~' => 'أ',	'~N~' => 'إ',	'~O~' => 'ؤ',
+			'~P~' => 'ئ',	'~Q~' => 'ء',	'~R~' => 'ب',
+			'~S~' => 'پ',	'~T~' => 'ت',	'~U~' => 'ث',
+			'~V~' => 'ج',	'~W~' => 'چ',	'~X~' => 'ح',
+			'~Y~' => 'خ',	'~Z~' => 'د',	'~a~' => 'ذ',
+			'~b~' => 'ر',	'~c~' => 'ز',	'~d~' => 'ژ',
+			'~e~' => 'س',	'~f~' => 'ش',	'~g~' => 'ص',
+			'~h~' => 'ض',	'~i~' => 'ط',	'~j~' => 'ظ',
+			'~k~' => 'ع',	'~l~' => 'غ',	'~m~' => 'ف',
+			'~n~' => 'ق',	'~o~' => 'ک',	'~p~' => 'ك',	'~q~' => 'گ',
+			'~r~' => 'ل',	'~s~' => 'م',	'~t~' => 'ن',
+			'~u~' => 'و',	'~v~' => 'ه',	'~w~' => 'ی',
+			'~x~' => 'ي',	'~y~' => 'ۀ',	'~z~' => 'ة'
+		);
+		
+		$searchArray = array_values($alphabet);
+		$replacementArray = array_keys($alphabet);
+		
+		foreach ($inputArray as $inputKey => $inputStr)
+		{
+			$inputKey = str_replace($searchArray, $replacementArray, $inputKey);
+			
+			$converted[$inputKey] = $inputStr;
+		}
+		
+		$ret = $function($converted);	// Run function
+		$converted = is_array($ret) ? $ret : $converted;	// Check for function output. Some functions affect input itself and return bool...
+		
+		foreach ($converted as $convertedKey => $convertedStr)
+		{
+			$convertedKey = str_replace($replacementArray, $searchArray, $convertedKey);
+
 			$result[$convertedKey] = $convertedStr;
 		}
 		
