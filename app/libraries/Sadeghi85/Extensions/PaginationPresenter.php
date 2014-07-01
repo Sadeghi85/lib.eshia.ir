@@ -1,6 +1,6 @@
-<?php
+<?php namespace Sadeghi85\Extensions;
 
-class PaginationPresenter extends Illuminate\Pagination\Presenter
+class PaginationPresenter extends \Illuminate\Pagination\Presenter
 {
 
     public function getActivePageWrapper($text)

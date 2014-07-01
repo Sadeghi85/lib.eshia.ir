@@ -1,6 +1,7 @@
-<?php
+<?php namespace Sadeghi85\Extensions;
 
-class SerializableDomDocument extends DomDocument {
+// Serializable DomDocument
+class DomDocument extends \DomDocument {
 
 	private $_xml;
 

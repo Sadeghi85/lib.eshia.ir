@@ -191,7 +191,7 @@ class Helpers {
 			}, $xml_content);
 			$xml_content = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xml_content);
 			
-			$xml = new SerializableDomDocument;
+			$xml = new Sadeghi85\Extensions\DomDocument;
 			//$xml->formatOutput = true;
 			
 			try	{
@@ -204,7 +204,7 @@ class Helpers {
 			}
 
 			// Persianize
-			//$persianized_xml = new SerializableDomDocument;
+			//$persianized_xml = new Sadeghi85\Extensions\DomDocument;
 			//$persianized_xml->formatOutput = true;
 			
 			//$xml_content = self::persianizeString($xml_content);
@@ -258,7 +258,7 @@ class Helpers {
 	
 	public static function getEncodedRequestUri()
 	{
-		return base64_encode(Request::fullUrl());
+		return base64_encode(Request::Url());
 	}
 	
 	public static function link_to($url, $title = null, $attributes = array(), $secure = null)
@@ -268,16 +268,10 @@ class Helpers {
 		return link_to($url, $title, $attributes, $secure);
 	}
 	
-	public static function underline2space($str)
-	{
-		return str_replace('_', ' ', $str);
-	}
-	
 	public static function renderNavigation()
 	{
 		// one based array
-		$segments = array_map('urldecode', Request::segments());
-		$segments = array_map('self::underline2space', $segments);
+		$segments = Request::segments();
 		array_unshift($segments, '');
 		unset($segments[0]);
 		

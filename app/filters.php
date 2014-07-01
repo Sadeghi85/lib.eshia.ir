@@ -13,6 +13,8 @@
 
 App::before(function($request)
 {
+	//app('request')->server->set('REQUEST_URI', str_replace('_', '%20', Request::server('REQUEST_URI')));
+
 	Session::forget('page.is.cacheable');
 	Session::forget('exception.error.message');
 	Session::forget('navigation.tabs');

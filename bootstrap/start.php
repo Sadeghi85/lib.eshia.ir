@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Application;
+Application::requestClass('Sadeghi85\Extensions\Request');
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application

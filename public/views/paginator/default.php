@@ -1,6 +1,6 @@
 <?php if ( ! defined('VIEW_IS_ALLOWED')) { ob_clean(); die(); } ?>
 <?php
-	$presenter = new PaginationPresenter($paginator);
+	$presenter = new Sadeghi85\Extensions\PaginationPresenter($paginator);
 
 	$trans = $environment->getTranslator();
 ?>
