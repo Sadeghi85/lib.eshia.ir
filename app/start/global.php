@@ -182,6 +182,13 @@ View::composer('partials/navigation', function($view)
 	$view->with('tabs', $tabs);
 });
 
+// enable caching for near static contents
+View::composer('index', function($view) { Session::put('page.is.cacheable', true); });
+View::composer('author_booklist', function($view) { Session::put('page.is.cacheable', true); });
+View::composer('authorlist', function($view) { Session::put('page.is.cacheable', true); });
+View::composer('booklist', function($view) { Session::put('page.is.cacheable', true); });
+View::composer('help/help-*', function($view) { Session::put('page.is.cacheable', true); });
+
 /*
 |--------------------------------------------------------------------------
 | Global Constants

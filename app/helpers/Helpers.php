@@ -169,7 +169,14 @@ class Helpers {
 	
 	public static function loadXML()
 	{
-		if ( ! (Config::get('app_settings.cache_enable') === true and Cache::has('xml.object')))
+		if
+		(
+				false === Config::get('app_settings.cache_enable')
+			or
+				false !== Input::get(Config::get('app_settings.cache_bypass'), false)
+			or
+				false === Cache::has('xml.object')
+		)
 		{
 			$xml_path = base_path() . Config::get('app_settings.xml_path');
 			

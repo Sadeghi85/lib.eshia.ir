@@ -6,6 +6,7 @@ return array(
 	
 	'cache_timeout' => 60, //minutes
 	'cache_enable' => true,
+	'cache_bypass' => 'nocache', // query string to temporarily bypass the cache
 
 	'results_per_page' => 10,
 	'books_path' => 'E:\\Books\\Shia',

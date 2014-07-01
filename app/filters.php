@@ -18,7 +18,14 @@ App::before(function($request)
 	Session::forget('navigation.tabs');
 	Session::forget('navigation.segments');
 	
-	if (Config::get('app_settings.cache_enable') === true and Cache::has(Helpers::getEncodedRequestUri()))
+	if
+	(
+			true  === Config::get('app_settings.cache_enable')
+		and
+			false === Input::get(Config::get('app_settings.cache_bypass'), false)
+		and
+			Cache::has(Helpers::getEncodedRequestUri())
+	)
 	{
 		$response = Response::make(Cache::get(Helpers::getEncodedRequestUri()), 200);
 		$response->header('X-Cache', 'HIT');
@@ -30,7 +37,16 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	if (Config::get('app_settings.cache_enable') === true and $response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
+	if
+	(
+			true  === Config::get('app_settings.cache_enable')
+		and
+			false === Input::get(Config::get('app_settings.cache_bypass'), false)
+		and
+			$response->getStatusCode() == 200
+		and
+			Session::get('page.is.cacheable', false)
+	)
 	{
 		Cache::put(Helpers::getEncodedRequestUri(), $response->getContent(), Config::get('app_settings.cache_timeout'));
 	}

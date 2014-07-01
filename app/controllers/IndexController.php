@@ -38,9 +38,6 @@ class IndexController extends BaseController {
 			return View::make('query')->with(compact('resultCount', 'query'));
 		}
 		
-		// enable caching for near static contents
-		Session::put('page.is.cacheable', true);
-		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
 		// ----index
