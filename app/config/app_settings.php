@@ -3,7 +3,9 @@
 return array(
 
 	'xml_path' => '.\\APP_Data\\Books.xml',
-	'xml_cache_timeout' => 10, //minutes
+	
+	'cache_timeout' => 60, //minutes
+	'cache_enable' => true,
 
 	'results_per_page' => 10,
 	'books_path' => 'E:\\Books\\Shia',

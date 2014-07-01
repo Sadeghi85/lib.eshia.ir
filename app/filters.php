@@ -13,17 +13,29 @@
 
 App::before(function($request)
 {
-	//
+	Session::forget('page.is.cachable');
+	Session::forget('exception.error.message');
+	Session::forget('navigation.tabs');
+	Session::forget('navigation.segments');
+	
+	if (Config::get('app_settings.cache_enable') === true and Cache::has(Helpers::getEncodedRequestUri()))
+	{
+		$response = Response::make(Cache::get(Helpers::getEncodedRequestUri()), 200);
+		$response->header('X-Cache', 'HIT');
+		return $response;
+	}
+
 });
 
 
 App::after(function($request, $response)
 {
-	//Session::forget('xml.object');
-	//Session::forget('persianized.xml.object');
-	Session::forget('exception.error.message');
-	Session::forget('navigation.tabs');
-	Session::forget('navigation.segments');
+	if (Config::get('app_settings.cache_enable') === true and $response->getStatusCode() == 200 and Session::get('page.is.cachable', false))
+	{
+		Cache::put(Helpers::getEncodedRequestUri(), $response->getContent(), Config::get('app_settings.cache_timeout'));
+	}
+	
+	
 });
 
 /*

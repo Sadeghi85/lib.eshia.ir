@@ -169,7 +169,7 @@ class Helpers {
 	
 	public static function loadXML()
 	{
-		if ( ! Cache::has('xml.object'))
+		if ( ! (Config::get('app_settings.cache_enable') === true and Cache::has('xml.object')))
 		{
 			$xml_path = base_path() . Config::get('app_settings.xml_path');
 			
@@ -197,33 +197,31 @@ class Helpers {
 			}
 
 			// Persianize
-			$persianized_xml = new SerializableDomDocument;
+			//$persianized_xml = new SerializableDomDocument;
 			//$persianized_xml->formatOutput = true;
 			
-			$xml_content = self::persianizeString($xml_content);
+			//$xml_content = self::persianizeString($xml_content);
 			
-			try	{
-				$persianized_xml->loadXML($xml_content, LIBXML_NOBLANKS);
-			}
-			catch (\Exception $e) {
-				Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-				Session::put('exception.error.message', Lang::get('app.page_display_error'));
-				App::abort(500);
-			}
+			// try	{
+				// $persianized_xml->loadXML($xml_content, LIBXML_NOBLANKS);
+			// }
+			// catch (\Exception $e) {
+				// Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
+				// Session::put('exception.error.message', Lang::get('app.page_display_error'));
+				// App::abort(500);
+			// }
 			
 			$xml = serialize($xml);
-			$persianized_xml = serialize($persianized_xml);
+			//$persianized_xml = serialize($persianized_xml);
 			
-			Cache::put('xml.object', $xml, Config::get('app_settings.xml_cache_timeout'));
-			Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.xml_cache_timeout'));
+			Cache::put('xml.object', $xml, Config::get('app_settings.cache_timeout'));
+			//Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.cache_timeout'));
 			
-			//Session::put('xml.object', $xml);
-			//Session::put('persianized.xml.object', $persianized_xml);
+			
 		}
 		else
 		{
-			//Session::put('xml.object', Cache::get('xml.object'));
-			//Session::put('persianized.xml.object', Cache::get('persianized.xml.object'));
+			
 		}
 	}
 	
@@ -239,16 +237,21 @@ class Helpers {
 		return self::$_xmlObject;
 	}
 	
-	public static function getPersianizedXMLObject()
-	{
-		if ( ! is_object(self::$_persianizedXMLObject))
-		{
-			self::loadXML();
-			self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
+	// public static function getPersianizedXMLObject()
+	// {
+		// if ( ! is_object(self::$_persianizedXMLObject))
+		// {
+			// self::loadXML();
+			// self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
 			
-		}
+		// }
 		
-		return self::$_persianizedXMLObject;
+		// return self::$_persianizedXMLObject;
+	// }
+	
+	public static function getEncodedRequestUri()
+	{
+		return base64_encode($_SERVER['REQUEST_URI']);
 	}
 	
 	public static function link_to($url, $title = null, $attributes = array(), $secure = null)
