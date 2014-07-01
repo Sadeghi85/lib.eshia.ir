@@ -76,6 +76,28 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	});
 
 
+	// Help
+	Route::get('/help/{id?}', function ($id = 0)
+	{
+		if ($id == 0) $id = '01';
+		return View::make('help/help-'.$id);
+	})->where('id', '\d+');
+
+	// Shenasnameh
+	Route::get('/shenasnameh/{id}', function ($id)
+	{
+		if (($shenasnameh = file_get_contents(Config::get('app_settings.shenasnameh_url').'/'.$id)) && preg_replace('#[[:space:]\x{A0}]+#', '', preg_replace('#<[^<>]+>#', '', $shenasnameh))) {
+			$content = $shenasnameh;
+		} else {
+			$content = Lang::get('app.shenasnameh_not_found');
+		}
+		return View::make('shenasnameh')->with(compact('content'));
+	})->where('id', '\d+');
+	
+	// PDF
+	Route::get('/pdf/{id}/{vol}', array('uses' => 'PdfController@showPage'))
+	->where('id', '\d+')->where('vol', '\d+');
+	
 	// Page
 	Route::get('/{id}/{segments?}', function($bookId)
 	{

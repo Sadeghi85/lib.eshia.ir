@@ -84,6 +84,7 @@ return array(
 	|
 	*/
 
-	'prefix' => 'lib.eshia.ir',
+	'prefix' => $_SERVER['SERVER_NAME'],
+	//'prefix' => 'laravel',
 
 );

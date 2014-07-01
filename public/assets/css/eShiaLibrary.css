@@ -355,45 +355,49 @@ text-align:center;
 	margin:0px;
 }
 #BooksList {
-	padding:0;
-	margin:0 auto;
-	border:5px solid #a9c3d9;
-	background:#FFFFFF;
 	width: 100%;
-	color: #849cb1;
+	margin:10px auto;
+	border: 1px solid #fff;
+	background:#FFFFFF;
+	color: #fff;
+	font-weight: normal;
+	font-size: 19px;
+	font-family: "Nassim", "IE Nassim";
+	padding:3px;
+	border-spacing:1px;
+	direction:rtl;
 }
 #BooksList tr {
 	padding:3px;
 }
 #BooksList td {
-	border: 1px solid #FFF;
-	text-align: right;
 	background: #a9c3d9;
-	color:#fff;
-	font-size: 1.4em;
-	padding:3px;
-	margin:0;
+	text-align: center;
+	padding:1px 10px;
+	color: #fff;
+	font-family: "Nassim", "IE Nassim";
+	font-size: 22px;
 }
 #BooksList td A {
 	color:#fff;
-	font-size: 1.2em;
 }
 #BooksList td A:hover {
 	color: #FC9;	
 }
 
 #BooksList TH {
-	padding:3px;
 	text-align: right;
-	font-size: 1.5em;
+	border-radius:6px;
+	font-size: 19px;
 	font-weight:normal;
+	padding:1px 10px;
+	border: 1px solid #a9c3d9;
+	background: #FFFFFF;
+	color: #849CB1;
 }
 
 #BooksList .BookIndex {
 	width: 3%;
-	font-family: "Nassim", "IE Nassim";
-	font-size: 1.5em;
-	font-weight:normal;
 }
 #BooksList .BookName {
 	width: 44%
@@ -439,6 +443,7 @@ text-align:center;
 #BooksList .BookName-sub {
 	color: #fff;
 	padding: 0px 10px;
+	text-align: right;
 }
 #BooksList .BookName-sub A {
 	color: #fff;
@@ -446,6 +451,7 @@ text-align:center;
 #BooksList .BookAuthor-sub {
 	color: #fff;
 	padding: 0px 10px;
+	text-align: right;
 }
 #BooksList .BookAuthor-sub A {
 	color: #fff;
@@ -767,7 +773,7 @@ text-align:center;
 	border: 1px solid #fff;
 	background:#FFFFFF;
 	color: #fff;
-	font-weight: bold;
+	font-weight: normal;
 	font-size: 19px;
 	font-family: "Nassim", "IE Nassim";
 	padding:3px;
@@ -815,7 +821,7 @@ text-align:center;
 	padding:1px 10px;
 	color: #fff;
 	font-family: "Nassim", "IE Nassim";
-	font-size: 19px;
+	font-size: 22px;
 }
 #AuthorsList .AuthorIndex-Sub {
 	text-align: center;
@@ -1084,10 +1090,10 @@ text-align:center;
 }
 
 .help-title {
-	font-size: 1.5em;
+	font-size: 22px;
 }
 .help-text {
-	font-size: 1.4em;
+	font-size: 19px;
 	text-align: justify;
 }
 .help-textpics-text A {
@@ -1109,18 +1115,16 @@ text-align:center;
 	width: 100%;
 }
 .help-textpics-text {
-	width: 50%;
 	border: none;
 	text-align: justify;
-	padding: 10px 0px 10px 20px;
+	padding: 10px 0px 10px 0px;
 	vertical-align: top;
 }
 .help-textpics-pics {
-	text-align: center;
-	width: 50%;
 	border: none;
-	vertical-align: top;
-	padding-top: 20px;
+	padding-right: 20px;
+	float: left;
+	margin-bottom: -20px;
 }
 .helptd {
 	vertical-align: top;
@@ -1133,7 +1137,7 @@ text-align:center;
 	border: 1px solid #fff;
 	background:#FFFFFF;
 	color: #fff;
-	font-weight: bold;
+	font-weight: normal;
 	font-size: 19px;
 	font-family: "Nassim", "IE Nassim";
 	padding:3px;
@@ -1158,7 +1162,7 @@ text-align:center;
 	padding:1px 10px;
 	color: #fff;
 	font-family: "Nassim", "IE Nassim";
-	font-size: 19px;
+	font-size: 22px;
 }
 #AuthorBooksList A {
 	color: #fff;
@@ -1211,15 +1215,16 @@ text-align:center;
 
 /*--------start of shenasnameh-----------------------------------------------------------------------------------------*/
 .shenasnameh {
-	border:none;
-	color:#FFFFFF;
-	min-height:200px;
-	font-size:1.5em;
-	text-align:center;
-	margin:2em auto;
-	direction:rtl;
-	line-height:1.6em;
-	word-spacing:2px;
+	border: none;
+	color: #FFFFFF;
+	min-height: 200px;
+	font-size: 19px;
+	text-align: right;
+	margin: 2em auto;
+	direction: rtl;
+	padding-right: 50px;
+	line-height: 1.6em;
+	word-spacing: 2px;
 }
 /*--------end of shenasnameh-----------------------------------------------------------------------------------------*/
 /*--------start of pdf-----------------------------------------------------------------------------------------------*/

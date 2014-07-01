@@ -184,28 +184,6 @@ class IndexController extends BaseController {
 				$tempBookArray['displayname'][$name] = $displayName;
 				$tempBookArray['author'][$name] = $author;
 				$tempBookArray['vols'][$name] = $volCount;
-				
-				// $vol_count = 0;
-				
-				// foreach ($bookNode->childNodes as $volumes_node)
-				// {
-					// foreach ($volumes_node->childNodes as $vol)
-					// {
-						// if ($vol->hasAttributes())
-						// {
-							// ++$vol_count;
-						// }
-					// }
-				// }
-				
-				// if ($vol_count > 0)
-				// {
-					// $tempBookArray['name'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_NAME);
-					// $tempBookArray['displayname'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_DISPLAYNAME);
-					// $tempBookArray['author'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $bookNode->getAttribute(BOOK_ATTR_AUTHOR);
-					
-					// $tempBookArray['vols'][$bookNode->getAttribute(BOOK_ATTR_NAME)] = $vol_count;
-				// }
 			}
 			
 			$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);

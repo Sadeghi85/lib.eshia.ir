@@ -175,7 +175,8 @@ class Helpers {
 			
 			$xml_content = file_get_contents($xml_path);
 			
-			$xml_content = preg_replace('#\x{EF}\x{BB}\x{BF}#', '', $xml_content);
+			$xml_content = str_replace(pack('H*', 'efbbbf'), '', $xml_content);
+			$xml_content = str_replace(pack('H*', 'c2a0'), '', $xml_content);
 			$xml_content = preg_replace('#[[:space:]]+#iu', ' ', $xml_content);
 			$xml_content = preg_replace_callback('#[\'"]([^\r\n\'"]*)[\'"]#', function ($matches)
 			{
