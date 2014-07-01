@@ -251,7 +251,7 @@ class Helpers {
 	
 	public static function getEncodedRequestUri()
 	{
-		return base64_encode($_SERVER['REQUEST_URI']);
+		return base64_encode(Request::fullUrl());
 	}
 	
 	public static function link_to($url, $title = null, $attributes = array(), $secure = null)

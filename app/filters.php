@@ -13,7 +13,7 @@
 
 App::before(function($request)
 {
-	Session::forget('page.is.cachable');
+	Session::forget('page.is.cacheable');
 	Session::forget('exception.error.message');
 	Session::forget('navigation.tabs');
 	Session::forget('navigation.segments');
@@ -30,7 +30,7 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	if (Config::get('app_settings.cache_enable') === true and $response->getStatusCode() == 200 and Session::get('page.is.cachable', false))
+	if (Config::get('app_settings.cache_enable') === true and $response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
 	{
 		Cache::put(Helpers::getEncodedRequestUri(), $response->getContent(), Config::get('app_settings.cache_timeout'));
 	}

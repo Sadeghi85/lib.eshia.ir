@@ -39,7 +39,7 @@ class IndexController extends BaseController {
 		}
 		
 		// enable caching for near static contents
-		Session::put('page.is.cachable', true);
+		Session::put('page.is.cacheable', true);
 		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
