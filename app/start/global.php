@@ -55,7 +55,8 @@ App::fatal(function($exception)
 	if ( ! Config::get('app.debug'))
 	{
 		$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
-		return Response::view('error.error', compact('message'), 500);
+		//return Response::view('error.error', compact('message'), 500);
+		return Response::view('error.error', compact('message'), 200);
 	}
 });
 
@@ -70,16 +71,17 @@ App::error(function(Exception $exception, $code)
 		switch ($code)
 		{
 			case 403:
-				return Response::view('error.error', compact('message'), 403);
+				//return Response::view('error.error', compact('message'), 403);
 
 			case 500:
-				return Response::view('error.error', compact('message'), 500);
+				//return Response::view('error.error', compact('message'), 500);
 				
 			case 503:
-				return Response::view('error.error', compact('message'), 503);
+				//return Response::view('error.error', compact('message'), 503);
 
 			default:
-				return Response::view('error.error', compact('message'), 404);
+				//return Response::view('error.error', compact('message'), 404);
+				return Response::view('error.error', compact('message'), 200);
 		}
 	}
 });
@@ -92,13 +94,15 @@ App::error(function(Exception $exception, $code)
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception, $code)
 {
 	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
-    return Response::view('error.error', compact('message'), 404);
+    //return Response::view('error.error', compact('message'), 404);
+	return Response::view('error.error', compact('message'), 200);
 });
 
 App::missing(function($exception)
 {
     $message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
-    return Response::view('error.error', compact('message'), 404);
+    //return Response::view('error.error', compact('message'), 404);
+	return Response::view('error.error', compact('message'), 200);
 });
 
 /*
@@ -117,7 +121,8 @@ App::down(function()
 	//return Response::make("Be right back!", 503);
 	
 	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
-    return Response::view('error.error', compact('message'), 503);
+    //return Response::view('error.error', compact('message'), 503);
+	return Response::view('error.error', compact('message'), 200);
 });
 
 /*

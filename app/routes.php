@@ -48,7 +48,8 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 				$thisPage = $pages[$page - 1];
 			} else {
 				#//dd(count($pages));
-				return View::make('404');
+				//return View::make('404');
+				App::abort('404');
 			}
 			
 			$docs = array();
@@ -68,8 +69,8 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'result_count' => $results['total'], 'page' => $page, 'per_page' => $perPage));
 		}
 		
-		return View::make('search')->with(array('result_count' => 0, 'term' => $term));
-		//return View::make('404');
+		//return View::make('search')->with(array('result_count' => 0, 'term' => $term));
+		App::abort('404');
 		
 		
 
