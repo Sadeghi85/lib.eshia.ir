@@ -56,7 +56,7 @@ App::fatal(function($exception)
 	{
 		$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
 		//return Response::view('error.error', compact('message'), 500);
-		return Response::view('error.error', compact('message'), 200);
+		return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 	}
 });
 
@@ -72,6 +72,9 @@ App::error(function(Exception $exception, $code)
 		{
 			case 403:
 				//return Response::view('error.error', compact('message'), 403);
+				
+			case 405:
+				//return Response::view('error.error', compact('message'), 405);
 
 			case 500:
 				//return Response::view('error.error', compact('message'), 500);
@@ -81,7 +84,7 @@ App::error(function(Exception $exception, $code)
 
 			default:
 				//return Response::view('error.error', compact('message'), 404);
-				return Response::view('error.error', compact('message'), 200);
+				return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 		}
 	}
 });
@@ -95,14 +98,14 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 {
 	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
     //return Response::view('error.error', compact('message'), 404);
-	return Response::view('error.error', compact('message'), 200);
+	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 });
 
 App::missing(function($exception)
 {
     $message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
     //return Response::view('error.error', compact('message'), 404);
-	return Response::view('error.error', compact('message'), 200);
+	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 });
 
 /*
@@ -122,7 +125,7 @@ App::down(function()
 	
 	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
     //return Response::view('error.error', compact('message'), 503);
-	return Response::view('error.error', compact('message'), 200);
+	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 });
 
 /*

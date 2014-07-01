@@ -53,6 +53,8 @@ function doRequestUsingPOST_search()
 	var queryString = 'term='+idglb;//+'&csrf_test_name='+document.getElementsByName('csrf_test_name')[0].value;
 	xmlHttp.open('POST', url, true);
 	xmlHttp.onreadystatechange = validHandleStateChange_search;
+	// Set header so the called script knows that it's an XMLHttpRequest
+	xmlHttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 	xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;');
 	
 	document.getElementById('search_input').className = class_name + ' ui-autocomplete-loading';
