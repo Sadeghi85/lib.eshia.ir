@@ -169,76 +169,72 @@ class Helpers {
 	
 	public static function loadXML()
 	{
-		if
-		(
-				false === Config::get('app_settings.cache_enable')
-			or
-				false !== Input::get(Config::get('app_settings.cache_bypass'), false)
-			or
-				false === Cache::has('xml.object')
-		)
+		$xml_path = base_path() . Config::get('app_settings.xml_path');
+		
+		$xml_content = file_get_contents($xml_path);
+		
+		$xml_content = str_replace(pack('H*', 'efbbbf'), '', $xml_content);
+		$xml_content = str_replace(pack('H*', 'c2a0'), '', $xml_content);
+		$xml_content = preg_replace('#[[:space:]]+#iu', ' ', $xml_content);
+		$xml_content = preg_replace_callback('#[\'"]([^\r\n\'"]*)[\'"]#', function ($matches)
 		{
-			$xml_path = base_path() . Config::get('app_settings.xml_path');
-			
-			$xml_content = file_get_contents($xml_path);
-			
-			$xml_content = str_replace(pack('H*', 'efbbbf'), '', $xml_content);
-			$xml_content = str_replace(pack('H*', 'c2a0'), '', $xml_content);
-			$xml_content = preg_replace('#[[:space:]]+#iu', ' ', $xml_content);
-			$xml_content = preg_replace_callback('#[\'"]([^\r\n\'"]*)[\'"]#', function ($matches)
-			{
-				return '"'.preg_replace('#[[:space:]\p{Cf}]+$#iu', '', preg_replace('#^[[:space:]\p{Cf}]+#iu', '', $matches[1])).'"';
-			}, $xml_content);
-			$xml_content = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xml_content);
-			
-			$xml = new Sadeghi85\Extensions\DomDocument;
-			//$xml->formatOutput = true;
-			
-			try	{
-				$xml->loadXML($xml_content, LIBXML_NOBLANKS);
-			}
-			catch (\Exception $e) {
-				Log::error('Error loading xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-				Session::put('exception.error.message', Lang::get('app.page_display_error'));
-				App::abort(500);
-			}
+			return '"'.preg_replace('#[[:space:]\p{Cf}]+$#iu', '', preg_replace('#^[[:space:]\p{Cf}]+#iu', '', $matches[1])).'"';
+		}, $xml_content);
+		$xml_content = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xml_content);
+		
+		$xml = new Sadeghi85\Extensions\DomDocument;
+		//$xml->formatOutput = true;
+		
+		try	{
+			$xml->loadXML($xml_content, LIBXML_NOBLANKS);
+		}
+		catch (\Exception $e) {
+			Log::error('Error loading xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
+			Session::put('exception.error.message', Lang::get('app.page_display_error'));
+			App::abort(500);
+		}
 
-			// Persianize
-			//$persianized_xml = new Sadeghi85\Extensions\DomDocument;
-			//$persianized_xml->formatOutput = true;
-			
-			//$xml_content = self::persianizeString($xml_content);
-			
-			// try	{
-				// $persianized_xml->loadXML($xml_content, LIBXML_NOBLANKS);
-			// }
-			// catch (\Exception $e) {
-				// Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-				// Session::put('exception.error.message', Lang::get('app.page_display_error'));
-				// App::abort(500);
-			// }
-			
-			$xml = serialize($xml);
-			//$persianized_xml = serialize($persianized_xml);
-			
-			Cache::put('xml.object', $xml, Config::get('app_settings.cache_timeout'));
-			//Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.cache_timeout'));
-			
-			
-		}
-		else
-		{
-			
-		}
+		// Persianize
+		//$persianized_xml = new Sadeghi85\Extensions\DomDocument;
+		//$persianized_xml->formatOutput = true;
+		
+		//$xml_content = self::persianizeString($xml_content);
+		
+		// try	{
+			// $persianized_xml->loadXML($xml_content, LIBXML_NOBLANKS);
+		// }
+		// catch (\Exception $e) {
+			// Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
+			// Session::put('exception.error.message', Lang::get('app.page_display_error'));
+			// App::abort(500);
+		// }
+		
+		return $xml;
 	}
 	
 	public static function getXMLObject()
 	{
 		if ( ! is_object(self::$_xmlObject))
 		{
-			self::loadXML();
-			self::$_xmlObject = unserialize(Cache::get('xml.object'));
-			
+			if
+			(
+					false === Config::get('app_settings.cache_enable')
+				or
+					false !== Input::get(Config::get('app_settings.cache_bypass'), false)
+			)
+			{
+				self::$_xmlObject = self::loadXML();
+			}
+			elseif (Cache::has('xml.object'))
+			{
+				self::$_xmlObject = unserialize(Cache::get('xml.object'));
+			}
+			else
+			{
+				self::$_xmlObject = self::loadXML();
+				Cache::put('xml.object', serialize(self::$_xmlObject), Config::get('app_settings.cache_timeout'));
+				//Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.cache_timeout'));
+			}
 		}
 		
 		return self::$_xmlObject;
