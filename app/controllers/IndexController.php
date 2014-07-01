@@ -82,14 +82,16 @@ class IndexController extends BaseController {
 				$tempBookArray['vols'][$name] = $volCount;
 			}
 			
-			$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
-			$tempSortedArray = Helpers::psort($tempSortedArray);
-			$tempSynchedArray = array();
-			foreach ($tempSortedArray as $key => $value)
-			{
-				$tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
-			}
-			$tempBookArray['displayname'] = $tempSynchedArray;
+			// $tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
+			// $tempSortedArray = Helpers::psort($tempSortedArray);
+			// $tempSynchedArray = array();
+			// foreach ($tempSortedArray as $key => $value)
+			// {
+				// $tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
+			// }
+			// $tempBookArray['displayname'] = $tempSynchedArray;
+			
+			$tempBookArray['displayname'] = Helpers::psort($tempBookArray['displayname']);
 			
 			$books = array();
 			
@@ -126,6 +128,7 @@ class IndexController extends BaseController {
 		
 		$xpathQuery .= BOOK_NODE;
 
+		// ----authorlist
 		if ($this->_navigationSegments[count($this->_navigationSegments) - 1] == 'authors')
 		{
 			$books = $xpath->query($xpathQuery, $this->_xmlObject);
@@ -155,6 +158,7 @@ class IndexController extends BaseController {
 			
 			return View::make('authorlist')->with(compact('authorsBooksCount'));
 		}
+		// ----booklist
 		else
 		{
 			$books = $xpath->query($xpathQuery, $this->_xmlObject);
@@ -186,14 +190,16 @@ class IndexController extends BaseController {
 				$tempBookArray['vols'][$name] = $volCount;
 			}
 			
-			$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
-			$tempSortedArray = Helpers::psort($tempSortedArray);
-			$tempSynchedArray = array();
-			foreach ($tempSortedArray as $key => $value)
-			{
-				$tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
-			}
-			$tempBookArray['displayname'] = $tempSynchedArray;
+			//$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
+			//$tempSortedArray = Helpers::psort($tempSortedArray);
+			//$tempSynchedArray = array();
+			//foreach ($tempSortedArray as $key => $value)
+			//{
+			//	$tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
+			//}
+			//$tempBookArray['displayname'] = $tempSynchedArray;
+			
+			$tempBookArray['displayname'] = Helpers::psort($tempBookArray['displayname']);
 			
 			$books = array();
 			
