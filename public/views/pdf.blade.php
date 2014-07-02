@@ -5,7 +5,7 @@
 <div id="dialog-form">
 	<div id="contents">
     <div id="contents_cover" class="Page_showPage">
-		<form id="frmPDF" action="#" onsubmit="validate_pdf_form(document.getElementById('start').value, document.getElementById('end').value);return false;">
+		<form id="frmPDF" method="post" action="#" onsubmit="validate_pdf_form(document.getElementById('start').value, document.getElementById('end').value);return false;">
 			<table class="pdf_form">
             <tr><td class="pdf_logo" rowspan="6">
 			<img src="{{ asset('/assets/images/Logo_PDF.jpg') }}" alt="" /></td></tr>
@@ -47,7 +47,7 @@
 			
 			if (start && end && (/\d+/.test(start)) && (/\d+/.test(end)))
 			{
-				window.location.assign('{{ Config::get('app_settings.pdf_url') }}'+'?url='+encodeURIComponent('{{ url($id.'/'.$vol.'/1') }}')+'&book_name='+encodeURIComponent('{{ $bookName }}')+'&start='+start+'&end='+end+'&submit=true');
+				window.location.assign('{{ Config::get('app_settings.pdf_url') }}'+'?url='+encodeURIComponent('{{ url($id.'/'.$volume.'/1') }}')+'&book_name='+encodeURIComponent('{{ $bookName }}')+'&start='+start+'&end='+end+'&submit=true');
 			}
 			
 			return false;

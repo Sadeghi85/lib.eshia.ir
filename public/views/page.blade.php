@@ -16,7 +16,7 @@
 						<a href="{{ sprintf('/shenasnameh/%s', $id) }}" title="@lang('app.book_certificate')" target="_blank">@lang('app.certificate')</a>
 					</td>
                     <td class="Tools-index">
-						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.index_page')) }}" target="_blank">@lang('app.index_page')</a>
+						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.index_page')) }}">@lang('app.index_page')</a>
 					</td>
 					<td class="Tools-serach">
 						<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, {{ $id }});return false;">
@@ -177,7 +177,7 @@
 						<a href="{{ sprintf('/shenasnameh/%s', $id) }}" title="@lang('app.book_certificate')" target="_blank">@lang('app.certificate')</a>
 					</td>
                     <td class="Tools-index">
-						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.index_page')) }}" target="_blank">@lang('app.index_page')</a>
+						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.index_page')) }}">@lang('app.index_page')</a>
 					</td>
 					<td class="Tools-serach">
 						<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, {{ $id }});return false;">
