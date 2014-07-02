@@ -42,9 +42,7 @@ return array(
 	'all_groups' => 'همه‌گروه‌ها',
 	'authors' => 'نویسندگان',
 	'page_display_error' => 'با عرض پوزش، مشکلی در نمایش این صفحه بوجود آمده است',
-	// $lang['First Page'] = 'صفحه‌اول';
-	// $lang['Show'] = 'نمایش';
-	// $lang['Book Page Not Found Message'] = 'این صفحه در کتاب اصلی بدون متن است';
+	
 	'index_welcome' => 'به کتابخانه «مدرسه فقاهت» خوش آمدید؛',
 	#Login Form--------------------------------------------------------------------------------------------------------------
 	// $lang['Enter Following Code'] = 'کد زیر را وارد کنید';
@@ -78,24 +76,27 @@ return array(
 	'lib_help' => 'راهنمای کتابخانه',
 	'books_information' => 'دارای :books_count عنوان کتاب در :vols_count جلد',
 	#Page--------------------------------------------------------------------------------------------------------------------
-	// $lang['PDF Format'] = 'فرمتPDF';
-	// $lang['Save This Book to PDF Format'] = 'ذخیره این کتاب با فرمت PDF';
-	// $lang['Certificate'] = 'شناسنامه';
-	// $lang['Book Certificate'] = 'شناسنامه کتاب';
-	// $lang['Search in This Book'] = 'جستجو در این کتاب...';
+	'pdf_format' => 'فرمتPDF',
+	'save_this_book_to_pdf_format' => 'ذخیره این کتاب با فرمت PDF',
+	'certificate' => 'شناسنامه',
+	'book_certificate' => 'شناسنامه کتاب',
+	'search_in_this_book' => 'جستجو در این کتاب...',
 	// $lang['Edit This Page'] = 'ویرایش این صفحه';
-	// $lang['Volume :'] = 'جلد :';
+	'volume' => 'جلد :',
 	// $lang['Soureh :'] = 'سوره :';
 	// $lang['Aie :'] = 'آیه :';
-	// $lang['Goto Page'] = 'برو به صفحه';
+	'goto_page' => 'برو به صفحه',
 	// $lang['Goto Aie'] = 'مشاهده';
-	// $lang['Page Book Name :'] = 'نام کتاب :';
-	// $lang['Page Author :'] = 'نویسنده :';
-	// $lang['Page Book Volume'] = 'جلد :';
-	// $lang['Page Book Page'] = 'صفحه :';
+	'page_book_name' => 'نام کتاب :',
+	'page_author' => 'نویسنده :',
+	'page_book_volume' => 'جلد :',
+	'page_book_page' => 'صفحه :',
 	'prev_page' => 'صفحه‌قبلی',
 	'next_page' => 'صفحه‌بعدی',
-	// $lang['Last Page'] = 'صفحه‌آخر';
+	'last_page' => 'صفحه‌آخر',
+	'first_page' => 'صفحه‌اول',
+	'show' => 'نمایش',
+	'book_page_not_found_message' => 'این صفحه در کتاب اصلی بدون متن است',
 	'index_page' => 'فهرست',
 
 	#PDF----------------------------------------------------------------------------------------------------------------------

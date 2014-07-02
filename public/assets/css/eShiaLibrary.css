@@ -518,6 +518,14 @@ text-align:center;
 	padding: 2px 5px;
 	text-align: center;
 }
+.Tools-index {
+	background: #FFFFFF;
+	font-size: 1em;
+	height: 22px;
+	margin: 0px;
+	padding: 2px 5px;
+	text-align: center;
+}
 .Tools-serach {
 	width:85%;
 	background: #FFFFFF;

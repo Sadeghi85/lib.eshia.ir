@@ -32,10 +32,8 @@ class IndexController extends BaseController {
 		// ----query_not_found
 		if ($this->_navigationSegments[0] != '' and $this->_navigationTabs[count($this->_navigationTabs)][$lastKey - 1]['selected'] == true and $this->_navigationSegments[count($this->_navigationSegments) - 1] != 'all')
 		{
-			$resultCount = 0;
-			$query = $this->_navigationSegments[count($this->_navigationSegments) - 1];
-			
-			return View::make('query')->with(compact('resultCount', 'query'));
+			Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $this->_navigationSegments[count($this->_navigationSegments) - 1]))));
+			App::abort(404);
 		}
 		
 		$xpath = new DOMXpath($this->_xmlObject);

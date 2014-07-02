@@ -18,7 +18,7 @@ class PdfController extends BaseController {
 	}
 
 	// Catch all
-	public function showPage($id, $vol)
+	public function showPage($id, $volume)
 	{
 		$xpath = new DOMXpath($this->_xmlObject);
 		
@@ -31,6 +31,6 @@ class PdfController extends BaseController {
 			$bookName = $bookNode->getAttribute(BOOK_ATTR_DISPLAYNAME);
 		}
 		
-		return View::make('pdf', compact('id', 'vol', 'bookName'));
+		return View::make('pdf', compact('id', 'volume', 'bookName'));
 	}
 }

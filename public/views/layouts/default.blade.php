@@ -48,7 +48,7 @@
 							<form action="#" id="mainSearchPanel" class="searchPanel" onsubmit="do_search(document.getElementById('search_input').value);return false;">
 								<div>
 									<label for="search_input" ></label>
-									<input name="key" id="search_input" value="@lang('app.default_search')" class="SearchInput ui-autocomplete-input empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className='SearchInput ui-autocomplete-input'}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='SearchInput ui-autocomplete-input empty-search-item'} a=setTimeout('hide_id(\'search_drop\')','500')">
+									<input name="key" id="search_input" value="@lang('app.default_search')" class="SearchInput ui-autocomplete-input empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className='SearchInput ui-autocomplete-input'}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='SearchInput ui-autocomplete-input empty-search-item'} a=setTimeout('hide_id(\'search_drop\')','500')" />
 
 									<input type="submit" id="searchButton" value="" class="SearchKey">
 									<br />
@@ -91,14 +91,14 @@
 <script src="{{ asset('/assets/js/eShiaLibrary.js') }}"></script>
 
 <script type="text/javascript">
-	function do_search($query, $bookID)
+	function do_search(query, bookId)
 	{
-		$query = $query.replace(/^\s+|\s+$/g, '');
+		query = query.replace(/^\s+|\s+$/g, '');
 
-		if ($query && $query != "@lang('app.default_search')")
+		if (query && query != "@lang('app.default_search')" && query != "@lang('app.search_in_this_book')")
 		{
-			$query = $query.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
-			window.location.assign('/search/' + ($bookID ? $bookID + '/' : '') + encodeURIComponent($query));
+			query = query.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
+			window.location.assign('/search/' + (bookId ? bookId + '/' : '') + encodeURIComponent(query));
 		}
 
 		return false;

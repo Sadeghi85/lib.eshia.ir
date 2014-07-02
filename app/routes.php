@@ -75,7 +75,11 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 		
 
 	});
-
+	
+	
+	// Page
+	Route::get('/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))
+	->where(array('id' => '\d+', 'volume' => '\d+', 'page' => '\d+', 'highlight' => '[^/]+'));
 
 	// Help
 	Route::get('/help/{id?}', function ($id = 0)
@@ -96,14 +100,8 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	})->where('id', '\d+');
 	
 	// PDF
-	Route::get('/pdf/{id}/{vol}', array('uses' => 'PdfController@showPage'))
-	->where('id', '\d+')->where('vol', '\d+');
-	
-	// Page
-	Route::get('/{id}/{segments?}', function($bookId)
-	{
-		return 'page';
-	})->where('id', '\d+')->where('segments', '.*');
+	Route::get('/pdf/{id}/{volume}', array('uses' => 'PdfController@showPage'))
+	->where('id', '\d+')->where('volume', '\d+');
 
     // Catch all
 	// |

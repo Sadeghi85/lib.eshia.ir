@@ -268,8 +268,6 @@ class Helpers {
 	{
 		// one based array
 		$segments = Request::segments();
-		array_unshift($segments, '');
-		unset($segments[0]);
 		
 		//dd($segments);
 		
