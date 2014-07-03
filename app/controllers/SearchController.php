@@ -25,6 +25,7 @@ class SearchController extends BaseController {
 			$id = null;
 		}
 		
+		$xpath = new DOMXpath($this->_xmlObject);
 		
 		$sphinx = new \Sphinx\SphinxClient;
 		
@@ -38,7 +39,7 @@ class SearchController extends BaseController {
 		$sphinx->setLimits(0, 1000, 1000, 1000);
 		
 		$results = $sphinx->query($query, 'lib_eshia_ir');
-		#//dd($results);
+		#dd($results);
 		#//die(print_r($results,true));
 		
 		$page = Input::get('page', 1);
@@ -68,10 +69,15 @@ class SearchController extends BaseController {
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
 				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
+				
+				$xpathQuery = sprintf('//%s[@%s=\'%s\']', BOOK_NODE, BOOK_ATTR_NAME, $thisPage[$i]['attrs']['bookid']);
+				$bookNode = $xpath->query($xpathQuery, $this->_xmlObject);
+				
+				$thisPage[$i]['attrs']['bookName'] = $bookNode->item(0)->getAttribute(BOOK_ATTR_DISPLAYNAME);
 			}
 
 			$paginator = Paginator::make($thisPage, min($results['total'], 1000), $perPage);
-			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'result_count' => $results['total'], 'page' => $page, 'per_page' => $perPage));
+			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => $query));
 		}
 		
 		#//return View::make('search')->with(array('result_count' => 0, 'query' => $query));

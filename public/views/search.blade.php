@@ -29,7 +29,7 @@
 				<td>
 					<table class="pageSelectorPanel">
 						<tr>
-							<td class="pg-Left"><span class="result_count">{{ $result_count }}</span>@lang('app.query_search_result')</td>
+							<td class="pg-Left"><span class="result_count">{{ $resultCount }}</span>@lang('app.query_search_result')</td>
                             <td class="pg-right">{{ $results->links() }}</td>
 						</tr>
 					</table>
@@ -42,10 +42,11 @@
 					
 						@foreach ($results as $key => $result)
 						<tr>
-							<td class="id">{{ $per_page * ($page - 1) + $key +1 }}</td>
+							<td class="id">{{ $perPage * ($page - 1) + $key +1 }}</td>
 							<td class="data">
 								<div class="result">
 								<a href="">&nbsp;</a>
+							<a href="{{ sprintf('/%s/%s/%s/%s', (int) $result['attrs']['bookid'], (int) $result['attrs']['volume'], (int) $result['attrs']['page'], $query) }}" title="">{{ sprintf(trans('app.search_info'), '<font color="#ff6c13">', '</font>', $result['attrs']['bookName'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['volume'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['page']) }}</a>
 							{{-- <\?= anchor($item['address'].'/'.$term, $item['label'], array('title' => '')) ?> --}}
 							</div>
 						<div class="preview">{{ $result['attrs']['excerpt'] }}</div>
@@ -60,7 +61,7 @@
 				<td>
 					<table class="pageSelectorPanel">
 						<tr>
-							<td class="pg-Left"><span class="result_count">{{ $result_count }}</span>@lang('app.query_search_result')</td>
+							<td class="pg-Left"><span class="result_count">{{ $resultCount }}</span>@lang('app.query_search_result')</td>
                             <td class="pg-right">{{ $results->links() }}</td>
 						</tr>
 					</table>
