@@ -29,7 +29,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 		
 		$sphinx->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
 		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_SPH04);
-		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@weight DESC, modified_at DESC, path ASC');
+		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at DESC, @id DESC');
 		$sphinx->setLimits(0, 1000, 1000, 1000);
 		
 		$results = $sphinx->query($term, 'lib_eshia_ir');
@@ -58,7 +58,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 				$docs[] = $_page['attrs']['path'];
 			}
 			
-			$excerpts = $sphinx->buildExcerpts($docs, 'lib_eshia_ir_main', $term, array('query_mode' => true, 'load_files' => true, 'allow_empty' => true, 'before_match' => '<span class="hilight">', 'after_match' => '</span>'));
+			$excerpts = $sphinx->buildExcerpts($docs, 'lib_eshia_ir_main', $term, array('query_mode' => true, 'weight_order' => true, 'load_files' => true, 'allow_empty' => false, 'before_match' => '<span class="hilight">', 'after_match' => '</span>'));
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{

@@ -202,6 +202,16 @@
 
 @stop
 
+@section('javascript')
+	@parent
+	
+	<script type="text/javascript">
+		url = document.URL.toString();
+		window.location.assign(url.replace(/\#.*/g, '')+'#hm');
+	</script>
+	
+@stop
+
 @section('title')
 	@parent
 	

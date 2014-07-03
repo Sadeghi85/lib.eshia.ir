@@ -115,32 +115,34 @@ class PageController extends BaseController {
 		
 		if (is_readable($pagePath))
 		{
-			// $terms_to_highlight = prepare_MSIDXS_terms($highlight, true);
-			
-			// if($terms_to_highlight)
-			// {
-				// $regex = '';
-				
-				// foreach ($terms_to_highlight as $value)
-				// {
-					// $regex .= '\b'.str_replace(' ', '\W+', preg_quote($value, '#')).'(?:\b|(?<=\p{M}))|';
-				// }
-				
-				// $regex = mb_substr($regex, 0, mb_strlen($regex) - 1);
-				
-				// $data['content'] = preg_replace('#[\r\n\t]+#', ' ', preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), preg_replace('/\x{EF}\x{BB}\x{BF}/', '', preg_replace('#('.$regex.')#iu', '<span class="hilight">$1</span>', @iconv('UTF-8', 'UTF-8//IGNORE', file_get_contents($page_path))))));
-			// }
-			// else
-			{
-				$content  = preg_replace('#[[:space:]]+#', ' ',
-								preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
-									str_replace(pack('H*', 'efbbbf'), '',
-										iconv('UTF-8', 'UTF-8//IGNORE',
-											file_get_contents($pagePath)
-										)
+			$content =  preg_replace('#[[:space:]]+#', ' ',
+							preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
+								str_replace(pack('H*', 'efbbbf'), '',
+									iconv('UTF-8', 'UTF-8//IGNORE',
+										file_get_contents($pagePath)
 									)
 								)
+							)
+						);
+			
+			if ($highlight)
+			{
+				$content =  with(new \Sphinx\SphinxClient)->buildExcerpts(compact('content'), 'lib_eshia_ir_main', $highlight,
+								array
+								(
+									'query_mode' => false,
+									'limit' => 0,
+									'chunk_separator' => '',
+									'exact_phrase' => true,
+									'html_strip_mode' => 'retain',
+									'load_files' => false,
+									'allow_empty' => false,
+									'before_match' => '<span class="hilight"><a name="hm"></a>',
+									'after_match' => '</span>'
+								)
 							);
+				
+				$content =  array_values($content)[0];
 			}
 		}
 		else
