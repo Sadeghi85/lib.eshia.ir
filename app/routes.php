@@ -78,7 +78,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	
 	
 	// Page
-	Route::get('/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))
+	Route::match(array('GET', 'POST'), '/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))
 	->where(array('id' => '\d+', 'volume' => '\d+', 'page' => '\d+', 'highlight' => '[^/]+'));
 
 	// Help

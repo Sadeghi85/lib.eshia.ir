@@ -19,6 +19,11 @@ class PageController extends BaseController {
 
 	public function showPage($id, $volume = -1, $page = -1, $highlight = null)
 	{
+		if (Request::server('REQUEST_METHOD') == 'POST')
+		{
+			return Redirect::to(sprintf('%s/%s/%s', (int) Input::get('id', $id), (int) Input::get('volume', $volume), (int) Input::get('page', $page)));  // url should be updated too...
+		}
+		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
 		$booksPath = Config::get('app_settings.books_path');

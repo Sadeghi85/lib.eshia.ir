@@ -37,7 +37,7 @@
             <tr>
             <td>
 				<form method="post" action="{{ Request::url() }}" class="frmQuickAccess">
-            	<input type="hidden" name="id" value="{{ $id }}" />
+            	<!--<input type="hidden" name="id" value="{{ $id }}" />-->
 				
 				<table align="center" class="BookAccessPanel">
 					<tr>
@@ -114,7 +114,7 @@
         <tr>
             <td>
             	<form method="post" action="{{ Request::url() }}" class="frmQuickAccess">
-            	<input type="hidden" name="id" value="{{ $id }}" />
+            	<!--<input type="hidden" name="id" value="{{ $id }}" />-->
 				
 				<table align="center" class="BookAccessPanel">
 					<tr>
