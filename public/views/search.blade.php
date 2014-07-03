@@ -1,52 +1,31 @@
 @extends('layouts.default')
 <?php if ( ! defined('VIEW_IS_ALLOWED')) { ob_clean(); die(); } ?>
 
-
-
 @section('content')
 <div id="contents">
 	<div id="contents_cover" class="Page_showPage">
 		<table class="content_headers" align="center" cellpadding="0" cellspacing="0">
 			
 			<tr>
-			@comment
 				<td class="Tools-serach">
-					<\?= form_open('#', array('id' => 'search-query-form', 'onsubmit' => "do_search(document.getElementById('searchContentInput1').value, '".(isset($id) ? $id : '')."');return false;")) ?>
+					<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, '{{ isset($id) ? $id : '' }}');return false;">
+
 					<table class="Tools-serach-table">
 					<tr>
 					<td class="Tools-serach-input-td">
-					<\?= form_input(array('id' => 'searchContentInput1', 'value' => lang('Default Search'), 'class' => 'empty-search-item', 'onfocus' => "if (this.value == '".lang('Default Search')."') {this.value = ''; this.className=''}", 'onblur' => "if (this.value == '') {this.value = '".lang('Default Search')."'; this.className='empty-search-item'}")); ?>
+					<input id="searchContentInput1" value="@lang('app.default_search')" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
 					</td>
 					<td class="Tools-serach-submit-td">
-					<\?= form_submit(array('class' => 'dofindButton', 'value' => '')) ?>
+					
+					<input class="dofindButton" type="submit" value="" />
 					</td>
 					</tr>
 					</table>
-					<\?= form_close() ?>
-				</td>	
-			@endcomment
+					</form>
+				</td>
 			</tr>
                 
 			<tr>
-				<?php
-					if ($result_count == 0)
-					{
-					?>
-				<td>	
-					<table class="Page-query-noresualt">
-					<tr>
-					<td>
-					<span class="not-found">@lang('app.query_search_result_not_found', array('query' => sprintf('<u><font color="#000000">%s</font></u>', $term)))</span>
-					</td>
-					</tr>
-					</table>
-				</td>
-					<?php
-					goto search;
-					}
-					else
-					{
-					?>
 				<td>
 					<table class="pageSelectorPanel">
 						<tr>
@@ -54,18 +33,14 @@
                             <td class="pg-right">{{ $results->links() }}</td>
 						</tr>
 					</table>
-				</td>
-				<?php
-					}
-				?>       
+				</td>  
 			</tr>
-			
 
 			<tr>
 				<td>
 					<table id='search-result'>
 					
-						<?php foreach($results as $key => $result): ?>
+						@foreach ($results as $key => $result)
 						<tr>
 							<td class="id">{{ $per_page * ($page - 1) + $key +1 }}</td>
 							<td class="data">
@@ -76,16 +51,11 @@
 						<div class="preview">{{ $result['attrs']['excerpt'] }}</div>
 						</td>
 						</tr>
-						<?php endforeach; ?>
+						@endforeach
 					</table>
 				</td>
 			</tr>
-			
-			
-		<?php
-			if ($result_count > 0)
-			{
-		?>
+
 			<tr>
 				<td>
 					<table class="pageSelectorPanel">
@@ -96,27 +66,24 @@
 					</table>
 				</td>
 			</tr>
-		<?php
-			}
-search:
-		?>
+
 			<tr>
-			@comment
-				<td class="Tools-serach">
-					<\?= form_open('#', array('id' => 'search-query-form', 'onsubmit' => "do_search(document.getElementById('searchContentInput2').value, '".(isset($id) ? $id : '')."');return false;")) ?>
+			<td class="Tools-serach">
+					<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, '{{ isset($id) ? $id : '' }}');return false;">
+
 					<table class="Tools-serach-table">
 					<tr>
 					<td class="Tools-serach-input-td">
-					<\?= form_input(array('id' => 'searchContentInput2', 'value' => lang('Default Search'), 'class' => 'empty-search-item', 'onfocus' => "if (this.value == '".lang('Default Search')."') {this.value = ''; this.className=''}", 'onblur' => "if (this.value == '') {this.value = '".lang('Default Search')."'; this.className='empty-search-item'}")); ?>
+					<input id="searchContentInput2" value="@lang('app.default_search')" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
 					</td>
 					<td class="Tools-serach-submit-td">
-					<\?= form_submit(array('class' => 'dofindButton', 'value' => '')) ?>
+					
+					<input class="dofindButton" type="submit" value="" />
 					</td>
 					</tr>
 					</table>
-					<\?= form_close() ?>
-				</td>	
-			@endcomment
+					</form>
+				</td>
 			</tr>
 		</table>
 	</div>

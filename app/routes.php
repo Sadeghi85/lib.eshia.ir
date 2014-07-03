@@ -18,64 +18,12 @@
 
 Route::group(array('before' => 'needs.xml.navigation'), function()
 {
-	// search
-	Route::get('/search/{term}', function($term)
-	{
-		$sphinx = new \Sphinx\SphinxClient;
-		
-		$sphinx->setServer('127.0.0.1', 9312);
-		
-		$sphinx->resetFilters();
-		
-		$sphinx->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
-		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_SPH04);
-		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at DESC, @id DESC');
-		$sphinx->setLimits(0, 1000, 1000, 1000);
-		
-		$results = $sphinx->query($term, 'lib_eshia_ir');
-		//dd($results);
-		//die(print_r($results,true));
-		
-		$page = Input::get('page', 1);
-		$perPage = 10;  //number of results per page
-			
-		if ($results['total'])
-		{
-			$pages = array_chunk($results['matches'], $perPage);
-			
-			if (isset($pages[$page - 1]))
-			{
-				$thisPage = $pages[$page - 1];
-			} else {
-				#//dd(count($pages));
-				//return View::make('404');
-				App::abort('404');
-			}
-			
-			$docs = array();
-			foreach ($thisPage as $_page)
-			{
-				$docs[] = $_page['attrs']['path'];
-			}
-			
-			$excerpts = $sphinx->buildExcerpts($docs, 'lib_eshia_ir_main', $term, array('query_mode' => true, 'weight_order' => true, 'load_files' => true, 'allow_empty' => false, 'before_match' => '<span class="hilight">', 'after_match' => '</span>'));
-
-			for ($i = count($thisPage) - 1; $i >= 0; --$i)
-			{
-				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
-			}
-
-			$paginator = Paginator::make($thisPage, min($results['total'], 1000), $perPage);
-			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'result_count' => $results['total'], 'page' => $page, 'per_page' => $perPage));
-		}
-		
-		//return View::make('search')->with(array('result_count' => 0, 'term' => $term));
-		App::abort('404');
-		
-		
-
-	});
 	
+	// Search
+	Route::get('/search/{query}', array('uses' => 'SearchController@showPage'))
+	->where('query', '[^/]+');
+	Route::get('/search/{id}/{query}', array('uses' => 'SearchController@showPage'))
+	->where(array('id' => '\d+', 'query' => '[^/]+'));
 	
 	// Page
 	Route::match(array('GET', 'POST'), '/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))

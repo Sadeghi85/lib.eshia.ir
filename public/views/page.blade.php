@@ -207,7 +207,12 @@
 	
 	<script type="text/javascript">
 		url = document.URL.toString();
-		window.location.assign(url.replace(/\#.*/g, '')+'#hm');
+		lastSegment = url.split('/');
+		
+		if (lastSegment.length == 7)
+		{
+			window.location.assign(url.replace(/\#.*/g, '')+'#hm');
+		}
 	</script>
 	
 @stop
