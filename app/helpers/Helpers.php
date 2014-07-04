@@ -173,22 +173,22 @@ class Helpers {
 	{
 		$xml_path = base_path() . Config::get('app_settings.xml_path');
 		
-		$xml_content = file_get_contents($xml_path);
+		$xmlContent = file_get_contents($xml_path);
 		
-		$xml_content = str_replace(pack('H*', 'efbbbf'), '', $xml_content);
-		$xml_content = str_replace(pack('H*', 'c2a0'), '', $xml_content);
-		$xml_content = preg_replace('#[[:space:]]+#iu', ' ', $xml_content);
-		$xml_content = preg_replace_callback('#[\'"]([^\r\n\'"]*)[\'"]#', function ($matches)
+		$xmlContent = str_replace(pack('H*', 'efbbbf'), '', $xmlContent);
+		$xmlContent = str_replace(pack('H*', 'c2a0'), '', $xmlContent);
+		$xmlContent = preg_replace('#[[:space:]]+#iu', ' ', $xmlContent);
+		$xmlContent = preg_replace_callback('#[\'"]([^\r\n\'"]*)[\'"]#', function ($matches)
 		{
 			return '"'.preg_replace('#[[:space:]\p{Cf}]+$#iu', '', preg_replace('#^[[:space:]\p{Cf}]+#iu', '', $matches[1])).'"';
-		}, $xml_content);
-		$xml_content = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xml_content);
+		}, $xmlContent);
+		$xmlContent = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xmlContent);
 		
 		$xml = new Sadeghi85\Extensions\DomDocument;
 		//$xml->formatOutput = true;
 		
 		try	{
-			$xml->loadXML($xml_content, LIBXML_NOBLANKS);
+			$xml->loadXML($xmlContent, LIBXML_NOBLANKS);
 		}
 		catch (\Exception $e) {
 			Log::error('Error loading xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
@@ -200,10 +200,10 @@ class Helpers {
 		//$persianized_xml = new Sadeghi85\Extensions\DomDocument;
 		//$persianized_xml->formatOutput = true;
 		
-		//$xml_content = self::persianizeString($xml_content);
+		//$xmlContent = self::persianizeString($xmlContent);
 		
 		// try	{
-			// $persianized_xml->loadXML($xml_content, LIBXML_NOBLANKS);
+			// $persianized_xml->loadXML($xmlContent, LIBXML_NOBLANKS);
 		// }
 		// catch (\Exception $e) {
 			// Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');

@@ -44,9 +44,12 @@ class PageController extends BaseController {
 		
 		foreach ($vols as $volNode)
 		{
-			$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['indexpage'] = (int) $volNode->getAttribute(VOL_ATTR_INDEX);
-			$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['base']      = (int) $volNode->getAttribute(VOL_ATTR_BASE);
-			$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['pages']     = (int) $volNode->getAttribute(VOL_ATTR_PAGES);
+			if ($volNode->hasAttribute(VOL_ATTR_ID))
+			{
+				$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['indexpage'] = (int) $volNode->getAttribute(VOL_ATTR_INDEX);
+				$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['base']      = (int) $volNode->getAttribute(VOL_ATTR_BASE);
+				$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['pages']     = (int) $volNode->getAttribute(VOL_ATTR_PAGES);
+			}
 		}
 		
 		if (isset($volumes[$volume]))
