@@ -36,6 +36,9 @@ class SearchController extends BaseController {
 		$sphinx->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
 		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_SPH04);
 		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at DESC, @id DESC');
+		
+		$sphinx->setFilter('bookid', Helpers::getBookIdArray());
+		
 		$sphinx->setLimits(0, 1000, 1000, 1000);
 		
 		$results = $sphinx->query($query, 'lib_eshia_ir');
@@ -44,7 +47,7 @@ class SearchController extends BaseController {
 		
 		$page = Input::get('page', 1);
 		$perPage = 10;  //number of results per page
-			
+		
 		if ($results['total'])
 		{
 			$pages = array_chunk($results['matches'], $perPage);
@@ -55,7 +58,9 @@ class SearchController extends BaseController {
 			} else {
 				#//dd(count($pages));
 				#//return View::make('404');
-				App::abort('404');
+				//Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
+				//App::abort('404');
+				return Redirect::to('/search/'.$query);
 			}
 			
 			$docs = array();
@@ -68,12 +73,17 @@ class SearchController extends BaseController {
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
-				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
-				
+			
 				$xpathQuery = sprintf('//%s[@%s=\'%s\']', BOOK_NODE, BOOK_ATTR_NAME, $thisPage[$i]['attrs']['bookid']);
 				$bookNode = $xpath->query($xpathQuery, $this->_xmlObject);
 				
+
 				$thisPage[$i]['attrs']['bookName'] = $bookNode->item(0)->getAttribute(BOOK_ATTR_DISPLAYNAME);
+
+				
+				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
+				
+
 			}
 
 			$paginator = Paginator::make($thisPage, min($results['total'], 1000), $perPage);

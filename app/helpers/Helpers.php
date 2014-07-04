@@ -5,6 +5,8 @@ class Helpers {
 	private static $_xmlObject = null;
 	private static $_persianizedXMLObject = null;
 	
+	private static $_bookIdArray = array();
+	
     public static function persianizeString($string)
 	{
         $string = preg_replace('# +#iu', ' ', $string);
@@ -210,6 +212,28 @@ class Helpers {
 		// }
 		
 		return $xml;
+	}
+	
+	public static function getBookIdArray()
+	{
+		$_xmlObject = self::getXMLObject();
+		
+		$xpath = new DOMXpath($_xmlObject);
+		
+		$xpathQuery = sprintf('//%s', BOOK_NODE);
+		
+		$books = $xpath->query($xpathQuery, $_xmlObject);
+		
+		$_bookIdArray = array();
+		
+		foreach ($books as $bookNode)
+		{
+			$_bookIdArray[] = (int) $bookNode->getAttribute(BOOK_ATTR_NAME);
+		}
+		
+		self::$_bookIdArray = $_bookIdArray;
+		
+		return self::$_bookIdArray;
 	}
 	
 	public static function getXMLObject()
