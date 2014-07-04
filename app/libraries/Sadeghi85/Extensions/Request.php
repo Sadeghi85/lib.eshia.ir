@@ -42,5 +42,18 @@ class Request extends \Illuminate\Http\Request {
 		
 		return $segments;
 	}
+	
+	/**
+	 * Get the URL (no query string) for the request.
+	 *
+	 * @return string
+	 */
+	public function url()
+	{
+		$url = $this->getUri();
+		$url = rtrim(preg_replace('/\?.*/', '', $url), '/');
+		$url = str_replace('"', '%22', $url);
+		return $url;
+	}
 
 }
