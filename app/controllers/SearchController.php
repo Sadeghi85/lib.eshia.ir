@@ -37,7 +37,14 @@ class SearchController extends BaseController {
 		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_SPH04);
 		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at DESC, @id DESC');
 		
-		$sphinx->setFilter('bookid', Helpers::getBookIdArray());
+		if ( ! is_null($id))
+		{
+			$sphinx->setFilter('bookid', array($id));
+		}
+		else
+		{
+			$sphinx->setFilter('bookid', Helpers::getBookIdArray());
+		}
 		
 		$sphinx->setLimits(0, 1000, 1000, 1000);
 		
