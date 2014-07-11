@@ -20,8 +20,10 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 {
 	
 	// Search
-	Route::get('/search/{id?}', array('uses' => 'SearchController@showPage'))
-	->where('id', '\d+');
+	Route::get('/search/{id}/{query}', array('uses' => 'SearchController@showPage'))
+	->where(array('id' => '\d+', 'query' => '.+'));
+	Route::get('/search/{query}', array('uses' => 'SearchController@showPage'))
+	->where('query', '.+');
 	
 	// Page
 	Route::match(array('GET', 'POST'), '/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))

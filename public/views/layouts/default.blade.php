@@ -103,7 +103,7 @@
 		if (query && query != "@lang('app.default_search')" && query != "@lang('app.search_in_this_book')")
 		{
 			query = query.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
-			window.location.assign('/search' + (bookId ? '/' + bookId : '') + '?q=' + fixedEncodeURIComponent(query));
+			window.location.assign('/search/' + (bookId ? bookId + '/' : '') + fixedEncodeURIComponent(query));
 		}
 
 		return false;

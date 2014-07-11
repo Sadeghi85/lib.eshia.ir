@@ -62,15 +62,15 @@ class Request extends \Illuminate\Http\Request {
 	 *
 	 * @return string
 	 */
-	// public function url()
-	// {
-		// $url = $this->getUri();
+	public function url()
+	{
+		$url = $this->getUri();
 		
-		// $url = rtrim(preg_replace('/\?.*/', '', $url), '/');
+		$url = rtrim(preg_replace('/\?.*/', '', $url), '/');
 		
-		// #$url = str_replace('"', '%22', $url);
+		$url = str_replace('"', '%22', $url);
 		
-		// return $url;
-	// }
+		return $url;
+	}
 
 }

@@ -17,9 +17,13 @@ class SearchController extends BaseController {
 		
 	}
 
-	public function showPage($id = null)
+	public function showPage($id, $query = null)
 	{
-		$query = Input::get('q', '');
+		if (is_null($query))
+		{
+			$query = $id;
+			$id = null;
+		}
 		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
