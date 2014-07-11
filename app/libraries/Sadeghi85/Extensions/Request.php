@@ -1,7 +1,7 @@
 <?php namespace Sadeghi85\Extensions;
 
 class Request extends \Illuminate\Http\Request {
-
+	
 	/**
 	 * Get the current path info for the request.
 	 *
@@ -9,9 +9,23 @@ class Request extends \Illuminate\Http\Request {
 	 */
     public function path()
 	{
-		$pattern = urldecode(str_replace('_', '%20', trim($this->getPathInfo(), '/')));
+		$pattern = str_replace('_', ' ', trim($this->getPathInfo(), '/'));
 		
 		return $pattern == '' ? '/' : $pattern;
+	}
+	
+	/**
+	 * Retrieve an input item from the request.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $default
+	 * @return string
+	 */
+	public function input($key = null, $default = null)
+	{
+		$input = $this->getInputSource()->all() + $this->query->all();
+
+		return array_get(str_replace('_', ' ', $input), $key, $default);
 	}
 	
 	/**
@@ -33,7 +47,7 @@ class Request extends \Illuminate\Http\Request {
 	 */
 	public function segments()
 	{
-		$segments = explode('/', $this->path());
+		$segments = explode('/', str_replace('_', ' ', urldecode($this->path())));
 		
 		$segments = array_values(array_filter($segments, function($v) { return $v != ''; }));
 		
@@ -48,12 +62,15 @@ class Request extends \Illuminate\Http\Request {
 	 *
 	 * @return string
 	 */
-	public function url()
-	{
-		$url = $this->getUri();
-		$url = rtrim(preg_replace('/\?.*/', '', $url), '/');
-		$url = str_replace('"', '%22', $url);
-		return $url;
-	}
+	// public function url()
+	// {
+		// $url = $this->getUri();
+		
+		// $url = rtrim(preg_replace('/\?.*/', '', $url), '/');
+		
+		// #$url = str_replace('"', '%22', $url);
+		
+		// return $url;
+	// }
 
 }

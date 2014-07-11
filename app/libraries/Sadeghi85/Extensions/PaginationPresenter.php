@@ -5,7 +5,7 @@ class PaginationPresenter extends \Illuminate\Pagination\Presenter
 
     public function getActivePageWrapper($text)
     {
-        return '<td class="current"><a href="">'.$text.'</a></td>';
+        return '<td class="current-page">'.$text.'</td>';
     }
 
     public function getDisabledTextWrapper($text)
