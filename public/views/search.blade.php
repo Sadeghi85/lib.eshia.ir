@@ -13,7 +13,7 @@
 					<table class="Tools-serach-table">
 					<tr>
 					<td class="Tools-serach-input-td">
-					<input id="searchContentInput1" value="@lang('app.default_search')" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
+					<input id="searchContentInput1" value="{{ isset($query) ? htmlspecialchars(urldecode($query)) : trans('app.default_search') }}" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
 					</td>
 					<td class="Tools-serach-submit-td">
 					
@@ -75,7 +75,7 @@
 					<table class="Tools-serach-table">
 					<tr>
 					<td class="Tools-serach-input-td">
-					<input id="searchContentInput2" value="@lang('app.default_search')" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
+					<input id="searchContentInput2" value="{{ isset($query) ? htmlspecialchars(urldecode($query)) : trans('app.default_search') }}" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
 					</td>
 					<td class="Tools-serach-submit-td">
 					

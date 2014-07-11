@@ -21,9 +21,9 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	
 	// Search
 	Route::get('/search/{query}', array('uses' => 'SearchController@showPage'))
-	->where('query', '[^/]+');
+	->where('query', '.+');
 	Route::get('/search/{id}/{query}', array('uses' => 'SearchController@showPage'))
-	->where(array('id' => '\d+', 'query' => '[^/]+'));
+	->where(array('id' => '\d+', 'query' => '.+'));
 	
 	// Page
 	Route::match(array('GET', 'POST'), '/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))

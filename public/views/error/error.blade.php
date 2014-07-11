@@ -11,7 +11,7 @@
 <tr>
 <td>
 <span class="not-found">
-{{ preg_replace('#"([^"]+)"#', sprintf('<u><font color="#000000">"%s"</font></u>', '$1'), $message) }}
+{{ preg_replace('#"(.+)?"#', sprintf('&nbsp;<i><font color="#000000"> %s </font></i>&nbsp;', '$1'), $message) }}
 </span>
 </td>
 </tr>

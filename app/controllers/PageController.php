@@ -133,7 +133,7 @@ class PageController extends BaseController {
 				$content =  with(new \Sphinx\SphinxClient)->buildExcerpts(compact('content'), 'lib_eshia_ir_main', $highlight,
 								array
 								(
-									'query_mode' => false,
+									'query_mode' => true,
 									'limit' => 0,
 									'chunk_separator' => '',
 									'exact_phrase' => true,

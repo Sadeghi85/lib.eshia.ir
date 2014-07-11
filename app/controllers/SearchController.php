@@ -76,7 +76,17 @@ class SearchController extends BaseController {
 				$docs[] = $_page['attrs']['path'];
 			}
 			
-			$excerpts = $sphinx->buildExcerpts($docs, 'lib_eshia_ir_main', $query, array('query_mode' => true, 'weight_order' => true, 'load_files' => true, 'allow_empty' => false, 'before_match' => '<span class="hilight">', 'after_match' => '</span>'));
+			$excerpts = $sphinx->buildExcerpts($docs, 'lib_eshia_ir_main', $query,
+							array
+							(
+								'query_mode' => true,
+								'exact_phrase' => true,
+								'weight_order' => false,
+								'load_files' => true,
+								'allow_empty' => false,
+								'before_match' => '<span class="hilight">',
+								'after_match' => '</span>'
+							));
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
