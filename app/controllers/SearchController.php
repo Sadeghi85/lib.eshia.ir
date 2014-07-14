@@ -38,7 +38,7 @@ class SearchController extends BaseController {
 		
 		$sphinx->setMatchMode(\Sphinx\SphinxClient::SPH_MATCH_EXTENDED);
 		//$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_PROXIMITY_BM25);
-		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_EXPR, 'sum((2*lcs*(1+exact_order+(1/(1+min_gaps))*(word_count>1))+wlccs)*user_weight)*1000+bm25');
+		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_EXPR, 'sum((lcs*(1+exact_order+(1/(1+min_gaps))*(word_count>1))+wlccs)*user_weight)*1000+bm25');
 		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at ASC, @id ASC');
 		
 		if ( ! is_null($id))
@@ -51,6 +51,8 @@ class SearchController extends BaseController {
 		}
 		
 		$sphinx->setLimits(($page - 1) * $perPage, $perPage, 1000);
+		
+		$sphinx->setMaxQueryTime(2000); // in mili-seconds
 		
 		$sphinx->setArrayResult(true);
 		
@@ -102,7 +104,15 @@ class SearchController extends BaseController {
 			return Redirect::to('/search/'.str_replace(array(' ', '%20'), '_', $query));
 		}
 		
-		Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
+		if (isset($results['warning']) and $results['warning'] == 'query time exceeded max_query_time')
+		{
+			Session::put('exception.error.message', Lang::get('app.query_timed_out'));
+		}
+		else
+		{
+			Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
+		}
+		
 		App::abort('404');
 	}
 }
