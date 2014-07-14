@@ -141,6 +141,9 @@ App::down(function()
 
 require app_path().'/filters.php';
 
+// Paginator page must be positive
+Input::merge(array(Paginator::getPageName() => abs(Input::get(Paginator::getPageName(), 1))));
+
 /*
 |--------------------------------------------------------------------------
 | Validator Extends
@@ -180,7 +183,7 @@ Blade::extend(function($value)
 
 View::composer(Paginator::getViewName(), function($view)
 {
-	$queryString = array_except(Input::query(), array(Paginator::getPageName(), 'cache_key'));
+	$queryString = array_except(Input::query(), array(Paginator::getPageName()));
 	$view->paginator->appends($queryString);
 });
 

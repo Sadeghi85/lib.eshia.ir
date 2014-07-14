@@ -25,6 +25,9 @@ class SearchController extends BaseController {
 			$id = null;
 		}
 		
+		$page = Input::get('page', 1);
+		$perPage = 10;  //number of results per page
+		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
 		$sphinx = new \Sphinx\SphinxClient;
@@ -47,29 +50,15 @@ class SearchController extends BaseController {
 			$sphinx->setFilter('bookid', Helpers::getBookIdArray());
 		}
 		
-		$sphinx->setLimits(0, 1000, 1000, 1000);
+		$sphinx->setLimits(($page - 1) * $perPage, $perPage, 1000);
+		
+		$sphinx->setArrayResult(true);
 		
 		$results = $sphinx->query($query, 'lib_eshia_ir');
-		#dd($results);
-		#//die(print_r($results,true));
 		
-		$page = Input::get('page', 1);
-		$perPage = 10;  //number of results per page
-		
-		if ($results['total'])
+		if (isset($results['matches']))
 		{
-			$pages = array_chunk($results['matches'], $perPage);
-			
-			if (isset($pages[$page - 1]))
-			{
-				$thisPage = $pages[$page - 1];
-			} else {
-				#//dd(count($pages));
-				#//return View::make('404');
-				//Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
-				//App::abort('404');
-				return Redirect::to('/search/'.$query);
-			}
+			$thisPage = $results['matches'];
 			
 			$docs = array();
 			foreach ($thisPage as $_page)
@@ -108,35 +97,12 @@ class SearchController extends BaseController {
 			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query)));
 		}
 		
-		#//return View::make('search')->with(array('result_count' => 0, 'query' => $query));
+		if ($page > 1)
+		{
+			return Redirect::to('/search/'.str_replace(array(' ', '%20'), '_', $query));
+		}
+		
 		Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
 		App::abort('404');
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		// $xpath = new DOMXpath($this->_xmlObject);
-		
-		// $booksPath = Config::get('app_settings.books_path');
-		
-		// $xpathQuery = sprintf('//%s[@%s=\'%s\']/%s/%s', BOOK_NODE, BOOK_ATTR_NAME, $id, VOLUMES_NODE, VOL_NODE);
-		
-		// $vols = $xpath->query($xpathQuery, $this->_xmlObject);
-		
-		// if ($vols->length == 0)
-		// {
-			// Log::error("Book entry '{$id}' has no volume or it doesn't exist. ( ". __FILE__ .' on line '. __LINE__ .' )');
-			// Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(1)))));
-			// App::abort(404);
-		// }
-		
-		
-		
-		// return View::make('page')->with(compact('id', 'volume', 'page', 'volumeOptions', 'bookName', 'authorName', 'indexPage', 'firstPage', 'lastPage', 'prevPage', 'nextPage', 'content'));
 	}
 }
