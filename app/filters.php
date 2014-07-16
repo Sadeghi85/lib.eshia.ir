@@ -24,20 +24,16 @@ App::before(function($request)
 		$response->header('X-Cache', 'HIT');
 		return $response;
 	}
-	
-	Cache::forever('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()));
 });
-
 
 App::after(function($request, $response)
 {
-	if ( ! Cache::has(Helpers::getEncodedRequestUri()))
+	if ($response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
 	{
-		if ($response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
-		{
-			Cache::forever(Helpers::getEncodedRequestUri(), $response->getContent());
-		}
+		Cache::forever(Helpers::getEncodedRequestUri(), $response->getContent());
 	}
+	
+	Cache::forever('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()));
 });
 
 /*

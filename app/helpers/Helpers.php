@@ -23,6 +23,8 @@ class Helpers {
 	{
 		$solidString = '';
 		
+		clearstatcache();
+		
 		foreach ($files as $file)
 		{
 			$solidString .= filemtime($file);
@@ -264,7 +266,7 @@ class Helpers {
 	{
 		if ( ! is_object(self::$_xmlObject))
 		{
-			if (Cache::has('xml.object'))
+			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('xml.object'))
 			{
 				self::$_xmlObject = unserialize(Cache::get('xml.object'));
 			}
