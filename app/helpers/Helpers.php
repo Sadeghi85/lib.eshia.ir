@@ -7,9 +7,33 @@ class Helpers {
 	
 	private static $_bookIdArray = array();
 	
-    public static function persianizeString($string)
+	public static function getCacheableFiles()
 	{
-        $string = preg_replace('# +#iu', ' ', $string);
+		$Directory = new RecursiveDirectoryIterator(public_path() . '/views/');
+		$Iterator = new RecursiveIteratorIterator($Directory);
+		$Views = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+		
+		$files = array_flatten(iterator_to_array($Views));
+		$files[] = base_path() . Config::get('app_settings.xml_path');
+		
+		return $files;
+	}
+	
+	public static function getModifiedDateHash(array $files)
+	{
+		$solidString = '';
+		
+		foreach ($files as $file)
+		{
+			$solidString .= filemtime($file);
+		}
+		
+		return sha1($solidString);
+	}
+	
+	public static function persianizeString($string)
+	{
+		$string = preg_replace('# +#iu', ' ', $string);
 		$string = preg_replace('#\p{M}+#iu', '', $string);
 		$string = preg_replace('#(ي|ى|ئ)#iu', 'ی', $string);
 		$string = preg_replace('#(إ|أ)#iu', 'ا', $string);
@@ -20,18 +44,18 @@ class Helpers {
 		$string = preg_replace('#ـ#iu', '', $string); # مـزمل
 		
 		return trim($string);
-    }
+	}
 	
 	public static function persianizeUrl($string)
 	{
-        $string = urldecode($string);
+		$string = urldecode($string);
 		$string = preg_replace('#_+#iu', ' ', $string);
 		$string = preg_replace('#[\'"\\\0\\\\]#iu', '', $string);
 		
 		$string = self::persianizeString($string);
 		
 		return $string;
-    }
+	}
 	
 	/**
 	 * psort : Persian array sorting function
@@ -240,23 +264,14 @@ class Helpers {
 	{
 		if ( ! is_object(self::$_xmlObject))
 		{
-			if
-			(
-					false === Config::get('app_settings.cache_enable')
-				or
-					false !== Input::get(Config::get('app_settings.cache_bypass'), false)
-			)
-			{
-				self::$_xmlObject = self::loadXML();
-			}
-			elseif (Cache::has('xml.object'))
+			if (Cache::has('xml.object'))
 			{
 				self::$_xmlObject = unserialize(Cache::get('xml.object'));
 			}
 			else
 			{
 				self::$_xmlObject = self::loadXML();
-				Cache::put('xml.object', serialize(self::$_xmlObject), Config::get('app_settings.cache_timeout'));
+				Cache::forever('xml.object', serialize(self::$_xmlObject));
 				//Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.cache_timeout'));
 			}
 		}

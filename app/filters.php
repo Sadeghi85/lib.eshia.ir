@@ -13,47 +13,31 @@
 
 App::before(function($request)
 {
-	//app('request')->server->set('REQUEST_URI', str_replace('_', '%20', Request::server('REQUEST_URI')));
-
 	Session::forget('page.is.cacheable');
 	Session::forget('exception.error.message');
 	Session::forget('navigation.tabs');
 	Session::forget('navigation.segments');
 	
-	if
-	(
-			true  === Config::get('app_settings.cache_enable')
-		and
-			false === Input::get(Config::get('app_settings.cache_bypass'), false)
-		and
-			Cache::has(Helpers::getEncodedRequestUri())
-	)
+	if (Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has(Helpers::getEncodedRequestUri()))
 	{
 		$response = Response::make(Cache::get(Helpers::getEncodedRequestUri()), 200);
 		$response->header('X-Cache', 'HIT');
 		return $response;
 	}
-
+	
+	Cache::forever('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()));
 });
 
 
 App::after(function($request, $response)
 {
-	if
-	(
-			true  === Config::get('app_settings.cache_enable')
-		and
-			false === Input::get(Config::get('app_settings.cache_bypass'), false)
-		and
-			$response->getStatusCode() == 200
-		and
-			Session::get('page.is.cacheable', false)
-	)
+	if ( ! Cache::has(Helpers::getEncodedRequestUri()))
 	{
-		Cache::put(Helpers::getEncodedRequestUri(), $response->getContent(), Config::get('app_settings.cache_timeout'));
+		if ($response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
+		{
+			Cache::forever(Helpers::getEncodedRequestUri(), $response->getContent());
+		}
 	}
-	
-	
 });
 
 /*
