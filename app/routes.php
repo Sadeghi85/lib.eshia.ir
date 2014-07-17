@@ -18,6 +18,8 @@
 
 Route::group(array('before' => 'needs.xml.navigation'), function()
 {
+	// Ajax Search
+	Route::post('/ajax/search/{rnd?}', array('uses' => 'SearchController@showAjax'));
 	
 	// Search
 	Route::get('/search/{id}/{query}', array('uses' => 'SearchController@showPage'))

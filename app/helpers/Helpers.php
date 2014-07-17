@@ -211,7 +211,6 @@ class Helpers {
 		$xmlContent = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xmlContent);
 		
 		$xml = new Sadeghi85\Extensions\DomDocument;
-		//$xml->formatOutput = true;
 		
 		try	{
 			$xml->loadXML($xmlContent, LIBXML_NOBLANKS);
@@ -221,23 +220,108 @@ class Helpers {
 			Session::put('exception.error.message', Lang::get('app.page_display_error'));
 			App::abort(500);
 		}
-
-		// Persianize
-		//$persianized_xml = new Sadeghi85\Extensions\DomDocument;
-		//$persianized_xml->formatOutput = true;
-		
-		//$xmlContent = self::persianizeString($xmlContent);
-		
-		// try	{
-			// $persianized_xml->loadXML($xmlContent, LIBXML_NOBLANKS);
-		// }
-		// catch (\Exception $e) {
-			// Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-			// Session::put('exception.error.message', Lang::get('app.page_display_error'));
-			// App::abort(500);
-		// }
 		
 		return $xml;
+	}
+	
+	public static function loadPersianizedXML()
+	{
+		$persianizedXML = self::getXMLObject();
+		
+		$persianizedXMLContent = $persianizedXML->saveXML();
+		
+		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s="([^"]+)")#iu', BOOK_ATTR_DISPLAYNAME), function ($matches)
+		{
+			return $matches[1] . ' tmpdisplayname="' . self::persianizeString($matches[2]) . '"';
+		},
+		$persianizedXMLContent);
+		
+		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s="([^"]+)")#iu', BOOK_ATTR_AUTHOR), function ($matches)
+		{
+			return $matches[1] . ' tmpauthor="' . self::persianizeString($matches[2]) . '"';
+		},
+		$persianizedXMLContent);
+		
+		try	{
+			$persianizedXML->loadXML($persianizedXMLContent, LIBXML_NOBLANKS);
+		}
+		catch (\Exception $e) {
+			Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
+			Session::put('exception.error.message', Lang::get('app.page_display_error'));
+			App::abort(500);
+		}
+		
+		return $persianizedXML;
+	}
+	
+	public static function getXMLObject()
+	{
+		if ( ! is_object(self::$_xmlObject))
+		{
+			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('xml.object'))
+			{
+				self::$_xmlObject = unserialize(Cache::get('xml.object'));
+			}
+			else
+			{
+				self::$_xmlObject = self::loadXML();
+				Cache::forever('xml.object', serialize(self::$_xmlObject));
+			}
+		}
+		
+		return self::$_xmlObject;
+	}
+	
+	public static function getPersianizedXMLObject()
+	{
+		if ( ! is_object(self::$_persianizedXMLObject))
+		{
+			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('persianized.xml.object'))
+			{
+				self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
+			}
+			else
+			{
+				self::$_persianizedXMLObject = self::loadPersianizedXML();
+				Cache::forever('persianized.xml.object', serialize(self::$_persianizedXMLObject));
+			}
+		}
+		
+		return self::$_persianizedXMLObject;
+	}
+	
+	public static function getSuggestions($query, $limit = 10)
+	{
+		$xml = self::getPersianizedXMLObject();
+		$xpath = new DOMXpath($xml);
+		
+		$query = self::persianizeString($query);
+		
+		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpdisplayname', $query);
+		
+		$set1 = $xpath->query($xpathQuery, $xml);
+		$return1 = array();
+		$output = array();
+		
+		// foreach ($set1 as $node)
+		// {
+			// $return1[$node->getAttribute(BOOK_ATTR_NAME)] = $node->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$node->getAttribute(BOOK_ATTR_AUTHOR).')';
+		// }
+		for ($i=0, $j=0; ($i<$set1->length and $j<$limit); $i++, $j++)
+		{
+			$return1[$set1->item($i)->getAttribute(BOOK_ATTR_NAME)] = $set1->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$set1->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+		}
+		
+		$return1 = self::psort($return1);
+		
+		foreach ($return1 as $key => $value)
+		{
+			$output[] = array('label' => $value, 'value' => $key);
+		}
+		
+		
+		return $output;
+		
 	}
 	
 	public static function getBookIdArray()
@@ -261,37 +345,6 @@ class Helpers {
 		
 		return self::$_bookIdArray;
 	}
-	
-	public static function getXMLObject()
-	{
-		if ( ! is_object(self::$_xmlObject))
-		{
-			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('xml.object'))
-			{
-				self::$_xmlObject = unserialize(Cache::get('xml.object'));
-			}
-			else
-			{
-				self::$_xmlObject = self::loadXML();
-				Cache::forever('xml.object', serialize(self::$_xmlObject));
-				//Cache::put('persianized.xml.object', $persianized_xml, Config::get('app_settings.cache_timeout'));
-			}
-		}
-		
-		return self::$_xmlObject;
-	}
-	
-	// public static function getPersianizedXMLObject()
-	// {
-		// if ( ! is_object(self::$_persianizedXMLObject))
-		// {
-			// self::loadXML();
-			// self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
-			
-		// }
-		
-		// return self::$_persianizedXMLObject;
-	// }
 	
 	public static function getEncodedRequestUri()
 	{

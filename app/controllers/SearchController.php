@@ -13,7 +13,6 @@ class SearchController extends BaseController {
 		parent::__construct();
 		
 		$this->_xmlObject = Helpers::getXMLObject();
-		// $this->_persianizedXMLObject = Helpers::getPersianizedXMLObject();
 		
 	}
 
@@ -26,7 +25,7 @@ class SearchController extends BaseController {
 		}
 		
 		$page = Input::get('page', 1);
-		$perPage = 10;  //number of results per page
+		$perPage = Config::get('app_settings.results_per_page', 10);  //number of results per page
 		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
@@ -114,5 +113,27 @@ class SearchController extends BaseController {
 		}
 		
 		App::abort('404');
+	}
+	
+	public function showAjax()
+	{
+		$query = Input::get('query', '');
+		
+		if ($query)
+		{
+			$rows = Helpers::getSuggestions($query, Config::get('app_settings.results_per_page', 10));
+			
+			$count = 1;
+			$output = '';
+			
+			foreach($rows as $row)
+			{
+				$output .= sprintf('<li class="ui-menu-item" role="menuitem" id="s%s" onmouseover="srch_itm=%s;mark_s(\'s%s\')" onmouseout="unmark_s(\'s%s\')" onclick="select_s(\'s%s\',1)" title="%s"><span class="ui-corner-all" tabindex="-1">%s</span></li>', $count, $count, $count, $count, $count, $row['value'], $row['label']);
+				
+				++$count;
+			}
+			
+			return $output;
+		}
 	}
 }

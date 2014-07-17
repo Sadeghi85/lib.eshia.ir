@@ -50,7 +50,7 @@ function doRequestUsingPOST_search()
 	
 	createXMLHttpRequest();
 	var url = '/ajax/search/'+ new Date().getTime();
-	var queryString = 'term='+idglb;//+'&csrf_test_name='+document.getElementsByName('csrf_test_name')[0].value;
+	var queryString = 'query='+idglb;
 	xmlHttp.open('POST', url, true);
 	xmlHttp.onreadystatechange = validHandleStateChange_search;
 	// Set header so the called script knows that it's an XMLHttpRequest
