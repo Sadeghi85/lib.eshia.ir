@@ -1,14 +1,14 @@
 <?php
 
 class BaseController extends Controller {
-
+	
 	/**
 	 * Message bag.
 	 *
 	 * @var Illuminate\Support\MessageBag
 	 */
 	protected $messageBag = null;
-
+	
 	/**
 	 * Initializer.
 	 */

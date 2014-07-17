@@ -1,12 +1,12 @@
 <?php
 
 class IndexController extends BaseController {
-
+	
 	protected $_navigationTabs = null;
 	protected $_navigationSegments = null;
-	protected $_persianizedXMLObject = null;
+	
 	protected $_xmlObject = null;
-
+	
 	/**
 	 * Initializer.
 	 */
@@ -16,11 +16,10 @@ class IndexController extends BaseController {
 		
 		$this->_navigationTabs = Session::get('navigation.tabs');
 		$this->_navigationSegments = Session::get('navigation.segments');
-		$this->_xmlObject = Helpers::getXMLObject();
-		// $this->_persianizedXMLObject = Helpers::getPersianizedXMLObject();
 		
+		$this->_xmlObject = Helpers::getXMLObject();
 	}
-
+	
 	// Catch all
 	public function showPage()
 	{

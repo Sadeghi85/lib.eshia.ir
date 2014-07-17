@@ -1,8 +1,7 @@
 <?php
 
 class PdfController extends BaseController {
-
-	protected $_persianizedXMLObject = null;
+	
 	protected $_xmlObject = null;
 	
 	/**

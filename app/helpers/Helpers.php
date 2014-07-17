@@ -264,6 +264,7 @@ class Helpers {
 			}
 			else
 			{
+				Cache::flush();
 				self::$_xmlObject = self::loadXML();
 				Cache::forever('xml.object', serialize(self::$_xmlObject));
 			}
@@ -282,6 +283,7 @@ class Helpers {
 			}
 			else
 			{
+				Cache::flush();
 				self::$_persianizedXMLObject = self::loadPersianizedXML();
 				Cache::forever('persianized.xml.object', serialize(self::$_persianizedXMLObject));
 			}
