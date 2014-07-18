@@ -35,15 +35,18 @@ class Helpers {
 	
 	public static function persianizeString($string)
 	{
-		$string = preg_replace('# +#iu', ' ', $string);
-		$string = preg_replace('#\p{M}+#iu', '', $string);
-		$string = preg_replace('#(ي|ى|ئ)#iu', 'ی', $string);
-		$string = preg_replace('#(إ|أ)#iu', 'ا', $string);
-		$string = preg_replace('#ة#iu', 'ه', $string);
-		$string = preg_replace('#ؤ#iu', 'و', $string);
-		$string = preg_replace('#ك#iu', 'ک', $string);
+		$string = str_replace(pack('H*', 'efbbbf'), '', $string);
+		$string = str_replace(pack('H*', 'c2a0'), '', $string);
+		$string = str_replace(pack('H*', 'd980'), '', $string); # مـزمل
+		$string = str_replace(array(pack('H*', 'd98a'), pack('H*', 'd989'), pack('H*', 'd8a6')), pack('H*', 'db8c'), $string); # ی
+		$string = str_replace(array(pack('H*', 'd8a5'), pack('H*', 'd8a3'), pack('H*', 'd8a2')), pack('H*', 'd8a7'), $string); # ا
+		$string = str_replace(array(pack('H*', 'd8a9'), pack('H*', 'db80')), pack('H*', 'd987'), $string); # ه
+		$string = str_replace(pack('H*', 'd8a4'), pack('H*', 'd988'), $string); # و
+		$string = str_replace(pack('H*', 'd983'), pack('H*', 'daa9'), $string); # ک
+		
+		$string = preg_replace('#[[:space:]]+#iu', ' ', $string);
 		$string = preg_replace('#\p{Cf}+#iu', ' ', $string); # zwnj, etc.;
-		$string = preg_replace('#ـ#iu', '', $string); # مـزمل
+		$string = preg_replace('#\p{M}+#iu', '', $string);
 		
 		return trim($string);
 	}
@@ -80,28 +83,28 @@ class Helpers {
 		$converted = $result = array();
 		
 		$alphabet = array(
-			'~A~' => '۰',	'~B~' => '۱',	'~C~' => '۲',
-			'~D~' => '۳',	'~E~' => '۴',	'~F~' => '۵',
-			'~G~' => '۶',	'~H~' => '۷',	'~I~' => '۸',
-			'~J~' => '۹',
+			'~A~' => pack('H*', 'd9a0'),	'~B~' => pack('H*', 'd9a1'),	'~C~' => pack('H*', 'd9a2'),
+			'~D~' => pack('H*', 'd9a3'),	'~E~' => pack('H*', 'd9a4'),	'~F~' => pack('H*', 'd9a5'),
+			'~G~' => pack('H*', 'd9a6'),	'~H~' => pack('H*', 'd9a7'),	'~I~' => pack('H*', 'd9a8'),
+			'~J~' => pack('H*', 'd9a9'),
 			'~A0~' => '0',	'~B1~' => '1',	'~C2~' => '2',
 			'~D3~' => '3',	'~E4~' => '4',	'~F5~' => '5',
 			'~G6~' => '6',	'~H7~' => '7',	'~I8~' => '8',
 			'~J9~' => '9',
-			'~K~' => 'آ',	'~L~' => 'ا',
-			'~M~' => 'أ',	'~N~' => 'إ',	'~O~' => 'ؤ',
-			'~P~' => 'ئ',	'~Q~' => 'ء',	'~R~' => 'ب',
-			'~S~' => 'پ',	'~T~' => 'ت',	'~U~' => 'ث',
-			'~V~' => 'ج',	'~W~' => 'چ',	'~X~' => 'ح',
-			'~Y~' => 'خ',	'~Z~' => 'د',	'~a~' => 'ذ',
-			'~b~' => 'ر',	'~c~' => 'ز',	'~d~' => 'ژ',
-			'~e~' => 'س',	'~f~' => 'ش',	'~g~' => 'ص',
-			'~h~' => 'ض',	'~i~' => 'ط',	'~j~' => 'ظ',
-			'~k~' => 'ع',	'~l~' => 'غ',	'~m~' => 'ف',
-			'~n~' => 'ق',	'~o~' => 'ک',	'~p~' => 'ك',	'~q~' => 'گ',
-			'~r~' => 'ل',	'~s~' => 'م',	'~t~' => 'ن',
-			'~u~' => 'و',	'~v~' => 'ه',	'~w~' => 'ی',
-			'~x~' => 'ي',	'~y~' => 'ۀ',	'~z~' => 'ة'
+			'~K~' => pack('H*', 'd8a2'),	'~L~' => pack('H*', 'd8a7'),
+			'~M~' => pack('H*', 'd8a3'),	'~N~' => pack('H*', 'd8a5'),	'~O~' => pack('H*', 'd8a4'),
+			'~P~' => pack('H*', 'd8a6'),	'~Q~' => pack('H*', 'd8a1'),	'~R~' => pack('H*', 'd8a8'),
+			'~S~' => pack('H*', 'd9be'),	'~T~' => pack('H*', 'd8aa'),	'~U~' => pack('H*', 'd8ab'),
+			'~V~' => pack('H*', 'd8ac'),	'~W~' => pack('H*', 'da86'),	'~X~' => pack('H*', 'd8ad'),
+			'~Y~' => pack('H*', 'd8ae'),	'~Z~' => pack('H*', 'd8af'),	'~a~' => pack('H*', 'd8b0'),
+			'~b~' => pack('H*', 'd8b1'),	'~c~' => pack('H*', 'd8b2'),	'~d~' => pack('H*', 'da98'),
+			'~e~' => pack('H*', 'd8b3'),	'~f~' => pack('H*', 'd8b4'),	'~g~' => pack('H*', 'd8b5'),
+			'~h~' => pack('H*', 'd8b6'),	'~i~' => pack('H*', 'd8b7'),	'~j~' => pack('H*', 'd8b8'),
+			'~k~' => pack('H*', 'd8b9'),	'~l~' => pack('H*', 'd8ba'),	'~m~' => pack('H*', 'd981'),
+			'~n~' => pack('H*', 'd982'),	'~o~' => pack('H*', 'daa9'),	'~p~' => pack('H*', 'd983'),	'~q~' => pack('H*', 'daaf'),
+			'~r~' => pack('H*', 'd984'),	'~s~' => pack('H*', 'd985'),	'~t~' => pack('H*', 'd986'),
+			'~u~' => pack('H*', 'd988'),	'~v~' => pack('H*', 'd987'),	'~w~' => pack('H*', 'db8c'),
+			'~x~' => pack('H*', 'd98a'),	'~y~' => pack('H*', 'db80'),	'~z~' => pack('H*', 'd8a9')
 		);
 		
 		$searchArray = array_values($alphabet);
@@ -148,28 +151,28 @@ class Helpers {
 		$converted = $result = array();
 		
 		$alphabet = array(
-			'~A~' => '۰',	'~B~' => '۱',	'~C~' => '۲',
-			'~D~' => '۳',	'~E~' => '۴',	'~F~' => '۵',
-			'~G~' => '۶',	'~H~' => '۷',	'~I~' => '۸',
-			'~J~' => '۹',
+			'~A~' => pack('H*', 'd9a0'),	'~B~' => pack('H*', 'd9a1'),	'~C~' => pack('H*', 'd9a2'),
+			'~D~' => pack('H*', 'd9a3'),	'~E~' => pack('H*', 'd9a4'),	'~F~' => pack('H*', 'd9a5'),
+			'~G~' => pack('H*', 'd9a6'),	'~H~' => pack('H*', 'd9a7'),	'~I~' => pack('H*', 'd9a8'),
+			'~J~' => pack('H*', 'd9a9'),
 			'~A0~' => '0',	'~B1~' => '1',	'~C2~' => '2',
 			'~D3~' => '3',	'~E4~' => '4',	'~F5~' => '5',
 			'~G6~' => '6',	'~H7~' => '7',	'~I8~' => '8',
 			'~J9~' => '9',
-			'~K~' => 'آ',	'~L~' => 'ا',
-			'~M~' => 'أ',	'~N~' => 'إ',	'~O~' => 'ؤ',
-			'~P~' => 'ئ',	'~Q~' => 'ء',	'~R~' => 'ب',
-			'~S~' => 'پ',	'~T~' => 'ت',	'~U~' => 'ث',
-			'~V~' => 'ج',	'~W~' => 'چ',	'~X~' => 'ح',
-			'~Y~' => 'خ',	'~Z~' => 'د',	'~a~' => 'ذ',
-			'~b~' => 'ر',	'~c~' => 'ز',	'~d~' => 'ژ',
-			'~e~' => 'س',	'~f~' => 'ش',	'~g~' => 'ص',
-			'~h~' => 'ض',	'~i~' => 'ط',	'~j~' => 'ظ',
-			'~k~' => 'ع',	'~l~' => 'غ',	'~m~' => 'ف',
-			'~n~' => 'ق',	'~o~' => 'ک',	'~p~' => 'ك',	'~q~' => 'گ',
-			'~r~' => 'ل',	'~s~' => 'م',	'~t~' => 'ن',
-			'~u~' => 'و',	'~v~' => 'ه',	'~w~' => 'ی',
-			'~x~' => 'ي',	'~y~' => 'ۀ',	'~z~' => 'ة'
+			'~K~' => pack('H*', 'd8a2'),	'~L~' => pack('H*', 'd8a7'),
+			'~M~' => pack('H*', 'd8a3'),	'~N~' => pack('H*', 'd8a5'),	'~O~' => pack('H*', 'd8a4'),
+			'~P~' => pack('H*', 'd8a6'),	'~Q~' => pack('H*', 'd8a1'),	'~R~' => pack('H*', 'd8a8'),
+			'~S~' => pack('H*', 'd9be'),	'~T~' => pack('H*', 'd8aa'),	'~U~' => pack('H*', 'd8ab'),
+			'~V~' => pack('H*', 'd8ac'),	'~W~' => pack('H*', 'da86'),	'~X~' => pack('H*', 'd8ad'),
+			'~Y~' => pack('H*', 'd8ae'),	'~Z~' => pack('H*', 'd8af'),	'~a~' => pack('H*', 'd8b0'),
+			'~b~' => pack('H*', 'd8b1'),	'~c~' => pack('H*', 'd8b2'),	'~d~' => pack('H*', 'da98'),
+			'~e~' => pack('H*', 'd8b3'),	'~f~' => pack('H*', 'd8b4'),	'~g~' => pack('H*', 'd8b5'),
+			'~h~' => pack('H*', 'd8b6'),	'~i~' => pack('H*', 'd8b7'),	'~j~' => pack('H*', 'd8b8'),
+			'~k~' => pack('H*', 'd8b9'),	'~l~' => pack('H*', 'd8ba'),	'~m~' => pack('H*', 'd981'),
+			'~n~' => pack('H*', 'd982'),	'~o~' => pack('H*', 'daa9'),	'~p~' => pack('H*', 'd983'),	'~q~' => pack('H*', 'daaf'),
+			'~r~' => pack('H*', 'd984'),	'~s~' => pack('H*', 'd985'),	'~t~' => pack('H*', 'd986'),
+			'~u~' => pack('H*', 'd988'),	'~v~' => pack('H*', 'd987'),	'~w~' => pack('H*', 'db8c'),
+			'~x~' => pack('H*', 'd98a'),	'~y~' => pack('H*', 'db80'),	'~z~' => pack('H*', 'd8a9')
 		);
 		
 		$searchArray = array_values($alphabet);
@@ -230,15 +233,15 @@ class Helpers {
 		
 		$persianizedXMLContent = $persianizedXML->saveXML();
 		
-		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s="([^"]+)")#iu', BOOK_ATTR_DISPLAYNAME), function ($matches)
+		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s[[:space:]]*=[[:space:]]*"([^"]+)")#iu', BOOK_ATTR_DISPLAYNAME), function ($matches)
 		{
-			return $matches[1] . ' tmpdisplayname="' . self::persianizeString($matches[2]) . '"';
+			return sprintf('%s tmpdisplayname="%s"', $matches[1], self::persianizeString($matches[2]));
 		},
 		$persianizedXMLContent);
 		
 		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s="([^"]+)")#iu', BOOK_ATTR_AUTHOR), function ($matches)
 		{
-			return $matches[1] . ' tmpauthor="' . self::persianizeString($matches[2]) . '"';
+			return sprintf('%s tmpauthor="%s"', $matches[1], self::persianizeString($matches[2]));
 		},
 		$persianizedXMLContent);
 		
@@ -297,33 +300,37 @@ class Helpers {
 		$xml = self::getPersianizedXMLObject();
 		$xpath = new DOMXpath($xml);
 		
+		$suggestArray = array();
+		$finalArray = array();
+		
 		$query = self::persianizeString($query);
 		
-		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpdisplayname', $query);
+		$xpathQuery = sprintf('//%s[contains(@%s, \'%s\')]', BOOK_NODE, 'tmpdisplayname', $query);
+		$bookSet = $xpath->query($xpathQuery, $xml);
 		
-		$set1 = $xpath->query($xpathQuery, $xml);
-		$return1 = array();
-		$output = array();
-		
-		// foreach ($set1 as $node)
-		// {
-			// $return1[$node->getAttribute(BOOK_ATTR_NAME)] = $node->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$node->getAttribute(BOOK_ATTR_AUTHOR).')';
-		// }
-		for ($i=0, $j=0; ($i<$set1->length and $j<$limit); $i++, $j++)
+		for ($i=0, $j=0, $k=$bookSet->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
 		{
-			$return1[$set1->item($i)->getAttribute(BOOK_ATTR_NAME)] = $set1->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$set1->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+			$suggestArray[$bookSet->item($i)->getAttribute(BOOK_ATTR_NAME)] = $bookSet->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$bookSet->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
 		}
 		
-		$return1 = self::psort($return1);
+		$xpathQuery = sprintf('//%s[contains(@%s, \'%s\')]', BOOK_NODE, 'tmpauthor', $query);
+		$authorSet = $xpath->query($xpathQuery, $xml);
 		
-		foreach ($return1 as $key => $value)
+		for ($i=0, $j=0, $k=$authorSet->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
 		{
-			$output[] = array('label' => $value, 'value' => $key);
+			$suggestArray[$authorSet->item($i)->getAttribute(BOOK_ATTR_NAME)] = $authorSet->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$authorSet->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
 		}
 		
+		$suggestArray = self::psort($suggestArray);
 		
-		return $output;
+		$suggestArray = array_chunk($suggestArray, (2*$limit), true)[0];
 		
+		foreach ($suggestArray as $key => $value)
+		{
+			$finalArray[] = array('label' => $value, 'value' => $key);
+		}
+		
+		return $finalArray;
 	}
 	
 	public static function getBookIdArray()
