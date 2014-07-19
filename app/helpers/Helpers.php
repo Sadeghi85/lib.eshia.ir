@@ -51,17 +51,6 @@ class Helpers {
 		return trim($string);
 	}
 	
-	public static function persianizeUrl($string)
-	{
-		$string = urldecode($string);
-		$string = preg_replace('#_+#iu', ' ', $string);
-		$string = preg_replace('#[\'"\\\0\\\\]#iu', '', $string);
-		
-		$string = self::persianizeString($string);
-		
-		return $string;
-	}
-	
 	/**
 	 * psort : Persian array sorting function
 	 * 
@@ -304,29 +293,66 @@ class Helpers {
 		$finalArray = array();
 		
 		$query = self::persianizeString($query);
+		$queries = explode(' ', $query);
 		
-		$xpathQuery = sprintf('//%s[contains(@%s, \'%s\')]', BOOK_NODE, 'tmpdisplayname', $query);
-		$bookSet = $xpath->query($xpathQuery, $xml);
+		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpdisplayname', $query);
+		$nodes = $xpath->query($xpathQuery, $xml);
 		
-		for ($i=0, $j=0, $k=$bookSet->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
+		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
 		{
-			$suggestArray[$bookSet->item($i)->getAttribute(BOOK_ATTR_NAME)] = $bookSet->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$bookSet->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
 		}
 		
-		$xpathQuery = sprintf('//%s[contains(@%s, \'%s\')]', BOOK_NODE, 'tmpauthor', $query);
-		$authorSet = $xpath->query($xpathQuery, $xml);
-		
-		for ($i=0, $j=0, $k=$authorSet->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
+		$xpathQuery = sprintf('//%s[', BOOK_NODE);
+		foreach ($queries as $q)
 		{
-			$suggestArray[$authorSet->item($i)->getAttribute(BOOK_ATTR_NAME)] = $authorSet->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$authorSet->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+			$xpathQuery .= sprintf('contains(@%s, \'%s\') and ', 'tmpdisplayname', $q);
+		}
+		$xpathQuery .= '1]';
+		$nodes = $xpath->query($xpathQuery, $xml);
+		
+		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
+		{
+			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
 		}
 		
-		$suggestArray = self::psort($suggestArray);
+		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpauthor', $query);
+		$nodes = $xpath->query($xpathQuery, $xml);
+		
+		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
+		{
+			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+		}
+		
+		$xpathQuery = sprintf('//%s[', BOOK_NODE);
+		foreach ($queries as $q)
+		{
+			$xpathQuery .= sprintf('contains(@%s, \'%s\') and ', 'tmpauthor', $q);
+		}
+		$xpathQuery .= '1]';
+		$nodes = $xpath->query($xpathQuery, $xml);
+		
+		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
+		{
+			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+		}
 		
 		$suggestArray = array_chunk($suggestArray, (2*$limit), true)[0];
 		
 		foreach ($suggestArray as $key => $value)
 		{
+			foreach ($queries as $q)
+			{
+				$q = preg_quote($q);
+				$q = str_replace(pack('H*', 'db8c'), sprintf('(?:%s|%s|%s|%s)', pack('H*', 'db8c'), pack('H*', 'd98a'), pack('H*', 'd989'), pack('H*', 'd8a6')), $q); # ی
+				$q = str_replace(pack('H*', 'd8a7'), sprintf('(?:%s|%s|%s|%s)', pack('H*', 'd8a7'), pack('H*', 'd8a5'), pack('H*', 'd8a3'), pack('H*', 'd8a2')), $q); # ا
+				$q = str_replace(pack('H*', 'd987'), sprintf('(?:%s|%s|%s)', pack('H*', 'd987'), pack('H*', 'd8a9'), pack('H*', 'db80')), $q); # ه
+				$q = str_replace(pack('H*', 'd988'), sprintf('(?:%s|%s)', pack('H*', 'd988'), pack('H*', 'd8a4')), $q); # و
+				$q = str_replace(pack('H*', 'daa9'), sprintf('(?:%s|%s)', pack('H*', 'daa9'), pack('H*', 'd983')), $q); # ک
+			
+				$value = preg_replace(sprintf('#[\p{L}\p{M}\p{Cf}]*%s[\p{L}\p{M}\p{Cf}]*#iu', $q), sprintf('<span class="hilight_suggestion">%s</span>', '$0'), $value);
+			}
+			
 			$finalArray[] = array('label' => $value, 'value' => $key);
 		}
 		

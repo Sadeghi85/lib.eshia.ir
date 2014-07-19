@@ -938,6 +938,9 @@ text-align:center;
 .hilight {
 	color:#FF0000;
 }
+.hilight_suggestion {
+	color:#f66127;
+}
 .pageSelectorPanel {
 	text-align: right;
 	margin-right: auto;

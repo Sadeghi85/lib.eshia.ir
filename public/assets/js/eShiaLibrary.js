@@ -106,11 +106,22 @@ function mark_s(id)
 {
 	document.getElementById(id).style.backgroundColor = '#f66127';
 	document.getElementById(id).style.color = '#FFFFFF';
+	
+	var hilights = document.getElementById(id).getElementsByClassName('hilight_suggestion');
+	for (var i=0; i<hilights.length; i++) {
+		hilights[i].style.color = '#FFFFFF';
+	}
+
 }
 function unmark_s(id)
 {
 	document.getElementById(id).style.backgroundColor = '#a9c3d9';
 	document.getElementById(id).style.color = '#FFFFFF';
+	
+	var hilights = document.getElementById(id).getElementsByClassName('hilight_suggestion');
+	for (var i=0; i<hilights.length; i++) {
+		hilights[i].style.color = '#f66127';
+	}
 }
 function select_s(id, submit)
 {
