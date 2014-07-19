@@ -337,7 +337,10 @@ class Helpers {
 			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
 		}
 		
-		$suggestArray = array_chunk($suggestArray, (2*$limit), true)[0];
+		$suggestArray = array_first(array_chunk($suggestArray, (2*$limit), true), function($key, $value)
+		{
+			return $key == 0;
+		}, array());
 		
 		foreach ($suggestArray as $key => $value)
 		{

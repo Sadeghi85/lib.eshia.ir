@@ -139,7 +139,7 @@ class PageController extends BaseController {
 									'html_strip_mode' => 'retain',
 									'load_files' => false,
 									'allow_empty' => false,
-									'before_match' => '<span class="hilight"><a name="hm"></a>',
+									'before_match' => '<span class="hilight">',
 									'after_match' => '</span>'
 								)
 							);
