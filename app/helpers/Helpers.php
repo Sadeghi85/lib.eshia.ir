@@ -362,13 +362,18 @@ class Helpers {
 		return $finalArray;
 	}
 	
-	public static function getBookIdArray()
+	public static function getBookIdArray($groupKey = '')
 	{
 		$_xmlObject = self::getXMLObject();
 		
 		$xpath = new DOMXpath($_xmlObject);
 		
-		$xpathQuery = sprintf('//%s', BOOK_NODE);
+		if ( ! $groupKey)
+		{
+			$groupKey = sprintf('//%s', BOOK_NODE);
+		}
+		
+		$xpathQuery = $groupKey;
 		
 		$books = $xpath->query($xpathQuery, $_xmlObject);
 		
@@ -387,6 +392,13 @@ class Helpers {
 	public static function getEncodedRequestUri()
 	{
 		return base64_encode(Request::Url());
+	}
+	
+	public static function redirect($path, $status = 302, $headers = array(), $secure = null)
+	{
+		$path = preg_replace('#\++|(%20)+| +#', '_', $path);
+		
+		return Redirect::to($path, $status, $headers, $secure);
 	}
 	
 	public static function to($path = null, $parameters = array(), $secure = null)

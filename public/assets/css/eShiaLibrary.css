@@ -863,7 +863,8 @@ text-align:center;
 /*------End of page query------------------------------------------------------------------------------------------*/
 /* AdvancedSearch */
 .Page_advancedSearch INPUT {
-	font-size: 100%;
+	font-size: 17px;
+	width: 70%;
 }
 .Page_advancedSearch H5 {
 	text-align: right;
@@ -871,18 +872,23 @@ text-align:center;
 }
 .Page_advancedSearch TABLE {
 	margin-right: 2em;
-	width: 95%;
+	width: 100%;
 }
 .tdLabel {
-	width: 20%;
-	min-width: 180px;
-	font-size: 90%;
+	width: 25%;
+	min-width: 220px;
+	font-size: 17px;
 }
 .tdInput {
 	width: 100%;
 }
+.Page_advancedSearch INPUT[type=radio] {
+	font-size: 17px;
+	width: 10%;
+}
 .Page_advancedSearch INPUT[type=submit] {
-	font-size: 75%;
+	font-size: 17px;
+	width: 10%;
 }
 /* books tree */
 .BookGroup {

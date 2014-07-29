@@ -23,6 +23,9 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	->where(array('id' => '\d+', 'query' => '.+'));
 	Route::get('/search/{query}', array('uses' => 'SearchController@showPage'))
 	->where('query', '.+');
+	// Advanced Search
+	Route::get('/advanced-search', array('uses' => 'SearchController@showAdvancedPage'));
+	Route::post('/advanced-search', array('uses' => 'SearchController@processAdvancedPage'));
 	
 	// Page
 	Route::match(array('GET', 'POST'), '/{id}/{volume?}/{page?}/{highlight?}', array('uses' => 'PageController@showPage'))

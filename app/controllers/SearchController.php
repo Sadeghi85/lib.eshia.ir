@@ -45,7 +45,7 @@ class SearchController extends BaseController {
 		}
 		else
 		{
-			$sphinx->setFilter('bookid', Helpers::getBookIdArray());
+			$sphinx->setFilter('bookid', Helpers::getBookIdArray(base64_decode(urldecode(Input::get('groupKey', '')))));
 		}
 		
 		$sphinx->setLimits(($page - 1) * $perPage, $perPage, 1000);
@@ -80,17 +80,11 @@ class SearchController extends BaseController {
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
-			
 				$xpathQuery = sprintf('//%s[@%s=\'%s\']', BOOK_NODE, BOOK_ATTR_NAME, $thisPage[$i]['attrs']['bookid']);
 				$bookNode = $xpath->query($xpathQuery, $this->_xmlObject);
 				
-
 				$thisPage[$i]['attrs']['bookName'] = $bookNode->item(0)->getAttribute(BOOK_ATTR_DISPLAYNAME);
-
-				
 				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
-				
-
 			}
 
 			$paginator = Paginator::make($thisPage, min($results['total'], 1000), $perPage);
@@ -113,4 +107,72 @@ class SearchController extends BaseController {
 		
 		App::abort('404');
 	}
+	
+	public function showAdvancedPage()
+	{
+		$xpath = new DOMXpath($this->_xmlObject);
+		
+		$xpathQuery = sprintf('//%s', GROUP_NODE);
+		$groupNode = $xpath->query($xpathQuery, $this->_xmlObject);
+		
+		$groupArray = array();
+		
+		foreach ($groupNode as $group)
+		{
+			$depth = 0;
+			$groupKey = '/';
+			$node = $group;
+			
+			do
+			{
+				if (($node instanceof DOMElement) and ($node->hasAttribute(GROUP_ATTR_NAME)))
+				{
+					++$depth;
+					$groupKey .= sprintf('/%s[@%s=\'%s\']', GROUP_NODE, GROUP_ATTR_NAME, $node->getAttribute(GROUP_ATTR_NAME));
+					
+				}
+			}
+			while ($node = $node->parentNode);
+			
+			$groupKey = base64_encode(sprintf('%s//%s', $groupKey, BOOK_NODE));
+			$groupArray[$groupKey] = sprintf('%s&nbsp;%s', str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth).str_repeat('-', $depth), $group->getAttribute(GROUP_ATTR_NAME));
+		}
+		
+		return View::make('advanced_search')->with('groupArray', $groupArray);
+	}
+	
+	public function processAdvancedPage()
+	{
+		if (Input::get('groupWhere', '') == 'groupOne')
+		{
+			$groupKey = urlencode(Input::get('groupKey', ''));
+		}
+		
+		$and = Input::get('and', '');
+		$and = trim(preg_replace('#[[:space:]]+#', ' ', $and));
+		
+		$or = Input::get('or', '');
+		$or = trim(preg_replace('#[[:space:]]+#', ' ', $or));
+		if ($or) { $or = sprintf('(%s)', preg_replace('# #', ' | ', $or)); }
+		
+		$not = Input::get('not', '');
+		$not = trim(preg_replace('#[[:space:]]+#', ' ', $not));
+		if ($not) { $not = preg_replace('#(?:^|(?<= ))([^[:space:]]+)#', '!$1', $not); }
+		
+		$phrase = Input::get('phrase', '');
+		if ($phrase) { $phrase = sprintf('"%s"', trim(preg_replace('#[[:space:]]+#', ' ', $phrase))); }
+		
+		$query = trim(preg_replace('#[[:space:]]+#', ' ', sprintf('%s %s %s %s', $phrase, $or, $not, $and)));
+		
+		if (isset($groupKey))
+		{
+			return Helpers::redirect(sprintf('/search/%s?groupKey=%s', $query, $groupKey));
+		}
+		else
+		{
+			return Helpers::redirect(sprintf('/search/%s', $query));
+		}
+	}
+	
+	
 }

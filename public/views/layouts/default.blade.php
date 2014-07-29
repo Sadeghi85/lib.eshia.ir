@@ -59,6 +59,7 @@
 						<td class="header-link">
 							<span><a href="@lang('app.change_lang_link')">@lang('app.change_lang')</a></span>
 							<span><a href="/help" title="@lang('app.lib_help')">@lang('app.lib_help')</a></span>
+							<span><a href="/advanced-search" title="@lang('app.advanced_search')">@lang('app.advanced_search')</a></span>
 						</td>
 					</tr>
 			   </table>
