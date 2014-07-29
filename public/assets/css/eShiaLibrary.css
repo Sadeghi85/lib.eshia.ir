@@ -271,7 +271,7 @@ input {
 	border:2px solid #697a89;
 	padding:10px;
 	font-size: 0.8em;
-	line-height: 310%;
+	line-height: 260%;
 	min-height:300px;
 	width:89%;
 	height:auto;
@@ -500,7 +500,7 @@ text-align:center;
 	height: 22px;
 	max-height: 22px;
 	margin: 0px;
-	padding: 2px 5px 2px 35px;
+	padding: 2px 5px 2px 50px;
 }
 #Tools a {
 	color: #7d98ae;
@@ -536,7 +536,8 @@ text-align:center;
 
 .Tools-serach-table {
 	border:none;
-	width:100%;	
+	width:100%;
+	line-height: 100%;
 }
 
 .Tools-serach-input-td {
@@ -560,11 +561,12 @@ text-align:center;
 .Tools-serach #searchContentInput1, .Tools-serach #searchContentInput2 {
 	border: none;
 	color: #7d98ae;
-	font-size: 1.2em;
+	font-size: 18px;
 	width:100%;
-	margin: 5px 0;
+	margin: 0;
+	padding: 0;
 	outline: none;
-	height:20px;
+	height:28px;
 	font-weight:normal !important;
 }
 .dofindButton {

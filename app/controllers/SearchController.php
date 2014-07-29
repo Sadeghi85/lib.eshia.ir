@@ -88,7 +88,7 @@ class SearchController extends BaseController {
 			}
 
 			$paginator = Paginator::make($thisPage, min($results['total'], 1000), $perPage);
-			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query)));
+			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query), 'id' => $id));
 		}
 		
 		if ($page > 1)

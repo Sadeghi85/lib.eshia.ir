@@ -2,26 +2,42 @@
 <?php if ( ! defined('VIEW_IS_ALLOWED')) { ob_clean(); die(); } ?>
 
 @section('content')
+
+@php
+	$searchLabel = isset($id) ? trans('app.search_in_this_book') : trans('app.default_search');
+@endphp
+
 <div id="contents">
 	<div id="contents_cover" class="Page_showPage">
 		<table class="content_headers" align="center" cellpadding="0" cellspacing="0">
 			
 			<tr>
-				<td class="Tools-serach">
-					<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, '{{ isset($id) ? $id : '' }}');return false;">
-
-					<table class="Tools-serach-table">
+				<td>
+				<table class="Tools-Table" align="right">
 					<tr>
-					<td class="Tools-serach-input-td">
-					<input id="searchContentInput1" value="{{ isset($query) ? htmlspecialchars(urldecode($query)) : trans('app.default_search') }}" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
-					</td>
-					<td class="Tools-serach-submit-td">
-					
-					<input class="dofindButton" type="submit" value="" />
-					</td>
+					@if (isset($id))
+						<td class="Tools-index">
+							<a href="{{ sprintf('/%s/', $id) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.first_page')) }}">@lang('app.first_page')</a>
+						</td>
+					@endif
+						<td class="Tools-serach">
+							<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, '{{ isset($id) ? $id : '' }}');return false;">
+
+							<table class="Tools-serach-table">
+							<tr>
+							<td class="Tools-serach-input-td">
+							<input id="searchContentInput1" value="{{ isset($query) ? htmlspecialchars(urldecode($query)) : $searchLabel }}" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '{{ $searchLabel }}') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '{{ $searchLabel }}'; this.className='empty-search-item'}" />
+							</td>
+							<td class="Tools-serach-submit-td">
+							
+							<input class="dofindButton" type="submit" value="" />
+							</td>
+							</tr>
+							</table>
+							</form>
+						</td>
 					</tr>
-					</table>
-					</form>
+				</table>
 				</td>
 			</tr>
                 
@@ -69,164 +85,35 @@
 			</tr>
 
 			<tr>
-			<td class="Tools-serach">
-					<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, '{{ isset($id) ? $id : '' }}');return false;">
-
-					<table class="Tools-serach-table">
+				<td>
+				<table class="Tools-Table" align="right">
 					<tr>
-					<td class="Tools-serach-input-td">
-					<input id="searchContentInput2" value="{{ isset($query) ? htmlspecialchars(urldecode($query)) : trans('app.default_search') }}" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}" />
-					</td>
-					<td class="Tools-serach-submit-td">
-					
-					<input class="dofindButton" type="submit" value="" />
-					</td>
+					@if (isset($id))
+						<td class="Tools-index">
+							<a href="{{ sprintf('/%s/', $id) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.first_page')) }}">@lang('app.first_page')</a>
+						</td>
+					@endif
+						<td class="Tools-serach">
+							<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, '{{ isset($id) ? $id : '' }}');return false;">
+
+							<table class="Tools-serach-table">
+							<tr>
+							<td class="Tools-serach-input-td">
+							<input id="searchContentInput2" value="{{ isset($query) ? htmlspecialchars(urldecode($query)) : $searchLabel }}" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '{{ $searchLabel }}') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '{{ $searchLabel }}'; this.className='empty-search-item'}" />
+							</td>
+							<td class="Tools-serach-submit-td">
+							
+							<input class="dofindButton" type="submit" value="" />
+							</td>
+							</tr>
+							</table>
+							</form>
+						</td>
 					</tr>
-					</table>
-					</form>
+				</table>
 				</td>
 			</tr>
 		</table>
 	</div>
 </div>
-
-@comment
-<a href="/">Home</a>
-	<div class="row">
-
-  <div class="col-lg-offset-36 col-lg-36">
-		{{ $results->links() }}
-  <p>found in {{ $time*1000 }} miliseconds.</p>
-  @foreach ($results as $result)
-	<div class="">
-		<h4>{{ $result['attrs']['path'] }}</h4>
-		<p>
-		{{ $result['attrs']['excerpt'] }}
-		</p>
-	</div>
-	<hr>
-  @endforeach
-  
-		{{ $results->links() }}
-  </div><!-- /.col-lg-6 -->
-
-</div><!-- /.row -->
-@endcomment
-
-
-
-
-
-
-
-@comment
-<!--        query,blade.php          -->
-
-
-				<div id="contents">
-				<div id="contents_cover" class="Page_showPage">
-				<table class="content_headers" align="center" cellpadding="0" cellspacing="0">
-				<tr>	
-				<td class="Tools-serach">
-
-				<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, '{{ isset($bookID) ? $bookID : '' }}');return false;">
-				<table class="Tools-serach-table">
-				<tr>
-				<td class="Tools-serach-input-td">
-				<input id="searchContentInput1" value="@lang('app.default_search')" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}">
-				</td>
-				<td class="Tools-serach-submit-td">
-				<input type="submit" value="" class="dofindButton">
-				</td>
-				</tr>
-				</table>
-				</form>
-				</td>	
-				</tr>
-
-				<tr>
-
-				@if ($resultCount == 0)
-				<td>	
-				<table class="Page-query-noresualt">
-				<tr>
-				<td>
-				<span class="not-found">@lang('app.query_search_result_not_found', array('query' => sprintf('<u><font color="#000000">%s</font></u>', $query)))</span>
-				</td>
-				</tr>
-				</table>
-				</td>
-				@else
-				<td>
-				<table class="pageSelectorPanel">
-				<tr>
-				<td class="pg-Left"><span class="result_count">{{ $resultCount }}</span>@lang('app.query_search_result')</td>
-				<td class="pg-right"><\?= $pagination_links ?></td>
-				</tr>
-				</table>
-				</td>
-				   
-				</tr>
-
-				<tr>
-				<td>
-				<table id='search-result'>
-				<\?php foreach($result_items as $item): ?>
-				<tr>
-				<td class="id"><\?= $item['index'] ?></td>
-				<td class="data">
-				<div class="result">
-				<\?= anchor($item['address'].'/'.$term, $item['label'], array('title' => '')) ?>
-				</div>
-				<div class="preview"><\?= $item['preview'] ?></div>
-				</td>
-				</tr>
-				<\?php endforeach; ?>
-				</table>
-				</td>
-				</tr>
-
-
-				<tr>
-				<td>
-				<table class="pageSelectorPanel">
-				<tr>
-				<td class="pg-Left"><span class="result_count">{{ $resultCount }}</span>@lang('app.query_search_result')</td>
-				<td class="pg-right"><\?= $pagination_links ?></td>
-				</tr>
-				</table>
-				</td>
-				</tr>
-				@endif
-
-				<tr>	
-				<td class="Tools-serach">
-				<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, '{{ isset($bookID) ? $bookID : '' }}');return false;">
-				<table class="Tools-serach-table">
-				<tr>
-				<td class="Tools-serach-input-td">
-				<input id="searchContentInput2" value="@lang('app.default_search')" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang('app.default_search')') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang('app.default_search')'; this.className='empty-search-item'}">
-				</td>
-				<td class="Tools-serach-submit-td">
-				<input type="submit" value="" class="dofindButton">
-				</td>
-				</tr>
-				</table>
-				</form>
-				</td>	
-				</tr>
-				</table>
-				</div>
-
-
-<!--        query,blade.php          -->
-
-@endcomment
-
-
-
-
-
-
-
 @stop
