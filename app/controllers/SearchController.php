@@ -120,7 +120,7 @@ class SearchController extends BaseController {
 		foreach ($groupNode as $group)
 		{
 			$depth = 0;
-			$groupKey = '/';
+			$groupKey = sprintf('/%s', BOOK_NODE);
 			$node = $group;
 			
 			do
@@ -128,13 +128,13 @@ class SearchController extends BaseController {
 				if (($node instanceof DOMElement) and ($node->hasAttribute(GROUP_ATTR_NAME)))
 				{
 					++$depth;
-					$groupKey .= sprintf('/%s[@%s=\'%s\']', GROUP_NODE, GROUP_ATTR_NAME, $node->getAttribute(GROUP_ATTR_NAME));
+					$groupKey = sprintf('%s[@%s=\'%s\']/%s', GROUP_NODE, GROUP_ATTR_NAME, $node->getAttribute(GROUP_ATTR_NAME), $groupKey);
 					
 				}
 			}
 			while ($node = $node->parentNode);
 			
-			$groupKey = base64_encode(sprintf('%s//%s', $groupKey, BOOK_NODE));
+			$groupKey = base64_encode(sprintf('/%s/%s', MAIN_NODE, $groupKey));
 			$groupArray[$groupKey] = sprintf('%s&nbsp;%s', str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth).str_repeat('-', $depth), $group->getAttribute(GROUP_ATTR_NAME));
 		}
 		

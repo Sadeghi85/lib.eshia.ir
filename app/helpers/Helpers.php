@@ -397,6 +397,7 @@ class Helpers {
 	public static function redirect($path, $status = 302, $headers = array(), $secure = null)
 	{
 		$path = preg_replace('#\++|(%20)+| +#', '_', $path);
+		$path = str_replace('"', '%22', $path);
 		
 		return Redirect::to($path, $status, $headers, $secure);
 	}

@@ -7,7 +7,7 @@
 		<table id="advancedsearch">
 		<tbody><tr>
 		<td>
-		<form name="frmQuery" method="post" action="">
+		<form name="frmQuery" method="post" >
 		<span class="tdLabel">&nbsp;</span>
 		<table id="advanced" cellspacing="0" cellpadding="0">
 		<tbody>
