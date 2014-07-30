@@ -18,7 +18,7 @@ App::before(function($request)
 	Session::forget('navigation.tabs');
 	Session::forget('navigation.segments');
 	
-	if (Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has(Helpers::getEncodedRequestUri()))
+	if (Request::server('REQUEST_METHOD') == 'GET' and Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has(Helpers::getEncodedRequestUri()))
 	{
 		$response = Response::make(Cache::get(Helpers::getEncodedRequestUri()), 200);
 		$response->header('X-Cache', 'HIT');

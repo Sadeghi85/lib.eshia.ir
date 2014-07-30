@@ -194,6 +194,7 @@ View::composer('partials/navigation', function($view)
 });
 
 // enable caching for near static contents
+View::composer('advanced_search', function($view) { Session::put('page.is.cacheable', true); });
 View::composer('index', function($view) { Session::put('page.is.cacheable', true); });
 View::composer('author_booklist', function($view) { Session::put('page.is.cacheable', true); });
 View::composer('authorlist', function($view) { Session::put('page.is.cacheable', true); });
