@@ -32,8 +32,6 @@
             </td>
 			</tr>
 
-	
-			
             <tr>
             <td>
 				<form method="post" action="{{ Request::url() }}" class="frmQuickAccess">
@@ -41,13 +39,11 @@
 				
 				<table align="center" class="BookAccessPanel">
 					<tr>
-					    
 						<td align="center">
 						@if ( ! is_null($firstPage))
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $firstPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.first_page')) }}">&nbsp;&nbsp;&nbsp;««{{ trans('app.first_page') }}&nbsp;&nbsp;&nbsp;</a>
 						@endif
 						</td>
-						
 						
 						<td align="center">
 						@if ( ! is_null($prevPage))
@@ -76,10 +72,7 @@
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $lastPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.last_page')) }}">&nbsp;&nbsp;&nbsp;{{ trans('app.last_page') }}»»&nbsp;&nbsp;&nbsp;</a>
 						@endif
 						</td>
-                         <td align="center">
-
-                         </td>
-                       
+                        <td align="center"> </td>
 					</tr>
 				</table>
 				</form>
@@ -97,12 +90,9 @@
         <tr>
         <td class="book-page-show">
 		{{ $content }}
-        
         </td>
         </tr>
-        
-       
-        
+
         <tr>
         <td class="Book_Title">
         	<span class="current_book_name"><font color="#eebb41">@lang('app.page_book_name')</font>&nbsp;{{ $bookName }}<font color="#eebb41">&nbsp;@lang('app.page_author')</font>&nbsp;{{ Helpers::link_to("/$authorName", $authorName, array('title' => '')) }}</span>
@@ -118,13 +108,11 @@
 				
 				<table align="center" class="BookAccessPanel">
 					<tr>
-					    
 						<td align="center">
 						@if ( ! is_null($firstPage))
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $firstPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.first_page')) }}">&nbsp;&nbsp;&nbsp;««{{ trans('app.first_page') }}&nbsp;&nbsp;&nbsp;</a>
 						@endif
 						</td>
-						
 						
 						<td align="center">
 						@if ( ! is_null($prevPage))
@@ -153,19 +141,13 @@
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $lastPage) }}" title="{{ sprintf('%s %s', trans('app.show'), trans('app.last_page')) }}">&nbsp;&nbsp;&nbsp;{{ trans('app.last_page') }}»»&nbsp;&nbsp;&nbsp;</a>
 						@endif
 						</td>
-                         <td align="center">
-
-                         </td>
-                       
+                        <td align="center"> </td>
 					</tr>
 				</table>
 				</form>
 		</td>
         </tr>
         
-       
-		
-
         <tr>	
             <td>
             <table class="Tools-Table" align="right">
@@ -188,18 +170,13 @@
 						</td></tr></table>
 						</form>
 					</td>
-					
 				</tr>
-				
 			</table>
             </td>
 			</tr>
         </table>
-
-		
 	</div>
 </div>
-
 @stop
 
 @section('javascript')
@@ -224,7 +201,7 @@
 		
 		if (hilights.length) {
 			var target = hilights[0];
-			window.scrollTo(0,cumulativeOffset(target).top-10);
+			window.scrollTo(0,cumulativeOffset(target).top-100);
 		}
 	</script>
 	

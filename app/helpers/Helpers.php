@@ -5,8 +5,6 @@ class Helpers {
 	private static $_xmlObject = null;
 	private static $_persianizedXMLObject = null;
 	
-	private static $_bookIdArray = array();
-	
 	public static function getCacheableFiles()
 	{
 		$Directory = new RecursiveDirectoryIterator(public_path() . '/views/');
@@ -201,6 +199,10 @@ class Helpers {
 			return '"'.preg_replace('#[[:space:]\p{Cf}]+$#iu', '', preg_replace('#^[[:space:]\p{Cf}]+#iu', '', $matches[1])).'"';
 		}, $xmlContent);
 		$xmlContent = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xmlContent);
+		if (strpos($xmlContent, '<?xml') === FALSE)
+		{
+			$xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . $xmlContent;
+		}
 		
 		$xml = new Sadeghi85\Extensions\DomDocument;
 		
@@ -222,15 +224,12 @@ class Helpers {
 		
 		$persianizedXMLContent = $persianizedXML->saveXML();
 		
-		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s[[:space:]]*=[[:space:]]*"([^"]+)")#iu', BOOK_ATTR_DISPLAYNAME), function ($matches)
+		$persianizedXMLContent = preg_replace_callback(sprintf('#<%s [^>]+#', BOOK_NODE), function ($matches)
 		{
-			return sprintf('%s tmpdisplayname="%s"', $matches[1], self::persianizeString($matches[2]));
-		},
-		$persianizedXMLContent);
-		
-		$persianizedXMLContent = preg_replace_callback(sprintf('#(%s="([^"]+)")#iu', BOOK_ATTR_AUTHOR), function ($matches)
-		{
-			return sprintf('%s tmpauthor="%s"', $matches[1], self::persianizeString($matches[2]));
+			preg_match(sprintf('#%s[[:space:]]*=[[:space:]]*"([^"]+)"#iu', BOOK_ATTR_DISPLAYNAME), $matches[0], $bookName);
+			preg_match(sprintf('#%s[[:space:]]*=[[:space:]]*"([^"]+)"#iu', BOOK_ATTR_AUTHOR), $matches[0], $authorName);
+			
+			return sprintf('%s tmpSuggest="%s"', $matches[0], self::persianizeString(sprintf('%s (%s)', $bookName[1], $authorName[1])));
 		},
 		$persianizedXMLContent);
 		
@@ -246,42 +245,39 @@ class Helpers {
 		return $persianizedXML;
 	}
 	
-	public static function getXMLObject()
+	public static function getXMLObject($persianized = false)
 	{
-		if ( ! is_object(self::$_xmlObject))
+		if ( ! is_object(self::$_xmlObject) or ($persianized and ! is_object(self::$_persianizedXMLObject)))
 		{
-			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('xml.object'))
+			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('xml.object') and Cache::has('persianized.xml.object'))
 			{
-				self::$_xmlObject = unserialize(Cache::get('xml.object'));
+				if ($persianized)
+				{
+					self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
+				}
+				else
+				{
+					self::$_xmlObject = unserialize(Cache::get('xml.object'));
+				}
 			}
 			else
 			{
 				Cache::flush();
+				
 				self::$_xmlObject = self::loadXML();
 				Cache::forever('xml.object', serialize(self::$_xmlObject));
-			}
-		}
-		
-		return self::$_xmlObject;
-	}
-	
-	public static function getPersianizedXMLObject()
-	{
-		if ( ! is_object(self::$_persianizedXMLObject))
-		{
-			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('persianized.xml.object'))
-			{
-				self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
-			}
-			else
-			{
-				Cache::flush();
+				
 				self::$_persianizedXMLObject = self::loadPersianizedXML();
 				Cache::forever('persianized.xml.object', serialize(self::$_persianizedXMLObject));
 			}
 		}
 		
-		return self::$_persianizedXMLObject;
+		return $persianized ? self::$_persianizedXMLObject : self::$_xmlObject;
+	}
+	
+	public static function getPersianizedXMLObject()
+	{
+		return self::getXMLObject($persianized = true);
 	}
 	
 	public static function getSuggestions($query, $limit = 10)
@@ -293,48 +289,28 @@ class Helpers {
 		$finalArray = array();
 		
 		$query = self::persianizeString($query);
+		if ( ! $query) return array();
 		$queries = explode(' ', $query);
 		
-		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpdisplayname', $query);
+		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpSuggest', $query);
 		$nodes = $xpath->query($xpathQuery, $xml);
 		
 		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
 		{
-			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = sprintf('%s (%s)', $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME), $nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR));
 		}
 		
 		$xpathQuery = sprintf('//%s[', BOOK_NODE);
 		foreach ($queries as $q)
 		{
-			$xpathQuery .= sprintf('contains(@%s, \'%s\') and ', 'tmpdisplayname', $q);
+			$xpathQuery .= sprintf('contains(@%s, \'%s\') and ', 'tmpSuggest', $q);
 		}
 		$xpathQuery .= '1]';
 		$nodes = $xpath->query($xpathQuery, $xml);
 		
 		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
 		{
-			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
-		}
-		
-		$xpathQuery = sprintf('//%s[starts-with(@%s, \'%s\')]', BOOK_NODE, 'tmpauthor', $query);
-		$nodes = $xpath->query($xpathQuery, $xml);
-		
-		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
-		{
-			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
-		}
-		
-		$xpathQuery = sprintf('//%s[', BOOK_NODE);
-		foreach ($queries as $q)
-		{
-			$xpathQuery .= sprintf('contains(@%s, \'%s\') and ', 'tmpauthor', $q);
-		}
-		$xpathQuery .= '1]';
-		$nodes = $xpath->query($xpathQuery, $xml);
-		
-		for ($i=0, $j=0, $k=$nodes->length; ($i<$k and $j<(2*$limit)); $i++, $j++)
-		{
-			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME).' '.'('.$nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR).')';
+			$suggestArray[$nodes->item($i)->getAttribute(BOOK_ATTR_NAME)] = sprintf('%s (%s)', $nodes->item($i)->getAttribute(BOOK_ATTR_DISPLAYNAME), $nodes->item($i)->getAttribute(BOOK_ATTR_AUTHOR));
 		}
 		
 		$suggestArray = array_first(array_chunk($suggestArray, (2*$limit), true), function($key, $value)
@@ -362,18 +338,23 @@ class Helpers {
 		return $finalArray;
 	}
 	
-	public static function getBookIdArray($groupKey = '')
+	public static function getBookIdArray()
 	{
 		$_xmlObject = self::getXMLObject();
 		
 		$xpath = new DOMXpath($_xmlObject);
 		
-		if ( ! $groupKey)
+		$groupKey = urldecode(Input::get('groupKey', ''));
+		$hashKey = substr($groupKey, -32);
+		$groupKey = substr($groupKey, 0, strlen($groupKey) - 32);
+		if ($groupKey and $hashKey and md5($groupKey) == $hashKey)
 		{
-			$groupKey = sprintf('//%s', BOOK_NODE);
+			$xpathQuery = base64_decode($groupKey);
 		}
-		
-		$xpathQuery = $groupKey;
+		else
+		{
+			$xpathQuery = sprintf('//%s', BOOK_NODE);
+		}
 		
 		$books = $xpath->query($xpathQuery, $_xmlObject);
 		
@@ -384,9 +365,9 @@ class Helpers {
 			$_bookIdArray[] = (int) $bookNode->getAttribute(BOOK_ATTR_NAME);
 		}
 		
-		self::$_bookIdArray = $_bookIdArray;
+		$_bookIdArray = empty($_bookIdArray) ? array(0) : $_bookIdArray;
 		
-		return self::$_bookIdArray;
+		return $_bookIdArray;
 	}
 	
 	public static function getEncodedRequestUri()
@@ -429,80 +410,80 @@ class Helpers {
 		$xpath = new DOMXpath($xml);
 		
 		############################
-		$xpath_query = sprintf('//%s', GROUP_NODE);
+		$xpathQuery = sprintf('//%s', GROUP_NODE);
 
-		$group_nodes = $xpath->query($xpath_query, $xml);
+		$groupNodes = $xpath->query($xpathQuery, $xml);
 
 		$depth = 0;
 
-		if ($group_nodes->length != 0)
+		if ($groupNodes->length != 0)
 		{
-			foreach ($group_nodes as $group)
+			foreach ($groupNodes as $group)
 			{
 				
-				if(($current_depth = $xpath->evaluate('count(ancestor::*)', $group)) > $depth)
+				if(($currentDepth = $xpath->evaluate('count(ancestor::*)', $group)) > $depth)
 				{
-					$depth = $current_depth;
+					$depth = $currentDepth;
 				}
 			}
 		}
 		###########################
 		
-		$group_array = array();
+		$groupArray = array();
 		$navigation = array();
 		
-		$base_path = '';
-		$partial_path = '';
-		$base_xpath = sprintf('/%s/%s', MAIN_NODE, GROUP_NODE);
-		$have_selected = FALSE;
+		$basePath = '';
+		$partialPath = '';
+		$baseXpath = sprintf('/%s/%s', MAIN_NODE, GROUP_NODE);
+		$haveSelected = FALSE;
 		
 		if (empty($segments))
 		{
-			$group_array[0][] = array('path' => '/', 'group' => Lang::get('app.index_page'), 'selected' => TRUE);
+			$groupArray[0][] = array('path' => '/', 'group' => Lang::get('app.index_page'), 'selected' => TRUE);
 			
-			$nodes = $xpath->query($base_xpath, $xml);
+			$nodes = $xpath->query($baseXpath, $xml);
 			
 			foreach($nodes as $key => $node)
 			{
 				############################
-				if (isset($group_array[0][$node->getAttribute(GROUP_ATTR_ORDER)]))
+				if (isset($groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER)]))
 				{
-					end($group_array[0]);
-					$last_key = key($group_array[0]);
+					end($groupArray[0]);
+					$lastKey = key($groupArray[0]);
 					
-					for ($j = $last_key; $j > $node->getAttribute(GROUP_ATTR_ORDER); --$j)
+					for ($j = $lastKey; $j > $node->getAttribute(GROUP_ATTR_ORDER); --$j)
 					{
-						if (isset($group_array[0][$j]))
+						if (isset($groupArray[0][$j]))
 						{
-							$group_array[0][$j + 1] = $group_array[0][$j];
-							unset($group_array[0][$j]);
+							$groupArray[0][$j + 1] = $groupArray[0][$j];
+							unset($groupArray[0][$j]);
 						}
 					}
 					
-					if (strcasecmp($group_array[0][$node->getAttribute(GROUP_ATTR_ORDER)]['group'], $node->getAttribute(GROUP_ATTR_NAME)) <= 0)
+					if (strcasecmp($groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER)]['group'], $node->getAttribute(GROUP_ATTR_NAME)) <= 0)
 					{
-						$group_array[0][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = array('path' => $base_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
+						$groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = array('path' => $basePath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
 					}
 					else
 					{
-						$group_array[0][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = $group_array[0][$node->getAttribute(GROUP_ATTR_ORDER)];
-						$group_array[0][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $base_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
+						$groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = $groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER)];
+						$groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $basePath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
 					}
 				}
 				else
 				{
-					$group_array[0][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $base_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
+					$groupArray[0][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $basePath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
 				}
 				
-				ksort($group_array[0]);
+				ksort($groupArray[0]);
 				################################
 			}
 			
-			$group_array[0][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-			$group_array[0][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+			$groupArray[0][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
+			$groupArray[0][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 			$navigation[0] = '';
 			
-			//dd($group_array);
+			//dd($groupArray);
 		}
 		else
 		{
@@ -518,17 +499,17 @@ class Helpers {
 				{
 					foreach ($nodes3 as $node)
 					{
-						$book_depth = $xpath->evaluate('count(ancestor::*)', $node) - 1;
+						$bookDepth = $xpath->evaluate('count(ancestor::*)', $node) - 1;
 						
 						unset($segments);
 						
-						$current_node = $node;
+						$currentNode = $node;
 						
-						for ($k = $book_depth; $k > 0; --$k)
+						for ($k = $bookDepth; $k > 0; --$k)
 						{
-							$current_node = $current_node->parentNode;
+							$currentNode = $currentNode->parentNode;
 							
-							$segments[$k] = $current_node->getAttribute(GROUP_ATTR_NAME);
+							$segments[$k] = $currentNode->getAttribute(GROUP_ATTR_NAME);
 						}
 					}
 				}
@@ -538,112 +519,112 @@ class Helpers {
 			{
 				if ($i == 1)
 				{
-					$group_array[$i][] = array('path' => '/', 'group' => Lang::get('app.index_page'), 'selected' => FALSE);
+					$groupArray[$i][] = array('path' => '/', 'group' => Lang::get('app.index_page'), 'selected' => FALSE);
 				}
 				
-				$nodes = $xpath->query($base_xpath, $xml);
+				$nodes = $xpath->query($baseXpath, $xml);
 				
-				$partial_path = $base_path;
+				$partialPath = $basePath;
 				
 				foreach($nodes as $key => $node)
 				{
 					if (isset($segments[$i]) && $node->getAttribute(GROUP_ATTR_NAME) == $segments[$i])
 					{
 						############################
-						if (isset($group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)]))
+						if (isset($groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)]))
 						{
-							end($group_array[$i]);
-							$last_key = key($group_array[$i]);
+							end($groupArray[$i]);
+							$lastKey = key($groupArray[$i]);
 							
-							for ($j = $last_key; $j > $node->getAttribute(GROUP_ATTR_ORDER); --$j)
+							for ($j = $lastKey; $j > $node->getAttribute(GROUP_ATTR_ORDER); --$j)
 							{
-								if (isset($group_array[$i][$j]))
+								if (isset($groupArray[$i][$j]))
 								{
-									$group_array[$i][$j + 1] = $group_array[$i][$j];
-									unset($group_array[$i][$j]);
+									$groupArray[$i][$j + 1] = $groupArray[$i][$j];
+									unset($groupArray[$i][$j]);
 								}
 							}
 							
-							if (strcasecmp($group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)]['group'], $node->getAttribute(GROUP_ATTR_NAME)) <= 0)
+							if (strcasecmp($groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)]['group'], $node->getAttribute(GROUP_ATTR_NAME)) <= 0)
 							{
-								$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = array('path' => $partial_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => TRUE);
+								$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = array('path' => $partialPath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => TRUE);
 							}
 							else
 							{
-								$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = $group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)];
-								$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partial_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => TRUE);
+								$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = $groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)];
+								$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partialPath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => TRUE);
 							}
 						}
 						else
 						{
-							$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partial_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => TRUE);
+							$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partialPath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => TRUE);
 						}
 						
-						ksort($group_array[$i]);
+						ksort($groupArray[$i]);
 						############################
 						
-						$base_path .= '/'.$node->getAttribute(GROUP_ATTR_NAME);
+						$basePath .= '/'.$node->getAttribute(GROUP_ATTR_NAME);
 						
-						$base_xpath .= sprintf('[@%s=\'%s\']/%s', GROUP_ATTR_NAME, $node->getAttribute(GROUP_ATTR_NAME), GROUP_NODE);
+						$baseXpath .= sprintf('[@%s=\'%s\']/%s', GROUP_ATTR_NAME, $node->getAttribute(GROUP_ATTR_NAME), GROUP_NODE);
 						
 						$navigation[] = $node->getAttribute(GROUP_ATTR_NAME);
 						
-						$have_selected = TRUE;
+						$haveSelected = TRUE;
 					}
 					else
 					{
 						############################
-						if (isset($group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)]))
+						if (isset($groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)]))
 						{
-							end($group_array[$i]);
-							$last_key = key($group_array[$i]);
+							end($groupArray[$i]);
+							$lastKey = key($groupArray[$i]);
 							
-							for ($j = $last_key; $j > $node->getAttribute(GROUP_ATTR_ORDER); --$j)
+							for ($j = $lastKey; $j > $node->getAttribute(GROUP_ATTR_ORDER); --$j)
 							{
-								if (isset($group_array[$i][$j]))
+								if (isset($groupArray[$i][$j]))
 								{
-									$group_array[$i][$j + 1] = $group_array[$i][$j];
-									unset($group_array[$i][$j]);
+									$groupArray[$i][$j + 1] = $groupArray[$i][$j];
+									unset($groupArray[$i][$j]);
 								}
 							}
 							
-							if (strcasecmp($group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)]['group'], $node->getAttribute(GROUP_ATTR_NAME)) <= 0)
+							if (strcasecmp($groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)]['group'], $node->getAttribute(GROUP_ATTR_NAME)) <= 0)
 							{
-								$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = array('path' => $partial_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
+								$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = array('path' => $partialPath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
 							}
 							else
 							{
-								$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = $group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)];
-								$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partial_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
+								$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER) + 1] = $groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)];
+								$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partialPath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
 							}
 						}
 						else
 						{
-							$group_array[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partial_path.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
+							$groupArray[$i][$node->getAttribute(GROUP_ATTR_ORDER)] = array('path' => $partialPath.'/'.$node->getAttribute(GROUP_ATTR_NAME), 'group' => $node->getAttribute(GROUP_ATTR_NAME), 'selected' => FALSE);
 						}
 						
-						ksort($group_array[$i]);
+						ksort($groupArray[$i]);
 						############################
 					}
 				}
-
+				
 				switch ((isset($segments[$i]) ? $segments[$i] : ''))
 				{
 					case 'authors':
-						$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-						$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => TRUE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => TRUE);
 						$navigation[] = 'authors';
 					break;
 						
 					case 'all':
-						$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
-						$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 						$navigation[] = 'all';
 					break;
 						
 					default:
 						
-						if ($have_selected === FALSE)
+						if ($haveSelected === FALSE)
 						{
 							if (isset($segments[$i]))
 							{
@@ -651,35 +632,35 @@ class Helpers {
 								
 								if ($nodes2->length > 0)
 								{
-									$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-									$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => TRUE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => TRUE);
 									$navigation[] = $segments[$i];
 								}
 								else
 								{
-									reset($group_array[$i]);
-									$first_key = key($group_array[$i]);
+									reset($groupArray[$i]);
+									$firstKey = key($groupArray[$i]);
 									
-									if ($nodes->length > 0 && $group_array[$i][$first_key]['group'] != Lang::get('app.index_page'))
+									if ($nodes->length > 0 && $groupArray[$i][$firstKey]['group'] != Lang::get('app.index_page'))
 									{
-										$group_array[$i][$first_key]['selected'] = TRUE;
+										$groupArray[$i][$firstKey]['selected'] = TRUE;
 										
-										$base_path .= '/'.$group_array[$i][$first_key]['group'];
+										$basePath .= '/'.$groupArray[$i][$firstKey]['group'];
 								
-										$base_xpath .= sprintf('[@%s=\'%s\']/%s', GROUP_ATTR_NAME, $group_array[$i][$first_key]['group'], GROUP_NODE);
+										$baseXpath .= sprintf('[@%s=\'%s\']/%s', GROUP_ATTR_NAME, $groupArray[$i][$firstKey]['group'], GROUP_NODE);
 										
-										$navigation[] = $group_array[$i][$first_key]['group'];
+										$navigation[] = $groupArray[$i][$firstKey]['group'];
 										
-										$have_selected = TRUE;
+										$haveSelected = TRUE;
 										
-										$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-										$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 									}
 									
-									if (isset($group_array[$i][0]) && $have_selected === FALSE)
+									if (isset($groupArray[$i][0]) && $haveSelected === FALSE)
 									{
-										$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
-										$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 										$navigation[] = $segments[$i];
 									}
 								}
@@ -688,42 +669,42 @@ class Helpers {
 							{
 								if ($nodes->length > 0)
 								{
-									reset($group_array[$i]);
-									$first_key = key($group_array[$i]);
+									reset($groupArray[$i]);
+									$firstKey = key($groupArray[$i]);
 									
-									$group_array[$i][$first_key]['selected'] = TRUE;
+									$groupArray[$i][$firstKey]['selected'] = TRUE;
 									
-									$base_path .= '/'.$group_array[$i][$first_key]['group'];
+									$basePath .= '/'.$groupArray[$i][$firstKey]['group'];
 									
-									$base_xpath .= sprintf('[@%s=\'%s\']/%s', GROUP_ATTR_NAME, $group_array[$i][$first_key]['group'], GROUP_NODE);
+									$baseXpath .= sprintf('[@%s=\'%s\']/%s', GROUP_ATTR_NAME, $groupArray[$i][$firstKey]['group'], GROUP_NODE);
 									
-									$navigation[] = $group_array[$i][$first_key]['group'];
+									$navigation[] = $groupArray[$i][$firstKey]['group'];
 									
-									$have_selected = TRUE;
+									$haveSelected = TRUE;
 									
-									$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-									$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 								}
 									
-								if (isset($group_array[$i][0]) && $have_selected === FALSE)
+								if (isset($groupArray[$i][0]) && $haveSelected === FALSE)
 								{
-									$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
-									$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 									$navigation[] = '-';
 								}
 							}
 						}
 						else
 						{
-							$group_array[$i][] = array('path' => $partial_path.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-							$group_array[$i][] = array('path' => $partial_path.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+							$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
+							$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 						}
-						
+					break;
 				}
 				
-				if ($have_selected === TRUE)
+				if ($haveSelected === TRUE)
 				{
-					$have_selected = FALSE;
+					$haveSelected = FALSE;
 				}
 				else
 				{
@@ -731,13 +712,12 @@ class Helpers {
 				}
 			}
 		}
-
-		//print_r($group_array);
-		//print_r($navigation);
-		//return array('tabs' => $group_array, 'navigation' => $navigation);
 		
-		Session::put('navigation.tabs', $group_array);
+		//print_r($groupArray);
+		//print_r($navigation);
+		//return array('tabs' => $groupArray, 'navigation' => $navigation);
+		
+		Session::put('navigation.tabs', $groupArray);
 		Session::put('navigation.segments', $navigation);
 	}
-	
 }

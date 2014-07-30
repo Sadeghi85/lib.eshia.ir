@@ -45,12 +45,12 @@ class SearchController extends BaseController {
 		}
 		else
 		{
-			$sphinx->setFilter('bookid', Helpers::getBookIdArray(base64_decode(urldecode(Input::get('groupKey', '')))));
+			$sphinx->setFilter('bookid', Helpers::getBookIdArray());
 		}
 		
 		$sphinx->setLimits(($page - 1) * $perPage, $perPage, 1000);
 		
-		$sphinx->setMaxQueryTime(2000); // in mili-seconds
+		$sphinx->setMaxQueryTime(3000); // in mili-seconds
 		
 		$sphinx->setArrayResult(true);
 		
@@ -135,6 +135,7 @@ class SearchController extends BaseController {
 			while ($node = $node->parentNode);
 			
 			$groupKey = base64_encode(sprintf('/%s/%s', MAIN_NODE, $groupKey));
+			$groupKey .= md5($groupKey);
 			$groupArray[$groupKey] = sprintf('%s&nbsp;%s', str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth).str_repeat('-', $depth), $group->getAttribute(GROUP_ATTR_NAME));
 		}
 		

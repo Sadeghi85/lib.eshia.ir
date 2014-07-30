@@ -11,8 +11,6 @@
 |
 */
 
-
-
 // Ajax Search
 Route::post('/ajax/search/{rnd?}', array('uses' => 'AjaxController@showAjax'));
 
@@ -65,33 +63,3 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	
 });
 
-
-
-
-#######################
-# 1. tabs and navigation creator in form of "before filter" for routes that need it, will be two arrays that will be put in session
-# 2. view composer for "navigation partial" that will get the tabs array from session
-# 3. navigation array is the "correct" url segments; routes that need it will retrieve it from the session
-# 4. remove tabs and navigation arrays from the session at the end of application
-#######################
-
-
-// $route['(:num)/?(:num)?/?(:num)?'] = ($_SERVER['REQUEST_METHOD'] == 'GET') ? 'page/index/$1/$2/$3' : 'page/get_page';
-// $route['(:num)/(:num)/(:num)/(:any)'] = ($_SERVER['REQUEST_METHOD'] == 'GET') ? 'page/index/$1/$2/$3/$4' : 'page/get_page';
-// $route['search/(:num)/(:any)'] = 'page/search_page/$1/$2';
-// $route['search/(:num)/(:any)/(:num)'] = 'page/search_page/$1/$2/$3';
-// $route['search/(:any)'] = 'search/index/$1';
-// $route['search/(:any)/(:num)'] = 'search/index/$1/$2';
-
-
-
-
-// Catch all
-// one of these:
-// 1. segment[1] => author => list author's books
-// 2. chain of groups => list books in last child group
-// 3. 404 not found
-// Route::get('{all}', function($uri)
-// {
-    // return View::make('hello');
-// })->where('all', '.*');
