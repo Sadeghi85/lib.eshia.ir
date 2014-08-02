@@ -39,14 +39,7 @@ class SearchController extends BaseController {
 		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_EXPR, 'sum((lcs*(1+exact_order+(1/(1+min_gaps))*(word_count>1))+wlccs)*user_weight)*1000+bm25');
 		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at ASC, @id ASC');
 		
-		if ( ! is_null($id))
-		{
-			$sphinx->setFilter('bookid', array($id));
-		}
-		else
-		{
-			$sphinx->setFilter('bookid', Helpers::getBookIdArray());
-		}
+		( ! is_null($id)) ? $sphinx->setFilter('bookid', array($id)) : $sphinx->setFilter('bookid', Helpers::getBookIdArray());
 		
 		$sphinx->setLimits(($page - 1) * $perPage, $perPage, 1000);
 		
@@ -134,8 +127,8 @@ class SearchController extends BaseController {
 			}
 			while ($node = $node->parentNode);
 			
-			$groupKey = base64_encode(sprintf('/%s/%s', MAIN_NODE, $groupKey));
-			$groupKey .= md5($groupKey);
+			$groupKey = Crypt::encrypt(sprintf('/%s/%s', MAIN_NODE, $groupKey));
+			
 			$groupArray[$groupKey] = sprintf('%s&nbsp;%s', str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth).str_repeat('-', $depth), $group->getAttribute(GROUP_ATTR_NAME));
 		}
 		
@@ -146,7 +139,7 @@ class SearchController extends BaseController {
 	{
 		if (Input::get('groupWhere', '') == 'groupOne')
 		{
-			$groupKey = urlencode(Input::get('groupKey', ''));
+			$groupKey = Input::get('groupKey', '');
 		}
 		
 		$and = Input::get('and', '');
@@ -165,14 +158,7 @@ class SearchController extends BaseController {
 		
 		$query = trim(preg_replace('#[[:space:]]+#', ' ', sprintf('%s %s %s %s', $phrase, $or, $not, $and)));
 		
-		if (isset($groupKey))
-		{
-			return Helpers::redirect(sprintf('/search/%s?groupKey=%s', $query, $groupKey));
-		}
-		else
-		{
-			return Helpers::redirect(sprintf('/search/%s', $query));
-		}
+		return (isset($groupKey) ? Helpers::redirect(sprintf('/search/%s?groupKey=%s', urlencode($query), urlencode($groupKey))) : Helpers::redirect(sprintf('/search/%s', urlencode($query))));
 	}
 	
 	

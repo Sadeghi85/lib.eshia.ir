@@ -344,17 +344,9 @@ class Helpers {
 		
 		$xpath = new DOMXpath($_xmlObject);
 		
-		$groupKey = urldecode(Input::get('groupKey', ''));
-		$hashKey = substr($groupKey, -32);
-		$groupKey = substr($groupKey, 0, strlen($groupKey) - 32);
-		if ($groupKey and $hashKey and md5($groupKey) == $hashKey)
-		{
-			$xpathQuery = base64_decode($groupKey);
-		}
-		else
-		{
-			$xpathQuery = sprintf('//%s', BOOK_NODE);
-		}
+		$groupKey = Input::get('groupKey', '');
+		
+		$xpathQuery = $groupKey ? Crypt::decrypt(urldecode($groupKey)) : sprintf('//%s', BOOK_NODE);
 		
 		$books = $xpath->query($xpathQuery, $_xmlObject);
 		
@@ -365,9 +357,7 @@ class Helpers {
 			$_bookIdArray[] = (int) $bookNode->getAttribute(BOOK_ATTR_NAME);
 		}
 		
-		$_bookIdArray = empty($_bookIdArray) ? array(0) : $_bookIdArray;
-		
-		return $_bookIdArray;
+		return (empty($_bookIdArray) ? array(0) : $_bookIdArray);
 	}
 	
 	public static function getEncodedRequestUri()
