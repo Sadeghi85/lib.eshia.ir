@@ -17,6 +17,7 @@ Route::post('/ajax/search/{rnd?}', array('uses' => 'AjaxController@showAjax'));
 Route::group(array('before' => 'needs.xml.navigation'), function()
 {
 	// Search
+	Route::get('/search', function () { return Helpers::redirect('/help'); });
 	Route::get('/search/{id}/{query}', array('uses' => 'SearchController@showPage'))
 	->where(array('id' => '\d+', 'query' => '.+'));
 	Route::get('/search/{query}', array('uses' => 'SearchController@showPage'))
@@ -37,6 +38,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	})->where('id', '\d+');
 
 	// Shenasnameh
+	Route::get('/shenasnameh', function () { return Helpers::redirect('/help'); });
 	Route::get('/shenasnameh/{id}', function ($id)
 	{
 		if (($shenasnameh = file_get_contents(Config::get('app_settings.shenasnameh_url').'/'.$id)) && preg_replace('#[[:space:]\x{A0}]+#', '', preg_replace('#<[^<>]+>#', '', $shenasnameh))) {
@@ -48,6 +50,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	})->where('id', '\d+');
 	
 	// PDF
+	Route::get('/pdf/{id?}', function () { return Helpers::redirect('/help'); });
 	Route::get('/pdf/{id}/{volume}', array('uses' => 'PdfController@showPage'))
 	->where('id', '\d+')->where('volume', '\d+');
 

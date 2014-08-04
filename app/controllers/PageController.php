@@ -119,9 +119,11 @@ class PageController extends BaseController {
 		{
 			$content =  preg_replace('#[[:space:]]+#', ' ',
 							preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
-								str_replace(pack('H*', 'efbbbf'), '',
-									iconv('UTF-8', 'UTF-8//IGNORE',
-										file_get_contents($pagePath)
+								str_replace(pack('H*', 'c2a0'), '',
+									str_replace(pack('H*', 'efbbbf'), '',
+										iconv('UTF-8', 'UTF-8//IGNORE',
+											file_get_contents($pagePath)
+										)
 									)
 								)
 							)
