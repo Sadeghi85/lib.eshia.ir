@@ -84,7 +84,7 @@ return array(
 	|
 	*/
 
-	'prefix' => $_SERVER['SERVER_NAME'],
+	'prefix' => Request::server('HTTP_HOST'),
 	//'prefix' => 'laravel',
 
 );

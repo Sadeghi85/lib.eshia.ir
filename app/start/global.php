@@ -211,18 +211,5 @@ View::composer('help/help-*', function($view) { Session::put('page.is.cacheable'
 // To check if Views are run from inside the framework
 define('VIEW_IS_ALLOWED', true);
 
-define('MAIN_NODE', Config::get('xml_settings.main_node'));
-define('GROUP_NODE', Config::get('xml_settings.group_node'));
-define('GROUP_ATTR_NAME', Config::get('xml_settings.group_attr_name'));
-define('GROUP_ATTR_ORDER', Config::get('xml_settings.group_attr_order'));
-define('BOOK_NODE', Config::get('xml_settings.book_node'));
-define('BOOK_ATTR_NAME', Config::get('xml_settings.book_attr_name'));
-define('BOOK_ATTR_DISPLAYNAME', Config::get('xml_settings.book_attr_displayname'));
-define('BOOK_ATTR_AUTHOR', Config::get('xml_settings.book_attr_author'));
-define('VOLUMES_NODE', Config::get('xml_settings.volumes_node'));
-define('VOL_NODE', Config::get('xml_settings.vol_node'));
-define('VOL_ATTR_ID', Config::get('xml_settings.vol_attr_id'));
-define('VOL_ATTR_INDEX', Config::get('xml_settings.vol_attr_index'));
-define('VOL_ATTR_BASE', Config::get('xml_settings.vol_attr_base'));
-define('VOL_ATTR_PAGES', Config::get('xml_settings.vol_attr_pages'));
+
 

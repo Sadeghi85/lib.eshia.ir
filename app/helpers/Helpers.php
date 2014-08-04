@@ -262,7 +262,7 @@ class Helpers {
 			}
 			else
 			{
-				Cache::flush();
+				Cache::tags(Request::server('HTTP_HOST'))->flush();
 				
 				self::$_xmlObject = self::loadXML();
 				Cache::forever('xml.object', serialize(self::$_xmlObject));

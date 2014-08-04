@@ -13,6 +13,36 @@
 
 App::before(function($request)
 {
+	switch (preg_replace('#^([^.]+).+$#', '$1', Request::server('HTTP_HOST')))
+	{
+		case 'ar':
+			App::setLocale('ar');
+			Config::set('app.locale', 'ar');
+		break;
+		case 'en':
+			App::setLocale('en');
+			Config::set('app.locale', 'en');
+		break;
+		default:
+			App::setLocale('fa');
+			Config::set('app.locale', 'fa');
+	}
+	
+	define('MAIN_NODE', Config::get('xml_settings.main_node'));
+	define('GROUP_NODE', Config::get('xml_settings.group_node'));
+	define('GROUP_ATTR_NAME', Config::get('xml_settings.group_attr_name'));
+	define('GROUP_ATTR_ORDER', Config::get('xml_settings.group_attr_order'));
+	define('BOOK_NODE', Config::get('xml_settings.book_node'));
+	define('BOOK_ATTR_NAME', Config::get('xml_settings.book_attr_name'));
+	define('BOOK_ATTR_DISPLAYNAME', Config::get('xml_settings.book_attr_displayname'));
+	define('BOOK_ATTR_AUTHOR', Config::get('xml_settings.book_attr_author'));
+	define('VOLUMES_NODE', Config::get('xml_settings.volumes_node'));
+	define('VOL_NODE', Config::get('xml_settings.vol_node'));
+	define('VOL_ATTR_ID', Config::get('xml_settings.vol_attr_id'));
+	define('VOL_ATTR_INDEX', Config::get('xml_settings.vol_attr_index'));
+	define('VOL_ATTR_BASE', Config::get('xml_settings.vol_attr_base'));
+	define('VOL_ATTR_PAGES', Config::get('xml_settings.vol_attr_pages'));
+
 	Session::forget('page.is.cacheable');
 	Session::forget('exception.error.message');
 	Session::forget('navigation.tabs');
