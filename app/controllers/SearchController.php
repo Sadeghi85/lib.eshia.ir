@@ -73,6 +73,16 @@ class SearchController extends BaseController {
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
+				$excerpts[$i] = preg_replace('#[[:space:]]+#', ' ',
+									preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
+										str_replace(pack('H*', 'efbbbf'), '',
+											iconv('UTF-8', 'UTF-8//IGNORE',
+												$excerpts[$i]
+											)
+										)
+									)
+								);
+						
 				$xpathQuery = sprintf('//%s[@%s=\'%s\']', BOOK_NODE, BOOK_ATTR_NAME, $thisPage[$i]['attrs']['bookid']);
 				$bookNode = $xpath->query($xpathQuery, $this->_xmlObject);
 				
