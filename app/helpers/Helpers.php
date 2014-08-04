@@ -7,12 +7,23 @@ class Helpers {
 	
 	public static function getCacheableFiles()
 	{
-		$Directory = new RecursiveDirectoryIterator(public_path() . '/views/');
-		$Iterator = new RecursiveIteratorIterator($Directory);
-		$Views = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+		$files = array(
+			base_path() . Config::get('app_settings.xml_path'),
+		);
 		
-		$files = array_flatten(iterator_to_array($Views));
-		$files[] = base_path() . Config::get('app_settings.xml_path');
+		$pathes = array(
+			public_path() . '/views/',
+			app_path() . '/lang/',
+		);
+		
+		foreach ($pathes as $path)
+		{
+			$Directory = new RecursiveDirectoryIterator($path);
+			$Iterator = new RecursiveIteratorIterator($Directory);
+			$Items = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+			
+			$files = array_merge($files, array_flatten(iterator_to_array($Items)));
+		}
 		
 		return $files;
 	}
