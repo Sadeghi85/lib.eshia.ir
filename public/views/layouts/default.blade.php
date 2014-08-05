@@ -34,7 +34,7 @@
 	<tr>
 		<td colspan="2" class="topheader"></td>
 		<td rowspan="2" class="rightsection">
-			<a href="/"><img class="vertical-logo" src="{{ asset('/assets/images/vertical-logo.jpg') }}" alt="logo"></a>
+			<a href="/"><img class="vertical-logo" src="{{ asset(sprintf('/assets/images/vertical-logo-%s.png', Config::get('app.locale'))) }}" alt="logo"></a>
 
 			@include('partials/links')
 		</td>		
