@@ -41,13 +41,13 @@ class SearchController extends BaseController {
 		
 		( ! is_null($id)) ? $sphinx->setFilter('bookid', array($id)) : $sphinx->setFilter('bookid', Helpers::getBookIdArray());
 		
-		$sphinx->setLimits(($page - 1) * $perPage, $perPage, 1000);
+		$sphinx->setLimits(($page - 1) * $perPage, $perPage, Config::get('app_settings.search_result_limit', 1000));
 		
-		$sphinx->setMaxQueryTime(3000); // in mili-seconds
+		$sphinx->setMaxQueryTime(Config::get('app_settings.search_timeout_limit', 3000)); // in mili-seconds
 		
 		$sphinx->setArrayResult(true);
 		
-		$results = $sphinx->query($query, 'lib_eshia_ir');
+		$results = $sphinx->query($query, Config::get('app_settings.search_index_name', 'lib_eshia_ir'));
 		
 		if (isset($results['matches']))
 		{
@@ -92,8 +92,8 @@ class SearchController extends BaseController {
 				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
 			}
 
-			$paginator = Paginator::make($thisPage, min($results['total'], 1000), $perPage);
-			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query), 'id' => $id));
+			$paginator = Paginator::make($thisPage, min($results['total'], Config::get('app_settings.search_result_limit', 1000)), $perPage);
+			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'totalCount' => $results['total_found'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query), 'id' => $id));
 		}
 		
 		if ($page > 1)

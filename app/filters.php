@@ -48,9 +48,9 @@ App::before(function($request)
 	Session::forget('navigation.tabs');
 	Session::forget('navigation.segments');
 	
-	if (Request::server('REQUEST_METHOD') == 'GET' and Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has(Helpers::getEncodedRequestUri()))
+	if (Request::server('REQUEST_METHOD') == 'GET' and Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::tags(Request::server('HTTP_HOST'))->get('cache.files.date.hash', 0) and Cache::tags(Request::server('HTTP_HOST'))->has(Helpers::getEncodedRequestUri()))
 	{
-		$response = Response::make(Cache::get(Helpers::getEncodedRequestUri()), 200);
+		$response = Response::make(Cache::tags(Request::server('HTTP_HOST'))->get(Helpers::getEncodedRequestUri()), 200);
 		$response->header('X-Cache', 'HIT');
 		return $response;
 	}
@@ -60,10 +60,10 @@ App::after(function($request, $response)
 {
 	if ($response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
 	{
-		Cache::forever(Helpers::getEncodedRequestUri(), $response->getContent());
+		Cache::tags(Request::server('HTTP_HOST'))->forever(Helpers::getEncodedRequestUri(), $response->getContent());
 	}
 	
-	Cache::forever('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()));
+	Cache::tags(Request::server('HTTP_HOST'))->forever('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()));
 });
 
 /*

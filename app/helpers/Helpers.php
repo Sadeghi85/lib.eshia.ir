@@ -260,15 +260,15 @@ class Helpers {
 	{
 		if ( ! is_object(self::$_xmlObject) or ($persianized and ! is_object(self::$_persianizedXMLObject)))
 		{
-			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::get('cache.files.date.hash', 0) and Cache::has('xml.object') and Cache::has('persianized.xml.object'))
+			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::tags(Request::server('HTTP_HOST'))->get('cache.files.date.hash', 0) and Cache::tags(Request::server('HTTP_HOST'))->has('xml.object') and Cache::tags(Request::server('HTTP_HOST'))->has('persianized.xml.object'))
 			{
 				if ($persianized)
 				{
-					self::$_persianizedXMLObject = unserialize(Cache::get('persianized.xml.object'));
+					self::$_persianizedXMLObject = unserialize(Cache::tags(Request::server('HTTP_HOST'))->get('persianized.xml.object'));
 				}
 				else
 				{
-					self::$_xmlObject = unserialize(Cache::get('xml.object'));
+					self::$_xmlObject = unserialize(Cache::tags(Request::server('HTTP_HOST'))->get('xml.object'));
 				}
 			}
 			else
@@ -276,10 +276,10 @@ class Helpers {
 				Cache::tags(Request::server('HTTP_HOST'))->flush();
 				
 				self::$_xmlObject = self::loadXML();
-				Cache::forever('xml.object', serialize(self::$_xmlObject));
+				Cache::tags(Request::server('HTTP_HOST'))->forever('xml.object', serialize(self::$_xmlObject));
 				
 				self::$_persianizedXMLObject = self::loadPersianizedXML();
-				Cache::forever('persianized.xml.object', serialize(self::$_persianizedXMLObject));
+				Cache::tags(Request::server('HTTP_HOST'))->forever('persianized.xml.object', serialize(self::$_persianizedXMLObject));
 			}
 		}
 		

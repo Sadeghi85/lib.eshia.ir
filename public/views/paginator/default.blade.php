@@ -2,8 +2,6 @@
 
 @php
 	$presenter = new Sadeghi85\Extensions\PaginationPresenter($paginator);
-
-	//$trans = $environment->getTranslator();
 @endphp
 
 @if ($paginator->getLastPage() > 1)

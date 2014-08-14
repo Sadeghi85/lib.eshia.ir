@@ -17,5 +17,20 @@ class PaginationPresenter extends \Illuminate\Pagination\Presenter
     {
         return '<td><a href="'.$url.'">'.$page.'</a></td>';
     }
-
+	
+	public function render()
+	{
+		if ($this->currentPage > 5)
+		{
+			$content = $this->getPageRange($this->currentPage - 5, min($this->currentPage + 4, $this->lastPage));
+		}
+		else
+		{
+			$content = $this->getPageRange(1, min(10, $this->lastPage));
+		}
+		
+		return $this->getPrevious().$content.$this->getNext();
+	}
+	
+	
 }

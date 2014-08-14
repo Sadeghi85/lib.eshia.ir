@@ -45,7 +45,7 @@
 				<td>
 					<table class="pageSelectorPanel">
 						<tr>
-							<td class="pg-Left"><span class="result_count">{{ $resultCount }}</span>@lang('app.query_search_result')</td>
+							<td class="pg-Left"><span class="result_count">{{ $totalCount }}</span>@lang('app.query_search_result')&nbsp;&nbsp;({{ sprintf('%01.2f', $time) }}&nbsp;&nbsp;@lang('app.search_seconds'))</td>
                             <td class="pg-right">{{ $results->links() }}</td>
 						</tr>
 					</table>
