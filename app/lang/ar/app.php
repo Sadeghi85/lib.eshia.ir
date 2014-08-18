@@ -56,7 +56,7 @@ return array(
 	#author_booksList & authorlist & booklist--------------------------------------------------------------------------------
 	'number' => 'رقم',
 	'book_name' => 'اسم الکتاب',
-	'book_volumes' => 'مجلد',
+	'book_volumes' => 'الجزء',
 	'author_name' => 'المؤلف',
 	'author_books' => 'مجموع الكتب المتاحة',
 	'author' => 'المؤلف',
@@ -75,20 +75,20 @@ return array(
 	'index_attention_lib_help' => 'لمشاهدة الدلیل :help اضغط هنا',
 	'books_information' => 'عناوين الکتب&nbsp;: :books_count عدد المجلدات&nbsp;: :vols_count',
 	#Page--------------------------------------------------------------------------------------------------------------------
-	'pdf_format' => 'شكل PDF',
-	'save_this_book_to_pdf_format' => 'حفظ هذا الكتاب في شكل PDF',
+	'pdf_format' => 'صيغة PDF',
+	'save_this_book_to_pdf_format' => 'حفظ هذا الكتاب بصيغة PDF',
 	'certificate' => 'شهادة',
 	'book_certificate' => 'شهادة الکتاب',
 	'search_in_this_book' => 'بحث فی هذا الکتاب...',
 	// $lang['Edit This Page'] = 'ویرایش این صفحه';
-	'volume' => 'مجلد :',
+	'volume' => 'الجزء :',
 	// $lang['Soureh :'] = 'سوره :';
 	// $lang['Aie :'] = 'آیه :';
 	'goto_page' => 'انتقل الي الصفحة',
 	// $lang['Goto Aie'] = 'مشاهده';
 	'page_book_name' => 'اسم الکتاب :',
 	'page_author' => 'المؤلف :',
-	'page_book_volume' => 'مجلد :',
+	'page_book_volume' => 'الجزء :',
 	'page_book_page' => 'صفحة :',
 	'prev_page' => 'الصفحة السابقة',
 	'next_page' => 'الصفحة التالیة',
@@ -97,31 +97,31 @@ return array(
 	'show' => 'إظهار',
 	'book_page_not_found_message' => 'هذه الصفحة فارغة في النسخة المطبوعة',
 	'index_page' => 'الصفحة الرئیسیة',
-	'advanced_search' => 'جستجوی پیشرفته',
+	'advanced_search' => 'بحث متقدم',
 
 	#PDF----------------------------------------------------------------------------------------------------------------------
 	'pdf_book_name' => 'اسم الکتاب',
 	'pdf_from_page' => 'من صفحة',
 	'pdf_to_page' => 'إلى الصفحة',
-	'pdf_attention' => 'اهتمام: انقاذ ما يصل الى 30 صفحة هو متاح.',
-	'pdf_save' => 'حفظ هذا الكتاب في شكل PDF',
+	'pdf_attention' => 'ملاحظة: الحد الاقصى للحفظ 30 صفحة',
+	'pdf_save' => 'حفظ هذا الكتاب بصيغة PDF',
 	#Shenasnameh--------------------------------------------------------------------------------------------------------------
 	'shenasnameh_not_found' => 'این کتاب در حال حاضر فاقد شناسنامه می‌باشد',
 	#Query--------------------------------------------------------------------------------------------------------------------
 	'query_search_result' => 'تم العثور على نتيجة',
 	'query_search_result_not_found' => 'لم يتم العثور على أي شيء :query',
-	'query_timed_out' => 'جستجو از زمان مجاز بیشتر طول کشید؛ عبارات ساده تر انتخاب کنید',
+	'query_timed_out' => 'تخطی البحث الزمن المحدد، قم بكتابة عبارة اقصر',
 	#Search-------------------------------------------------------------------------------------------------------------------
-	'search_find_items_that' => 'مطالبی را پیدا کن که شامل ...',
-	'search_all_these_words' => 'همه این کلمات باشد',
-	'search_this_phrase' => 'این جمله باشد',
-	'search_any_these_words' => 'هر کدام از این کلمات باشد',
-	'search_but' => 'اما ...',
-	'search_not_these_words' => 'شامل این کلمات نباشد',
-	'search_where' => 'محدوده جستجو ...',
-	'search_all_groups' => 'جستجو در همه‌ گروه‌ها',
-	'search_one_group' => 'جستجو در یک گروه',
-	'search_search' => 'جستجو',
+	'search_find_items_that' => 'ابحث عن المطلوب الذي يشمل ...',
+	'search_all_these_words' => 'كل هذه الكلمات الموجودة',
+	'search_this_phrase' => 'وجود هذه الجملة',
+	'search_any_these_words' => 'اي كلمة من الكلمات',
+	'search_but' => 'لكن ...',
+	'search_not_these_words' => 'لا يوجد فيها هذه الكلمات',
+	'search_where' => 'تحديد البحث ...',
+	'search_all_groups' => 'بحث في كل المجموعات',
+	'search_one_group' => 'بحث في مجموعة واحدة',
+	'search_search' => 'البحث',
 	'search_seconds' => 'ثانیه',
 	#Waiting------------------------------------------------------------------------------------------------------------------
 	// $lang['Wait Searching'] = 'در حال جستجو...';
@@ -138,7 +138,7 @@ return array(
 	'afghanistan' => 'افغانستان',
 	'iran' => 'مدن أخرى',
 	'moaser' => 'العلماء المعاصرين',
-	'subjects' => 'فقه الموضوعیة',
+	'subjects' => 'الفقه الموضوعي',
 	'kalam' => 'الکلام و الفلسفة',
 	'taghrir' => 'تقرير الدروس باللغة العربية',
 	'level_3' => 'المستوی 3',
@@ -150,13 +150,13 @@ return array(
 	'help_content_toolbar' => 'شريط الأدوات المحتوى',
 	'help_search' => 'بحث',
 	'help_move_in_book' => 'التحرك في كتاب',
-	'help_move_in_book_text_title' => 'جابجایی در کتاب مورد نظر',
+	'help_move_in_book_text_title' => 'تغيير في هذا الكتاب',
 	'help_search_in_book' => 'بحث في كتاب',
-	'help_search_in_book_text_title' => 'جستجو در کتاب حاضر',
+	'help_search_in_book_text_title' => 'البحث في هذا الكتاب',
 	'help_book_text' => 'نص الكتاب',
 	'help_making_pdf' => 'عمل PDF',
-	'help_documentation' => 'توثيق مقالات',
+	'help_documentation' => 'توثيق المقالات',
 	#Controler-----------------------------------------------------------------------------------------------------------------
-	'search_info' => '%s اسم الکتاب :%s %s %s، مجلد : %s %s %s، صفحة : %s %s',
+	'search_info' => '%s اسم الکتاب :%s %s %s، الجزء : %s %s %s، الصفحة : %s %s',
 
 );
