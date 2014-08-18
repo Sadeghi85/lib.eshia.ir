@@ -131,7 +131,9 @@ class PageController extends BaseController {
 			
 			if ($highlight)
 			{
-				$content =  with(new \Sphinx\SphinxClient)->buildExcerpts(compact('content'), 'lib_eshia_ir_main', $highlight,
+				$highlight = preg_replace('#([\p{N}\p{L}][\p{N}\p{L}\p{M}]*)#iu', '=$1', $highlight);
+				
+				$content =  with(new \Sphinx\SphinxClient)->buildExcerpts(compact('content'), Config::get('app_settings.search_index_main_name', 'lib_eshia_ir_main'), $highlight,
 								array
 								(
 									'query_mode' => true,

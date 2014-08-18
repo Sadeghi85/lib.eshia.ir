@@ -59,7 +59,7 @@ class SearchController extends BaseController {
 				$docs[] = $_page['attrs']['path'];
 			}
 			
-			$excerpts = $sphinx->buildExcerpts($docs, 'lib_eshia_ir_main', $query,
+			$excerpts = $sphinx->buildExcerpts($docs, Config::get('app_settings.search_index_main_name', 'lib_eshia_ir_main'), $query,
 							array
 							(
 								'query_mode' => true,
