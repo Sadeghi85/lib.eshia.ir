@@ -131,7 +131,8 @@ class PageController extends BaseController {
 			
 			if ($highlight)
 			{
-				if ( ! preg_match('#[\=\!\"\*\/\(\)\[\]\~\<\>\^\$\:\|\@\-]#', $highlight)) {
+				if ( ! (preg_match('#\/search\/\d+\/[^\/]+#', Request::server('HTTP_REFERER')) or preg_match('#[\=\!\"\*\/\(\)\[\]\~\<\>\^\$\:\|\@\-]#', $highlight)))
+				{
 					$highlight = preg_replace('#([\p{N}\p{L}][\p{N}\p{L}\p{M}]*)#iu', '=$1', $highlight);
 				}
 				
