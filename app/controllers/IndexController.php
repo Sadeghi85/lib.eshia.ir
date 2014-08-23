@@ -14,8 +14,8 @@ class IndexController extends BaseController {
 	{
 		parent::__construct();
 		
-		$this->_navigationTabs = Session::get('navigation.tabs');
-		$this->_navigationSegments = Session::get('navigation.segments');
+		$this->_navigationTabs = Helpers::getNavigationTabs();
+		$this->_navigationSegments = Helpers::getNavigationSegments();
 		
 		$this->_xmlObject = Helpers::getXMLObject();
 	}
@@ -31,7 +31,8 @@ class IndexController extends BaseController {
 		// ----query_not_found
 		if ($this->_navigationSegments[0] != '' and $this->_navigationTabs[count($this->_navigationTabs)][$lastKey - 1]['selected'] == true and $this->_navigationSegments[count($this->_navigationSegments) - 1] != 'all')
 		{
-			Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $this->_navigationSegments[count($this->_navigationSegments) - 1]))));
+			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $this->_navigationSegments[count($this->_navigationSegments) - 1]))));
+			
 			App::abort(404);
 		}
 		
@@ -78,15 +79,6 @@ class IndexController extends BaseController {
 				$tempBookArray['displayname'][$name] = $displayName;
 				$tempBookArray['vols'][$name] = $volCount;
 			}
-			
-			// $tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
-			// $tempSortedArray = Helpers::psort($tempSortedArray);
-			// $tempSynchedArray = array();
-			// foreach ($tempSortedArray as $key => $value)
-			// {
-				// $tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
-			// }
-			// $tempBookArray['displayname'] = $tempSynchedArray;
 			
 			$tempBookArray['displayname'] = Helpers::psort($tempBookArray['displayname']);
 			
@@ -169,7 +161,6 @@ class IndexController extends BaseController {
 			
 			foreach ($books as $bookNode)
 			{
-				
 				$bookNode = simplexml_import_dom($bookNode);
 				$volCount = 0;
 				$name = (string) $bookNode[BOOK_ATTR_NAME];
@@ -186,15 +177,6 @@ class IndexController extends BaseController {
 				$tempBookArray['author'][$name] = $author;
 				$tempBookArray['vols'][$name] = $volCount;
 			}
-			
-			//$tempSortedArray = array_map('Helpers::persianizeString', $tempBookArray['displayname']);
-			//$tempSortedArray = Helpers::psort($tempSortedArray);
-			//$tempSynchedArray = array();
-			//foreach ($tempSortedArray as $key => $value)
-			//{
-			//	$tempSynchedArray[$key] = $tempBookArray['displayname'][$key];
-			//}
-			//$tempBookArray['displayname'] = $tempSynchedArray;
 			
 			$tempBookArray['displayname'] = Helpers::psort($tempBookArray['displayname']);
 			

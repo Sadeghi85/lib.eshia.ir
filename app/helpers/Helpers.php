@@ -5,6 +5,21 @@ class Helpers {
 	private static $_xmlObject = null;
 	private static $_persianizedXMLObject = null;
 	
+	private static $_navigationTabs = array(array(array('selected' => false, 'path' => '', 'group' => '')));
+	private static $_navigationSegments = null;
+	
+	private static $_exceptionErrorMessage = null;
+	
+	public static function getExceptionErrorMessage()
+	{
+		return self::$_exceptionErrorMessage;
+	}
+	
+	public static function setExceptionErrorMessage($message)
+	{
+		self::$_exceptionErrorMessage = $message;
+	}
+	
 	public static function getCacheableFiles()
 	{
 		$files = array(
@@ -222,7 +237,8 @@ class Helpers {
 		}
 		catch (\Exception $e) {
 			Log::error('Error loading xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-			Session::put('exception.error.message', Lang::get('app.page_display_error'));
+			self::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+			
 			App::abort(500);
 		}
 		
@@ -249,7 +265,7 @@ class Helpers {
 		}
 		catch (\Exception $e) {
 			Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-			Session::put('exception.error.message', Lang::get('app.page_display_error'));
+			self::setExceptionErrorMessage(Lang::get('app.page_display_error'));
 			App::abort(500);
 		}
 		
@@ -276,10 +292,10 @@ class Helpers {
 				Cache::tags(Request::server('HTTP_HOST'))->flush();
 				
 				self::$_xmlObject = self::loadXML();
-				Cache::tags(Request::server('HTTP_HOST'))->forever('xml.object', serialize(self::$_xmlObject));
+				Cache::tags(Request::server('HTTP_HOST'))->put('xml.object', serialize(self::$_xmlObject), 24 * 60);
 				
 				self::$_persianizedXMLObject = self::loadPersianizedXML();
-				Cache::tags(Request::server('HTTP_HOST'))->forever('persianized.xml.object', serialize(self::$_persianizedXMLObject));
+				Cache::tags(Request::server('HTTP_HOST'))->put('persianized.xml.object', serialize(self::$_persianizedXMLObject), 24 * 60);
 			}
 		}
 		
@@ -403,9 +419,6 @@ class Helpers {
 		// one based array
 		$segments = Request::segments();
 		
-		//dd($segments);
-		
-		//$xml = unserialize(Session::get('xml.object'));
 		$xml = self::getXMLObject();
 		
 		$xpath = new DOMXpath($xml);
@@ -483,8 +496,6 @@ class Helpers {
 			$groupArray[0][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
 			$groupArray[0][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
 			$navigation[0] = '';
-			
-			//dd($groupArray);
 		}
 		else
 		{
@@ -714,11 +725,17 @@ class Helpers {
 			}
 		}
 		
-		//print_r($groupArray);
-		//print_r($navigation);
-		//return array('tabs' => $groupArray, 'navigation' => $navigation);
-		
-		Session::put('navigation.tabs', $groupArray);
-		Session::put('navigation.segments', $navigation);
+		self::$_navigationSegments = $navigation;
+		self::$_navigationTabs = $groupArray;
+	}
+	
+	public static function getNavigationTabs()
+	{
+		return self::$_navigationTabs;
+	}
+	
+	public static function getNavigationSegments()
+	{
+		return self::$_navigationSegments;
 	}
 }

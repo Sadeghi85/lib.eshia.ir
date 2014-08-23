@@ -54,7 +54,7 @@ App::fatal(function($exception)
 	
 	if ( ! Config::get('app.debug'))
 	{
-		$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+		$message = Helpers::getExceptionErrorMessage();
 		//return Response::view('error.error', compact('message'), 500);
 		return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 	}
@@ -66,7 +66,7 @@ App::error(function(Exception $exception, $code)
 	
 	if ( ! Config::get('app.debug'))
 	{
-		$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+		$message = Helpers::getExceptionErrorMessage();
 		
 		switch ($code)
 		{
@@ -96,14 +96,14 @@ App::error(function(Exception $exception, $code)
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $exception, $code)
 {
-	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+	$message = Helpers::getExceptionErrorMessage();
     //return Response::view('error.error', compact('message'), 404);
 	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 });
 
 App::missing(function($exception)
 {
-    $message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+    $message = Helpers::getExceptionErrorMessage();
     //return Response::view('error.error', compact('message'), 404);
 	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 });
@@ -123,7 +123,7 @@ App::down(function()
 {
 	//return Response::make("Be right back!", 503);
 	
-	$message = Session::pull('exception.error.message', Lang::get('app.page_display_error'));
+	$message = Helpers::getExceptionErrorMessage();
     //return Response::view('error.error', compact('message'), 503);
 	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
 });
@@ -151,7 +151,6 @@ Input::merge(array(Paginator::getPageName() => abs(Input::get(Paginator::getPage
 |
 */
 
-
 /*
 |--------------------------------------------------------------------------
 | Blade Extends
@@ -174,7 +173,6 @@ Blade::extend(function($value)
 			);
 });
 
-
 /*
 |--------------------------
 | View Composers
@@ -189,17 +187,16 @@ View::composer(Paginator::getViewName(), function($view)
 
 View::composer('partials/navigation', function($view)
 {
-	$tabs = Session::pull('navigation.tabs', array(array(array('selected' => false, 'path' => '', 'group' => ''))));
-	$view->with('tabs', $tabs);
+	$view->with('tabs', Helpers::getNavigationTabs());
 });
 
 // enable caching for near static contents
-View::composer('advanced_search', function($view) { Session::put('page.is.cacheable', true); });
-View::composer('index', function($view) { Session::put('page.is.cacheable', true); });
-View::composer('author_booklist', function($view) { Session::put('page.is.cacheable', true); });
-View::composer('authorlist', function($view) { Session::put('page.is.cacheable', true); });
-View::composer('booklist', function($view) { Session::put('page.is.cacheable', true); });
-View::composer('help/help-*', function($view) { Session::put('page.is.cacheable', true); });
+View::composer('advanced_search', function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer('index', function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer('author_booklist', function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer('authorlist', function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer('booklist', function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer('help/help-*', function($view) { define('PAGE_IS_CACHEABLE', true); });
 
 /*
 |--------------------------------------------------------------------------
@@ -210,6 +207,3 @@ View::composer('help/help-*', function($view) { Session::put('page.is.cacheable'
 
 // To check if Views are run from inside the framework
 define('VIEW_IS_ALLOWED', true);
-
-
-

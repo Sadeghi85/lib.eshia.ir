@@ -34,7 +34,8 @@ class PageController extends BaseController {
 		if ($vols->length == 0)
 		{
 			Log::error("Book entry '{$id}' has no volume or it doesn't exist. ( ". __FILE__ .' on line '. __LINE__ .' )');
-			Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(1)))));
+			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(1)))));
+			
 			App::abort(404);
 		}
 		
@@ -136,7 +137,7 @@ class PageController extends BaseController {
 					$highlight = preg_replace('#([\p{N}\p{L}][\p{N}\p{L}\p{M}]*)#iu', '=$1', $highlight);
 				}
 				
-				$content =  with(new \Sphinx\SphinxClient)->buildExcerpts(compact('content'), Config::get('app_settings.search_index_main_name', 'lib_eshia_ir_main'), $highlight,
+				$_content =  with(new \Sphinx\SphinxClient)->buildExcerpts(compact('content'), Config::get('app_settings.search_index_main_name', 'lib_eshia_ir_main'), $highlight,
 								array
 								(
 									'query_mode' => true,
@@ -151,7 +152,7 @@ class PageController extends BaseController {
 								)
 							);
 				
-				$content =  array_values($content)[0];
+				$content =  is_array($_content) ? array_values($_content)[0] : $content;
 			}
 		}
 		else

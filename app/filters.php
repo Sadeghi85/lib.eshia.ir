@@ -43,10 +43,9 @@ App::before(function($request)
 	define('VOL_ATTR_BASE', Config::get('xml_settings.vol_attr_base'));
 	define('VOL_ATTR_PAGES', Config::get('xml_settings.vol_attr_pages'));
 
-	Session::forget('page.is.cacheable');
-	Session::forget('exception.error.message');
-	Session::forget('navigation.tabs');
-	Session::forget('navigation.segments');
+	Session::put('REMOTE_ADDR', Request::server('REMOTE_ADDR'));
+	Session::put('HTTP_USER_AGENT', Request::server('HTTP_USER_AGENT'));
+	Session::put('HTTP_REFERER', Request::server('HTTP_REFERER'));
 	
 	if (Request::server('REQUEST_METHOD') == 'GET' and Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::tags(Request::server('HTTP_HOST'))->get('cache.files.date.hash', 0) and Cache::tags(Request::server('HTTP_HOST'))->has(Helpers::getEncodedRequestUri()))
 	{
@@ -58,12 +57,12 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	if ($response->getStatusCode() == 200 and Session::get('page.is.cacheable', false))
+	if (defined('PAGE_IS_CACHEABLE') and $response->isOk() and strlen($response->getContent()) > 0)
 	{
-		Cache::tags(Request::server('HTTP_HOST'))->forever(Helpers::getEncodedRequestUri(), $response->getContent());
+		Cache::tags(Request::server('HTTP_HOST'))->put(Helpers::getEncodedRequestUri(), $response->getContent(), 24 * 60);
 	}
 	
-	Cache::tags(Request::server('HTTP_HOST'))->forever('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()));
+	Cache::tags(Request::server('HTTP_HOST'))->put('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()), 24 * 60);
 });
 
 /*
@@ -91,7 +90,6 @@ Route::filter('auth', function()
 		}
 	}
 });
-
 
 Route::filter('auth.basic', function()
 {
@@ -133,15 +131,11 @@ Route::filter('csrf', function()
 	}
 });
 
-
 Route::filter('needs.xml.navigation', function()
 {
 	header('Content-Type: text/html; charset=utf-8');
 	header('X-UA-Compatible: IE=edge');
 	
-	//Helpers::loadXML();
-	
-	Helpers::renderNavigation();
-	
+	$navigation = Helpers::renderNavigation();
 	
 });

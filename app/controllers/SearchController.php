@@ -103,11 +103,11 @@ class SearchController extends BaseController {
 		
 		if (isset($results['warning']) and $results['warning'] == 'query time exceeded max_query_time')
 		{
-			Session::put('exception.error.message', Lang::get('app.query_timed_out'));
+			Helpers::setExceptionErrorMessage(Lang::get('app.query_timed_out'));
 		}
 		else
 		{
-			Session::put('exception.error.message', Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
+			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
 		}
 		
 		App::abort('404');
