@@ -453,7 +453,7 @@ class Helpers {
 		
 		if (empty($segments))
 		{
-			$groupArray[0][] = array('path' => '/', 'group' => Lang::get('app.index_page'), 'selected' => TRUE);
+			$groupArray[0][] = array('path' => '/', 'group' => Lang::get('app.index_main'), 'selected' => TRUE);
 			
 			$nodes = $xpath->query($baseXpath, $xml);
 			
@@ -531,7 +531,7 @@ class Helpers {
 			{
 				if ($i == 1)
 				{
-					$groupArray[$i][] = array('path' => '/', 'group' => Lang::get('app.index_page'), 'selected' => FALSE);
+					$groupArray[$i][] = array('path' => '/', 'group' => Lang::get('app.index_main'), 'selected' => FALSE);
 				}
 				
 				$nodes = $xpath->query($baseXpath, $xml);
@@ -653,7 +653,7 @@ class Helpers {
 									reset($groupArray[$i]);
 									$firstKey = key($groupArray[$i]);
 									
-									if ($nodes->length > 0 && $groupArray[$i][$firstKey]['group'] != Lang::get('app.index_page'))
+									if ($nodes->length > 0 && $groupArray[$i][$firstKey]['group'] != Lang::get('app.index_main'))
 									{
 										$groupArray[$i][$firstKey]['selected'] = TRUE;
 										
