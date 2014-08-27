@@ -122,7 +122,7 @@ return array(
 	|
 	*/
 
-	'domain' => Request::server('HTTP_HOST'),
+	'domain' => strtolower(Request::server('HTTP_HOST')),
 
 	/*
 	|--------------------------------------------------------------------------

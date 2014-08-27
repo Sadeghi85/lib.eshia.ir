@@ -276,26 +276,26 @@ class Helpers {
 	{
 		if ( ! is_object(self::$_xmlObject) or ($persianized and ! is_object(self::$_persianizedXMLObject)))
 		{
-			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::tags(Request::server('HTTP_HOST'))->get('cache.files.date.hash', 0) and Cache::tags(Request::server('HTTP_HOST'))->has('xml.object') and Cache::tags(Request::server('HTTP_HOST'))->has('persianized.xml.object'))
+			if (self::getModifiedDateHash(self::getCacheableFiles()) == Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('cache.files.date.hash', 0) and Cache::tags(strtolower(Request::server('HTTP_HOST')))->has('xml.object') and Cache::tags(strtolower(Request::server('HTTP_HOST')))->has('persianized.xml.object'))
 			{
 				if ($persianized)
 				{
-					self::$_persianizedXMLObject = unserialize(Cache::tags(Request::server('HTTP_HOST'))->get('persianized.xml.object'));
+					self::$_persianizedXMLObject = unserialize(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('persianized.xml.object'));
 				}
 				else
 				{
-					self::$_xmlObject = unserialize(Cache::tags(Request::server('HTTP_HOST'))->get('xml.object'));
+					self::$_xmlObject = unserialize(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('xml.object'));
 				}
 			}
 			else
 			{
-				Cache::tags(Request::server('HTTP_HOST'))->flush();
+				Cache::tags(strtolower(Request::server('HTTP_HOST')))->flush();
 				
 				self::$_xmlObject = self::loadXML();
-				Cache::tags(Request::server('HTTP_HOST'))->put('xml.object', serialize(self::$_xmlObject), 24 * 60);
+				Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('xml.object', serialize(self::$_xmlObject), 24 * 60);
 				
 				self::$_persianizedXMLObject = self::loadPersianizedXML();
-				Cache::tags(Request::server('HTTP_HOST'))->put('persianized.xml.object', serialize(self::$_persianizedXMLObject), 24 * 60);
+				Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('persianized.xml.object', serialize(self::$_persianizedXMLObject), 24 * 60);
 			}
 		}
 		

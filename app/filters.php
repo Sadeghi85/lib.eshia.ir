@@ -13,7 +13,7 @@
 
 App::before(function($request)
 {
-	switch (preg_replace('#^([^.]+).+$#', '$1', Request::server('HTTP_HOST')))
+	switch (preg_replace('#^([^.]+).+$#', '$1', strtolower(Request::server('HTTP_HOST'))))
 	{
 		case 'ar':
 			App::setLocale('ar');
@@ -47,9 +47,9 @@ App::before(function($request)
 	Session::put('HTTP_USER_AGENT', Request::server('HTTP_USER_AGENT'));
 	Session::put('HTTP_REFERER', Request::server('HTTP_REFERER'));
 	
-	if (Request::server('REQUEST_METHOD') == 'GET' and Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::tags(Request::server('HTTP_HOST'))->get('cache.files.date.hash', 0) and Cache::tags(Request::server('HTTP_HOST'))->has(Helpers::getEncodedRequestUri()))
+	if (Request::server('REQUEST_METHOD') == 'GET' and Helpers::getModifiedDateHash(Helpers::getCacheableFiles()) == Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('cache.files.date.hash', 0) and Cache::tags(strtolower(Request::server('HTTP_HOST')))->has(Helpers::getEncodedRequestUri()))
 	{
-		$response = Response::make(Cache::tags(Request::server('HTTP_HOST'))->get(Helpers::getEncodedRequestUri()), 200);
+		$response = Response::make(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get(Helpers::getEncodedRequestUri()), 200);
 		$response->header('X-Cache', 'HIT');
 		return $response;
 	}
@@ -59,10 +59,10 @@ App::after(function($request, $response)
 {
 	if (defined('PAGE_IS_CACHEABLE') and $response->isOk() and strlen($response->getContent()) > 0)
 	{
-		Cache::tags(Request::server('HTTP_HOST'))->put(Helpers::getEncodedRequestUri(), $response->getContent(), 24 * 60);
+		Cache::tags(strtolower(Request::server('HTTP_HOST')))->put(Helpers::getEncodedRequestUri(), $response->getContent(), 24 * 60);
 	}
 	
-	Cache::tags(Request::server('HTTP_HOST'))->put('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()), 24 * 60);
+	Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()), 24 * 60);
 });
 
 /*
