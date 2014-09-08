@@ -152,7 +152,7 @@ class PageController extends BaseController {
 								)
 							);
 				
-				$content =  is_array($_content) ? array_values($_content)[0] : $content;
+				$content =  is_array($_content) ? (($_content = array_values($_content)[0]) != '' ? $_content : $content) : $content;
 			}
 		}
 		else
