@@ -689,14 +689,7 @@ text-align:center;
 	direction:rtl;
 	word-spacing:0.05em;
 	
-	-ms-word-break: break-all;
-	/* Be VERY careful with this, breaks normal words wh_erever */
-	word-break: break-all;
-	/* Non standard for webkit */
-	word-break: break-word;
-	-webkit-hyphens: auto;
-	-moz-hyphens: auto;
-	hyphens: auto;
+	text-align:justify; /* Changed by Javadi*/
 }
 .Page_showPage {
 	background:#7d98ae;
