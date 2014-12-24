@@ -23,6 +23,8 @@ class SearchController extends BaseController {
 			$id = null;
 		}
 		
+		$query = preg_replace('#\p{Cf}+#u', ' ', str_replace(pack('H*', 'c2a0'), '', $query));
+		
 		$page = Input::get('page', 1);
 		$perPage = Config::get('app_settings.results_per_page', 10);  //number of results per page
 		
