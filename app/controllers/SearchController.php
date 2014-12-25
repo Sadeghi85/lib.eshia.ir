@@ -41,7 +41,7 @@ class SearchController extends BaseController {
 		$sphinx->setRankingMode(\Sphinx\SphinxClient::SPH_RANK_EXPR, 'sum((lcs*(1+exact_order+(1/(1+min_gaps))*(word_count>1))+wlccs)*user_weight)*1000+bm25');
 		$sphinx->setSortMode(\Sphinx\SphinxClient::SPH_SORT_EXTENDED, '@relevance DESC, modified_at ASC, @id ASC');
 		
-		( ! is_null($id)) ? $sphinx->setFilter('bookid', array($id)) : $sphinx->setFilter('bookid', Helpers::getBookIdArray());
+		( ! is_null($id)) ? $sphinx->setFilter('bookid_hash', array(Helpers::getStringToUintHash($id))) : $sphinx->setFilter('bookid_hash', Helpers::getBookIdArray());
 		
 		$sphinx->setLimits(($page - 1) * $perPage, $perPage, Config::get('app_settings.search_result_limit', 1000));
 		

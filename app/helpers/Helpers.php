@@ -10,6 +10,11 @@ class Helpers {
 	
 	private static $_exceptionErrorMessage = null;
 	
+	public static function getStringToUintHash($str)
+	{
+		return sprintf('%u', crc32($str));
+	}
+	
 	public static function getExceptionErrorMessage()
 	{
 		return self::$_exceptionErrorMessage;
@@ -381,7 +386,7 @@ class Helpers {
 		
 		foreach ($books as $bookNode)
 		{
-			$_bookIdArray[] = (int) $bookNode->getAttribute(BOOK_ATTR_NAME);
+			$_bookIdArray[] = self::getStringToUintHash($bookNode->getAttribute(BOOK_ATTR_NAME));
 		}
 		
 		return (empty($_bookIdArray) ? array(0) : $_bookIdArray);
