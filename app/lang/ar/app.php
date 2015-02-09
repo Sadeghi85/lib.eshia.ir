@@ -96,6 +96,7 @@ return array(
 	'first_page' => 'الصفحة الأولى',
 	'show' => 'إظهار',
 	'book_page_not_found_message' => 'هذه الصفحة فارغة في النسخة المطبوعة',
+	'index_volume' => 'المقدمه',
 	'index_page' => 'الفهرست',
 	'index_main' => 'الصفحة الرئیسیة',
 	'advanced_search' => 'بحث متقدم',

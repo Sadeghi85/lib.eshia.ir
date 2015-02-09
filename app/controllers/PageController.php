@@ -77,7 +77,7 @@ class PageController extends BaseController {
 		
 		foreach (array_keys($volumes) as $key)
 		{
-			$volumeOptions[$key] = $key;
+			$volumeOptions[$key] = ($key === 0 ? Lang::get('app.index_volume') : $key);
 		}
 		
 		$indexPage = $volumes[$volume]['indexpage'];

@@ -96,6 +96,7 @@ return array(
 	'first_page' => 'صفحه‌اول',
 	'show' => 'نمایش',
 	'book_page_not_found_message' => 'این صفحه در کتاب اصلی بدون متن است',
+	'index_volume' => 'مقدمه',
 	'index_page' => 'فهرست',
 	'index_main' => 'صفحه‌اصلی',
 	'advanced_search' => 'جستجوی پیشرفته',
