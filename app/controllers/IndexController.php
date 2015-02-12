@@ -72,7 +72,10 @@ class IndexController extends BaseController {
 				
 				foreach ($bookNode->volumes[0]->vol as $vol)
 				{
-					++$volCount;
+					if (((int) $vol[VOL_ATTR_ID]) != 0 )
+					{
+						++$volCount;
+					}
 				}
 	
 				$tempBookArray['name'][$name] = $name;
@@ -169,7 +172,10 @@ class IndexController extends BaseController {
 				
 				foreach ($bookNode->volumes[0]->vol as $vol)
 				{
-					++$volCount;
+					if (((int) $vol[VOL_ATTR_ID]) != 0 )
+					{
+						++$volCount;
+					}
 				}
 	
 				$tempBookArray['name'][$name] = $name;
