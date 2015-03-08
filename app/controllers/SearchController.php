@@ -75,7 +75,7 @@ class SearchController extends BaseController {
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
-				$excerpts[$i] = preg_replace('#[[:space:]]+#', ' ',
+				$excerpts[$i] = preg_replace('#[[:space:]]+#u', ' ',
 									preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
 										str_replace(pack('H*', 'c2a0'), '',
 											str_replace(pack('H*', 'efbbbf'), '',
@@ -157,20 +157,20 @@ class SearchController extends BaseController {
 		}
 		
 		$and = Input::get('and', '');
-		$and = trim(preg_replace('#[[:space:]]+#', ' ', $and));
+		$and = trim(preg_replace('#[[:space:]]+#u', ' ', $and));
 		
 		$or = Input::get('or', '');
-		$or = trim(preg_replace('#[[:space:]]+#', ' ', $or));
+		$or = trim(preg_replace('#[[:space:]]+#u', ' ', $or));
 		if ($or) { $or = sprintf('(%s)', preg_replace('# #', ' | ', $or)); }
 		
 		$not = Input::get('not', '');
-		$not = trim(preg_replace('#[[:space:]]+#', ' ', $not));
-		if ($not) { $not = preg_replace('#(?:^|(?<= ))([^[:space:]]+)#', '!$1', $not); }
+		$not = trim(preg_replace('#[[:space:]]+#u', ' ', $not));
+		if ($not) { $not = preg_replace('#(?:^|(?<= ))([^[:space:]]+)#u', '!$1', $not); }
 		
 		$phrase = Input::get('phrase', '');
-		if ($phrase) { $phrase = sprintf('"%s"', trim(preg_replace('#[[:space:]]+#', ' ', $phrase))); }
+		if ($phrase) { $phrase = sprintf('"%s"', trim(preg_replace('#[[:space:]]+#u', ' ', $phrase))); }
 		
-		$query = trim(preg_replace('#[[:space:]]+#', ' ', sprintf('%s %s %s %s', $phrase, $or, $not, $and)));
+		$query = trim(preg_replace('#[[:space:]]+#u', ' ', sprintf('%s %s %s %s', $phrase, $or, $not, $and)));
 		
 		return (isset($groupKey) ? Helpers::redirect(sprintf('/search/%s?groupKey=%s', urlencode($query), urlencode($groupKey))) : Helpers::redirect(sprintf('/search/%s', urlencode($query))));
 	}

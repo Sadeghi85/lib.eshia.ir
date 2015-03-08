@@ -73,9 +73,9 @@ class Helpers {
 		$string = str_replace(pack('H*', 'd8a4'), pack('H*', 'd988'), $string); # و
 		$string = str_replace(pack('H*', 'd983'), pack('H*', 'daa9'), $string); # ک
 		
-		$string = preg_replace('#[[:space:]]+#iu', ' ', $string);
-		$string = preg_replace('#\p{Cf}+#iu', ' ', $string); # zwnj, etc.;
-		$string = preg_replace('#\p{M}+#iu', '', $string);
+		$string = preg_replace('#[[:space:]]+#u', ' ', $string);
+		$string = preg_replace('#\p{Cf}+#u', ' ', $string); # zwnj, etc.;
+		$string = preg_replace('#\p{M}+#u', '', $string);
 		
 		return trim($string);
 	}
@@ -224,12 +224,12 @@ class Helpers {
 		
 		$xmlContent = str_replace(pack('H*', 'efbbbf'), '', $xmlContent);
 		$xmlContent = str_replace(pack('H*', 'c2a0'), '', $xmlContent);
-		$xmlContent = preg_replace('#[[:space:]]+#iu', ' ', $xmlContent);
+		$xmlContent = preg_replace('#[[:space:]]+#u', ' ', $xmlContent);
 		$xmlContent = preg_replace_callback('#[\'"]([^\r\n\'"]*)[\'"]#', function ($matches)
 		{
-			return '"'.preg_replace('#[[:space:]\p{Cf}]+$#iu', '', preg_replace('#^[[:space:]\p{Cf}]+#iu', '', $matches[1])).'"';
+			return '"'.preg_replace('#[[:space:]\p{Cf}]+$#u', '', preg_replace('#^[[:space:]\p{Cf}]+#u', '', $matches[1])).'"';
 		}, $xmlContent);
-		$xmlContent = preg_replace('#\p{Cf}+#iu', pack('H*', 'e2808c'), $xmlContent);
+		$xmlContent = preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'), $xmlContent);
 		if (strpos($xmlContent, '<?xml') === FALSE)
 		{
 			$xmlContent = '<?xml version="1.0" encoding="UTF-8"?>' . $xmlContent;
@@ -361,7 +361,7 @@ class Helpers {
 				$q = str_replace(pack('H*', 'd988'), sprintf('(?:%s|%s)', pack('H*', 'd988'), pack('H*', 'd8a4')), $q); # و
 				$q = str_replace(pack('H*', 'daa9'), sprintf('(?:%s|%s)', pack('H*', 'daa9'), pack('H*', 'd983')), $q); # ک
 			
-				$value = preg_replace(sprintf('#[\p{L}\p{M}\p{Cf}]*%s[\p{L}\p{M}\p{Cf}]*#iu', $q), sprintf('<span class="hilight_suggestion">%s</span>', '$0'), $value);
+				$value = preg_replace(sprintf('#[\p{L}\p{M}\p{Cf}]*%s[\p{L}\p{M}\p{Cf}]*#u', $q), sprintf('<span class="hilight_suggestion">%s</span>', '$0'), $value);
 			}
 			
 			$finalArray[] = array('label' => $value, 'value' => $key);

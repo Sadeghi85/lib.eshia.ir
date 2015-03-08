@@ -118,7 +118,7 @@ class PageController extends BaseController {
 		
 		if (is_readable($pagePath))
 		{
-			$content =  preg_replace('#[[:space:]]+#', ' ',
+			$content =  preg_replace('#[[:space:]]+#u', ' ',
 							preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
 								str_replace(pack('H*', 'c2a0'), '',
 									str_replace(pack('H*', 'efbbbf'), '',

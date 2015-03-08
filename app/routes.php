@@ -41,7 +41,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	Route::get('/shenasnameh', function () { return Helpers::redirect('/help'); });
 	Route::get('/shenasnameh/{id}', function ($id)
 	{
-		if (($shenasnameh = file_get_contents(Config::get('app_settings.shenasnameh_url').'/'.$id)) && preg_replace('#[[:space:]\x{A0}]+#', '', preg_replace('#<[^<>]+>#', '', $shenasnameh))) {
+		if (($shenasnameh = file_get_contents(Config::get('app_settings.shenasnameh_url').'/'.$id)) && preg_replace('#[[:space:]\x{A0}]+#u', '', preg_replace('#<[^<>]+>#', '', $shenasnameh))) {
 			$content = $shenasnameh;
 		} else {
 			$content = Lang::get('app.shenasnameh_not_found');
