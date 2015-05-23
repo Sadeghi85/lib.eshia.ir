@@ -23,7 +23,7 @@ class SearchController extends BaseController {
 			$id = null;
 		}
 		
-		$query = preg_replace('#\p{Cf}+#u', ' ', str_replace(pack('H*', 'c2a0'), '', $query));
+		$query = preg_replace('#\p{Cf}+#u', ' ', str_replace(pack('H*', 'c2a0'), ' ', $query));
 		
 		$page = Input::get('page', 1);
 		$perPage = Config::get('app_settings.results_per_page', 10);  //number of results per page
@@ -77,7 +77,7 @@ class SearchController extends BaseController {
 			{
 				$excerpts[$i] = preg_replace('#[[:space:]]+#u', ' ',
 									preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
-										str_replace(pack('H*', 'c2a0'), '',
+										str_replace(pack('H*', 'c2a0'), ' ',
 											str_replace(pack('H*', 'efbbbf'), '',
 												iconv('UTF-8', 'UTF-8//IGNORE',
 													$excerpts[$i]

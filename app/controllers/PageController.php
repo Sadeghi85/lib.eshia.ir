@@ -46,11 +46,16 @@ class PageController extends BaseController {
 		{
 			if ($volNode->hasAttribute(VOL_ATTR_ID))
 			{
-				$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['indexpage'] = (int) $volNode->getAttribute(VOL_ATTR_INDEX);
-				$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['base']      = (int) $volNode->getAttribute(VOL_ATTR_BASE);
-				$volumes[(int) $volNode->getAttribute(VOL_ATTR_ID)]['pages']     = (int) $volNode->getAttribute(VOL_ATTR_PAGES);
+				$volID = $volNode->getAttribute(VOL_ATTR_ID);
+				$volID = (preg_match('#[^0-9]#', $volID)) ? $volID : ((int) $volID);
+
+				$volumes[$volID]['indexpage'] = (int) $volNode->getAttribute(VOL_ATTR_INDEX);
+				$volumes[$volID]['base']      = (int) $volNode->getAttribute(VOL_ATTR_BASE);
+				$volumes[$volID]['pages']     = (int) $volNode->getAttribute(VOL_ATTR_PAGES);
 			}
 		}
+		
+		ksort($volumes);
 		
 		if (isset($volumes[$volume]))
 		{
@@ -120,7 +125,7 @@ class PageController extends BaseController {
 		{
 			$content =  preg_replace('#[[:space:]]+#u', ' ',
 							preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
-								str_replace(pack('H*', 'c2a0'), '',
+								str_replace(pack('H*', 'c2a0'), ' ',
 									str_replace(pack('H*', 'efbbbf'), '',
 										iconv('UTF-8', 'UTF-8//IGNORE',
 											file_get_contents($pagePath)
