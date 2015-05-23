@@ -18,9 +18,13 @@ class PageController extends BaseController {
 
 	public function showPage($id, $volume = -1, $page = -1, $highlight = null)
 	{
+		$id = (int) $id;
+		$volume = (preg_match('#[^0-9]#', $volume)) ? $volume : ((int) $volume);
+		$page = (int) $page;
+		
 		if (Request::server('REQUEST_METHOD') == 'POST')
 		{
-			return Redirect::to(sprintf('%s/%s/%s', (int) Input::get('id', $id), (int) Input::get('volume', $volume), (int) Input::get('page', $page)));  // url should be updated too...
+			return Redirect::to(sprintf('%s/%s/%s', (int) Input::get('id', $id), ((preg_match('#[^0-9]#', Input::get('volume', $volume))) ? Input::get('volume', $volume) : ((int) Input::get('volume', $volume))), (int) Input::get('page', $page)));  // url should be updated too...
 		}
 		
 		$xpath = new DOMXpath($this->_xmlObject);
