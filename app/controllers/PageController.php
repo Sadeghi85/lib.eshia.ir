@@ -37,7 +37,7 @@ class PageController extends BaseController {
 		
 		if ($vols->length == 0)
 		{
-			Log::error("Book entry '{$id}' has no volume or it doesn't exist. ( ". __FILE__ .' on line '. __LINE__ .' )');
+			Log::error(sprintf('Book with id "%s" has no volume or doesn\'t exist.', $id));
 			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(1)))));
 			
 			App::abort(404);
@@ -127,15 +127,20 @@ class PageController extends BaseController {
 		
 		if (is_readable($pagePath))
 		{
-			$content =  preg_replace('#[[:space:]]+#u', ' ',
-							preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
-								str_replace(pack('H*', 'c2a0'), ' ',
-									str_replace(pack('H*', 'efbbbf'), '',
-										str_replace(pack('H*', '00'), '',
-											iconv('UTF-8', 'UTF-8//IGNORE',
-												file_get_contents($pagePath)
-											)
-										)
+			$_utf8Content = @iconv('UTF-8', 'UTF-8//IGNORE', file_get_contents($pagePath));
+			If ( ! $_utf8Content)
+			{
+				Log::error(sprintf('Detected an incomplete multibyte character in book id="%s", volume="%s", page="%s".', $id, $volume, $page));
+				Helpers::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+				
+				App::abort('404');
+			}
+			
+			$content =  preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
+							str_replace(pack('H*', 'c2a0'), ' ',
+								str_replace(pack('H*', 'efbbbf'), '',
+									str_replace(pack('H*', '00'), '',
+										$_utf8Content
 									)
 								)
 							)
@@ -168,7 +173,7 @@ class PageController extends BaseController {
 		}
 		else
 		{
-			Log::error("File '{$pagePath}' doesn't exist. ( ". __FILE__ .' on line '. __LINE__ .' )');
+			Log::error(sprintf('File "%s" doesn\'t exist.', $pagePath));
 			
 			$content = Lang::get('app.book_page_not_found_message');
 		}

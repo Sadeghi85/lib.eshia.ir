@@ -75,14 +75,21 @@ class SearchController extends BaseController {
 
 			for ($i = count($thisPage) - 1; $i >= 0; --$i)
 			{
+				$_utf8Content = @iconv('UTF-8', 'UTF-8//IGNORE', $excerpts[$i]);
+				If ( ! $_utf8Content)
+				{
+					Log::error(sprintf('Detected an incomplete multibyte character in book id="%s", volume="%s", page="%s".', $thisPage[$i]['attrs']['bookid'], $thisPage[$i]['attrs']['volume'], $thisPage[$i]['attrs']['page']));
+					Helpers::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+					
+					App::abort('404');
+				}
+				
 				$excerpts[$i] = preg_replace('#[[:space:]]+#u', ' ',
 									preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
 										str_replace(pack('H*', 'c2a0'), ' ',
 											str_replace(pack('H*', 'efbbbf'), '',
 												str_replace(pack('H*', '00'), '',
-													iconv('UTF-8', 'UTF-8//IGNORE',
-														$excerpts[$i]
-													)
+													$_utf8Content
 												)
 											)
 										)

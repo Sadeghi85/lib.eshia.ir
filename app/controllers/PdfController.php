@@ -25,10 +25,15 @@ class PdfController extends BaseController {
 		
 		$books = $xpath->query($xpathQuery, $this->_xmlObject);
 		
-		foreach ($books as $bookNode)
+		if ($books->length == 0)
 		{
-			$bookName = $bookNode->getAttribute(BOOK_ATTR_DISPLAYNAME);
+			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(2)))));
+			
+			App::abort(404);
 		}
+		
+		$book  = $books->item(0);
+		$bookName = $book->getAttribute(BOOK_ATTR_DISPLAYNAME);
 		
 		return View::make('pdf', compact('id', 'volume', 'bookName'));
 	}
