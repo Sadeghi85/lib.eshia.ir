@@ -79,8 +79,10 @@ class SearchController extends BaseController {
 									preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
 										str_replace(pack('H*', 'c2a0'), ' ',
 											str_replace(pack('H*', 'efbbbf'), '',
-												iconv('UTF-8', 'UTF-8//IGNORE',
-													$excerpts[$i]
+												str_replace(pack('H*', '00'), '',
+													iconv('UTF-8', 'UTF-8//IGNORE',
+														$excerpts[$i]
+													)
 												)
 											)
 										)

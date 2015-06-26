@@ -1514,6 +1514,12 @@ padding:0px 5px;
 	font-size:1.7em !important;
 	color:#FF0000 !important;		
 }
+	.libimages {
+	border: 1px #000 solid;
+	max-width: 700px;
+	height: auto;
+	margin: 0 20%;
+	}
 
 /*--EndofMisc Book------------------------------------------------------------------------------------*/
 >>>>>>> refs/remotes/origin/master
