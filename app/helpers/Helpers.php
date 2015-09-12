@@ -74,9 +74,9 @@ class Helpers {
 			$string = $_utf8String;
 		}
 		
-		$string = str_replace(pack('H*', 'efbbbf'), '', $string);
+		$string = str_replace([pack('H*', 'efbbbf'), '&#65279;'], ' ', $string);
+		$string = str_replace([pack('H*', 'c2a0'), '&#160;'], ' ', $string);
 		$string = str_replace(pack('H*', '00'), '', $string);
-		$string = str_replace(pack('H*', 'c2a0'), ' ', $string);
 		$string = str_replace(pack('H*', 'd980'), '', $string); # مـزمل
 		$string = str_replace(array(pack('H*', 'd98a'), pack('H*', 'd989'), pack('H*', 'd8a6')), pack('H*', 'db8c'), $string); # ی
 		$string = str_replace(array(pack('H*', 'd8a5'), pack('H*', 'd8a3'), pack('H*', 'd8a2')), pack('H*', 'd8a7'), $string); # ا

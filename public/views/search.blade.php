@@ -63,7 +63,7 @@
 								<div class="result">
 								<a href="">&nbsp;</a>
 							<a href="{{ Helpers::to(sprintf('/%s/%s/%s/%s', (int) $result['attrs']['bookid'], (int) $result['attrs']['volume'], (int) $result['attrs']['page'], $query)) }}" title="">{{ sprintf(trans('app.search_info'), '<font color="#ff6c13">', '</font>', $result['attrs']['bookName'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['volume'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['page']) }}</a>
-							{{-- <\?= anchor($item['address'].'/'.$term, $item['label'], array('title' => '')) ?> --}}
+							
 							</div>
 						<div class="preview">{{ $result['attrs']['excerpt'] }}</div>
 						</td>

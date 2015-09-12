@@ -137,8 +137,8 @@ class PageController extends BaseController {
 			}
 			
 			$content =  preg_replace('#\p{Cf}+#u', pack('H*', 'e2808c'),
-							str_replace(pack('H*', 'c2a0'), ' ',
-								str_replace(pack('H*', 'efbbbf'), '',
+							str_replace([pack('H*', 'c2a0'), '&#160;'], ' ',
+								str_replace([pack('H*', 'efbbbf'), '&#65279;'], ' ',
 									str_replace(pack('H*', '00'), '',
 										$_utf8Content
 									)
