@@ -131,7 +131,7 @@ class SearchController extends BaseController {
 		$xpathQuery = sprintf('//%s', GROUP_NODE);
 		$groupNode = $xpath->query($xpathQuery, $this->_xmlObject);
 		
-		$groupArray = array();
+		$groupArray = array(base64_encode(Lang::get('app.all_groups')) => Lang::get('app.all_groups'));
 		
 		foreach ($groupNode as $group)
 		{
@@ -160,10 +160,7 @@ class SearchController extends BaseController {
 	
 	public function processAdvancedPage()
 	{
-		if (Input::get('groupWhere', '') == 'groupOne')
-		{
-			$groupKey = Input::get('groupKey', '');
-		}
+		$groupKey = Input::get('groupKey', '');
 		
 		$and = Input::get('and', '');
 		$and = trim(preg_replace('#[[:space:]]+#u', ' ', $and));
@@ -181,7 +178,13 @@ class SearchController extends BaseController {
 		
 		$query = trim(preg_replace('#[[:space:]]+#u', ' ', sprintf('%s %s %s %s', $phrase, $or, $not, $and)));
 		
-		return (isset($groupKey) ? Helpers::redirect(sprintf('/search/%s?groupKey=%s', urlencode($query), urlencode($groupKey))) : Helpers::redirect(sprintf('/search/%s', urlencode($query))));
+		if ($groupKey == base64_encode(Lang::get('app.all_groups'))) {
+			return Helpers::redirect(sprintf('/search/%s', urlencode($query)));
+		}
+		else {
+			return Helpers::redirect(sprintf('/search/%s?groupKey=%s', urlencode($query), urlencode($groupKey)));
+		}
+		
 	}
 	
 	
