@@ -95,7 +95,7 @@ return array(
 	'last_page' => 'صفحه‌آخر',
 	'first_page' => 'صفحه‌اول',
 	'show' => 'نمایش',
-	'book_page_not_found_message' => 'این صفحه در کتاب اصلی بدون متن است',
+	'book_page_not_found_message' => 'این صفحه در کتاب اصلی بدون متن است / هذه الصفحة فارغة في النسخة المطبوعة',
 	'index_volume' => 'مقدمه',
 	'index_page' => 'فهرست',
 	'index_main' => 'صفحه‌اصلی',
