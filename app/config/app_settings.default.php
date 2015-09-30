@@ -11,6 +11,8 @@ return array(
 	'search_index_main_name' => 'lib_eshia_ir_main',
 	
 	'books_path' => 'C:\\inetpub\\Books\\Shia',
+	'images_path' => 'C:\\inetpub\\Books\\Shia',
+	'images_url' => 'http://images.lib.eshia.ir',
 
 	'shenasnameh_url' => 'http://shenasnameh.lib.eshia.ir/shenasnameh',
 	'pdf_url' => 'http://fa.media.baharsound.ir/pdf/pdf-form.php',

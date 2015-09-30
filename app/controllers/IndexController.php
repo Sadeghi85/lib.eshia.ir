@@ -31,6 +31,13 @@ class IndexController extends BaseController {
 		// ----query_not_found
 		if ($this->_navigationSegments[0] != '' and $this->_navigationTabs[count($this->_navigationTabs)][$lastKey - 1]['selected'] == true and $this->_navigationSegments[count($this->_navigationSegments) - 1] != 'all')
 		{
+			if (is_readable(sprintf('%s\\%s', Config::get('app_settings.images_path'), Request::Path())))
+			{
+				# Static file
+				return Redirect::to(Config::get('app_settings.images_url').'/'.Request::Path(), 301, ['Cache-Control' => 'public,max-age=86400']);
+				
+			}
+			
 			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $this->_navigationSegments[count($this->_navigationSegments) - 1]))));
 			
 			App::abort(404);
