@@ -197,7 +197,7 @@
 			};
 		};
 		
-		var hilights = document.getElementsByClassName('hilight');
+		var hilights = document.querySelectorAll('.hilight');
 		
 		if (hilights.length) {
 			var target = hilights[0];

@@ -162,6 +162,7 @@ input {
 }
 .searchp1 .SearchInput {
 	width:165px;
+	height:22px;
 	border:none;
 	outline:none;
 	font-family:"Nassim", "IE Nassim";
@@ -1318,7 +1319,7 @@ text-align:center;
 	line-height: 1;
 }
 /*-------end of rafed books---------------------------------------------------------------------------*/
-<<<<<<< HEAD
+
 /*
 this css is only for book body style
 */
@@ -1487,7 +1488,7 @@ text-align:center;
 color:#4b6275;
 padding:0px 5px;
 }
-=======
+
 /*-------Misc Book------------------------------------------------------------------------------------*/
 	miscbooktitr {
 	font-weight:bold !important;
@@ -1522,4 +1523,65 @@ padding:0px 5px;
 	}
 
 /*--EndofMisc Book------------------------------------------------------------------------------------*/
->>>>>>> refs/remotes/origin/master
+
+
+
+
+
+
+
+/*         fehrest          */
+.fehrest1 a, .fehrest2 a, .fehrest3 a, .fehrest4 a, .fehrest5 a, .fehrest6 a {
+font-family:"Nassim";
+font-size: 18px;
+text-decoration: none;
+color:#4b6275;
+}
+
+.fehrest1 a {
+padding-right:0;
+}
+
+.fehrest2 a {
+padding-right:15px;
+}
+
+.fehrest3 a {
+padding-right:30px;
+}
+
+.fehrest4 a {
+padding-right:45px;
+}
+
+.fehrest5 a {
+padding-right:60px;
+}
+
+.fehrest6 a {
+padding-right:75px;
+}
+
+.fehrest1 a:hover,.fehrest2 a:hover,.fehrest3 a:hover,.fehrest4 a:hover,.fehrest5 a:hover,.fehrest6 a:hover {
+color: red;
+font-family:"Nassim";
+font-size: 18px;
+text-decoration: none;
+color:#eebb41;
+}
+
+/*         fehrest          */
+
+
+.shenasnameh_book_name {
+	background: #eaeff2;
+    margin: 0;
+    color: #7d98ae;
+    height: 50px;
+    line-height: 50px;
+    direction: rtl;
+    font-family: "Nassim";
+    font-size: 22px;
+    text-align: center;
+    text-decoration: none;
+}
