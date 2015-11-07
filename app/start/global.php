@@ -141,8 +141,15 @@ App::down(function()
 
 require app_path().'/filters.php';
 
+// PageController page must be latin
+if (Request::server('REQUEST_METHOD') == 'POST') {
+	Input::merge(array('page' => abs(Helpers::latinizeNumber(Input::get('page', 0)))));
+}
+
 // Paginator page must be positive
-Input::merge(array(Paginator::getPageName() => abs(Input::get(Paginator::getPageName(), 1))));
+if (Request::server('REQUEST_METHOD') == 'GET') {
+	Input::merge(array(Paginator::getPageName() => abs(Input::get(Paginator::getPageName(), 1))));
+}
 
 /*
 |--------------------------------------------------------------------------

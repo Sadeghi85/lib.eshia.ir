@@ -62,6 +62,23 @@ class Helpers {
 		return sha1($solidString);
 	}
 	
+	public static function latinizeNumber($number)
+	{
+		$number = (string) $number;
+		$number = str_replace([pack('H*', 'd9a0'), pack('H*', 'dbb0')], '0', $number);
+		$number = str_replace([pack('H*', 'd9a1'), pack('H*', 'dbb1')], '1', $number);
+		$number = str_replace([pack('H*', 'd9a2'), pack('H*', 'dbb2')], '2', $number);
+		$number = str_replace([pack('H*', 'd9a3'), pack('H*', 'dbb3')], '3', $number);
+		$number = str_replace([pack('H*', 'd9a4'), pack('H*', 'dbb4')], '4', $number);
+		$number = str_replace([pack('H*', 'd9a5'), pack('H*', 'dbb5')], '5', $number);
+		$number = str_replace([pack('H*', 'd9a6'), pack('H*', 'dbb6')], '6', $number);
+		$number = str_replace([pack('H*', 'd9a7'), pack('H*', 'dbb7')], '7', $number);
+		$number = str_replace([pack('H*', 'd9a8'), pack('H*', 'dbb8')], '8', $number);
+		$number = str_replace([pack('H*', 'd9a9'), pack('H*', 'dbb9')], '9', $number);
+		
+		return (int) $number;
+	}
+	
 	public static function persianizeString($string)
 	{
 		$_utf8String = @iconv('UTF-8', 'UTF-8//IGNORE', $string);
