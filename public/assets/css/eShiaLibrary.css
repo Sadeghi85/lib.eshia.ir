@@ -162,7 +162,6 @@ input {
 }
 .searchp1 .SearchInput {
 	width:165px;
-	height:22px;
 	border:none;
 	outline:none;
 	font-family:"Nassim", "IE Nassim";
@@ -1319,7 +1318,7 @@ text-align:center;
 	line-height: 1;
 }
 /*-------end of rafed books---------------------------------------------------------------------------*/
-
+<<<<<<< HEAD
 /*
 this css is only for book body style
 */
@@ -1487,7 +1486,7 @@ text-align:center;
 color:#4b6275;
 padding:0px 5px;
 }
-
+=======
 /*-------Misc Book------------------------------------------------------------------------------------*/
 	miscbooktitr {
 	font-weight:bold !important;
@@ -1514,22 +1513,6 @@ padding:0px 5px;
 	font-size:1.7em !important;
 	color:#FF0000 !important;		
 }
-	.libimages {
-	border: 1px #000 solid;
-	max-width: 700px;
-	height: auto;
-	margin: 0 20%;
-	}
-
-/*--EndofMisc Book------------------------------------------------------------------------------------*/
-
-
-
-
-
-
-
-/*         fehrest          */
 .fehrest1 a, .fehrest2 a, .fehrest3 a, .fehrest4 a, .fehrest5 a, .fehrest6 a {
 font-family:"Nassim";
 font-size: 18px;
@@ -1568,19 +1551,5 @@ font-size: 18px;
 text-decoration: none;
 color:#eebb41;
 }
-
-/*         fehrest          */
-
-
-.shenasnameh_book_name {
-	background: #eaeff2;
-    margin: 0;
-    color: #7d98ae;
-    height: 50px;
-    line-height: 50px;
-    direction: rtl;
-    font-family: "Nassim";
-    font-size: 22px;
-    text-align: center;
-    text-decoration: none;
-}
+/*--EndofMisc Book------------------------------------------------------------------------------------*/
+>>>>>>> refs/remotes/origin/master
