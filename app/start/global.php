@@ -192,18 +192,18 @@ View::composer(Paginator::getViewName(), function($view)
 	$view->paginator->appends($queryString);
 });
 
-View::composer('partials/navigation', function($view)
+View::composer(sprintf('%s/partials/navigation', Config::get('app_settings.theme')), function($view)
 {
 	$view->with('tabs', Helpers::getNavigationTabs());
 });
 
 // enable caching for near static contents
-View::composer('advanced_search', function($view) { define('PAGE_IS_CACHEABLE', true); });
-View::composer('index', function($view) { define('PAGE_IS_CACHEABLE', true); });
-View::composer('author_booklist', function($view) { define('PAGE_IS_CACHEABLE', true); });
-View::composer('authorlist', function($view) { define('PAGE_IS_CACHEABLE', true); });
-View::composer('booklist', function($view) { define('PAGE_IS_CACHEABLE', true); });
-View::composer('help/help-*', function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer(sprintf('%s/advanced_search', Config::get('app_settings.theme')), function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer(sprintf('%s/index', Config::get('app_settings.theme')), function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer(sprintf('%s/author_booklist', Config::get('app_settings.theme')), function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer(sprintf('%s/authorlist', Config::get('app_settings.theme')), function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer(sprintf('%s/booklist', Config::get('app_settings.theme')), function($view) { define('PAGE_IS_CACHEABLE', true); });
+View::composer(sprintf('%s/help/help-*', Config::get('app_settings.theme')), function($view) { define('PAGE_IS_CACHEABLE', true); });
 
 /*
 |--------------------------------------------------------------------------

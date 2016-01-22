@@ -14,6 +14,8 @@ class BaseController extends Controller {
 	 */
 	public function __construct()
 	{
+		$this->layout = sprintf('%s/layouts.default', Config::get('app_settings.theme'));
+		
 		// CSRF Protection
 		//$this->beforeFilter('csrf', array('on' => 'post'));
 		

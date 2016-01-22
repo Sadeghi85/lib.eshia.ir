@@ -38,7 +38,7 @@ class IndexController extends BaseController {
 				
 			}
 			
-			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $this->_navigationSegments[count($this->_navigationSegments) - 1]))));
+			Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.query_search_result_not_found', Config::get('app_settings.theme')), array('query' => sprintf('"%s"', $this->_navigationSegments[count($this->_navigationSegments) - 1]))));
 			
 			App::abort(404);
 		}
@@ -56,7 +56,9 @@ class IndexController extends BaseController {
 			$booksCount = $books->length;
 			$volsCount = $vols->length;
 
-			return View::make('index')->with(compact('booksCount', 'volsCount'));
+			//return View::make('index')->with(compact('booksCount', 'volsCount'));
+			$this->layout->content = View::make(sprintf('%s/index', Config::get('app_settings.theme')), compact('booksCount', 'volsCount'));
+			return;
 		}
 		
 		// ----author_booklist
@@ -103,7 +105,9 @@ class IndexController extends BaseController {
 				);
 			}
 			
-			return View::make('author_booklist')->with(compact('books', 'author'));
+			//return View::make('author_booklist')->with(compact('books', 'author'));
+			$this->layout->content = View::make(sprintf('%s/author_booklist', Config::get('app_settings.theme')), compact('books', 'author'));
+			return;
 		}
 		
 		$xpathQuery = '//';
@@ -155,7 +159,9 @@ class IndexController extends BaseController {
 			
 			$authorsBooksCount = Helpers::kpsort($authorsBooksCount);
 			
-			return View::make('authorlist')->with(compact('authorsBooksCount'));
+			//return View::make('authorlist')->with(compact('authorsBooksCount'));
+			$this->layout->content = View::make(sprintf('%s/authorlist', Config::get('app_settings.theme')), compact('authorsBooksCount'));
+			return;
 		}
 		// ----booklist
 		else
@@ -205,7 +211,9 @@ class IndexController extends BaseController {
 				);
 			}
 			
-			return View::make('booklist')->with(compact('books'));
+			//return View::make('lib/booklist')->with(compact('books'));
+			$this->layout->content = View::make(sprintf('%s/booklist', Config::get('app_settings.theme')), compact('books'));
+			return;
 		}
 	}
 }

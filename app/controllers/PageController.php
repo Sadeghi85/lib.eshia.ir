@@ -38,7 +38,7 @@ class PageController extends BaseController {
 		if ($vols->length == 0)
 		{
 			Log::error(sprintf('Book with id "%s" has no volume or doesn\'t exist.', $id));
-			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(1)))));
+			Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.query_search_result_not_found', Config::get('app_settings.theme')), array('query' => sprintf('"%s"', Request::segment(1)))));
 			
 			App::abort(404);
 		}
@@ -86,7 +86,7 @@ class PageController extends BaseController {
 		
 		foreach (array_keys($volumes) as $key)
 		{
-			$volumeOptions[$key] = ($key === 0 ? Lang::get('app.index_volume') : $key);
+			$volumeOptions[$key] = ($key === 0 ? Lang::get(sprintf('%s/app.index_volume', Config::get('app_settings.theme'))) : $key);
 		}
 		
 		$indexPage = $volumes[$volume]['indexpage'];
@@ -131,7 +131,7 @@ class PageController extends BaseController {
 			If ( ! $_utf8Content)
 			{
 				Log::error(sprintf('Detected an incomplete multibyte character in book id="%s", volume="%s", page="%s".', $id, $volume, $page));
-				Helpers::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+				Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.page_display_error', Config::get('app_settings.theme'))));
 				
 				App::abort('404');
 			}
@@ -175,9 +175,10 @@ class PageController extends BaseController {
 		{
 			Log::error(sprintf('File "%s" doesn\'t exist.', $pagePath));
 			
-			$content = Lang::get('app.book_page_not_found_message');
+			$content = Lang::get(sprintf('%s/app.book_page_not_found_message', Config::get('app_settings.theme')));
 		}
 		
-		return View::make('page')->with(compact('id', 'volume', 'page', 'volumeOptions', 'bookName', 'authorName', 'indexPage', 'firstPage', 'lastPage', 'prevPage', 'nextPage', 'content'));
+		//return View::make('page')->with(compact('id', 'volume', 'page', 'volumeOptions', 'bookName', 'authorName', 'indexPage', 'firstPage', 'lastPage', 'prevPage', 'nextPage', 'content'));
+		$this->layout->content = View::make(sprintf('%s/page', Config::get('app_settings.theme')), compact('id', 'volume', 'page', 'volumeOptions', 'bookName', 'authorName', 'indexPage', 'firstPage', 'lastPage', 'prevPage', 'nextPage', 'content'));
 	}
 }

@@ -2,6 +2,8 @@
 
 return array(
 
+	'theme' => 'main_lib',
+
 	'xml_path' => '.\\APP_Data\\Books.xml',
 
 	'results_per_page' => 10,

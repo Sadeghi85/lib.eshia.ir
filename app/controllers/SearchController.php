@@ -79,7 +79,7 @@ class SearchController extends BaseController {
 				If ( ! $_utf8Content)
 				{
 					Log::error(sprintf('Detected an incomplete multibyte character in book id="%s", volume="%s", page="%s".', $thisPage[$i]['attrs']['bookid'], $thisPage[$i]['attrs']['volume'], $thisPage[$i]['attrs']['page']));
-					Helpers::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+					Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.page_display_error', Config::get('app_settings.theme'))));
 					
 					App::abort('404');
 				}
@@ -104,7 +104,10 @@ class SearchController extends BaseController {
 			}
 
 			$paginator = Paginator::make($thisPage, min($results['total'], Config::get('app_settings.search_result_limit', 1000)), $perPage);
-			return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'totalCount' => $results['total_found'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query), 'id' => $id));
+			
+			//return View::make('search')->with(array('results' => $paginator, 'time' => $results['time'], 'totalCount' => $results['total_found'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query), 'id' => $id));
+			$this->layout->content = View::make(sprintf('%s/search', Config::get('app_settings.theme')))->with(array('results' => $paginator, 'time' => $results['time'], 'totalCount' => $results['total_found'], 'resultCount' => $results['total'], 'page' => $page, 'perPage' => $perPage, 'query' => urlencode($query), 'id' => $id));
+			return;
 		}
 		
 		if ($page > 1)
@@ -114,11 +117,11 @@ class SearchController extends BaseController {
 		
 		if (isset($results['warning']) and $results['warning'] == 'query time exceeded max_query_time')
 		{
-			Helpers::setExceptionErrorMessage(Lang::get('app.query_timed_out'));
+			Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.query_timed_out', Config::get('app_settings.theme'))));
 		}
 		else
 		{
-			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', $query))));
+			Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.query_search_result_not_found', Config::get('app_settings.theme')), array('query' => sprintf('"%s"', $query))));
 		}
 		
 		App::abort('404');
@@ -131,7 +134,7 @@ class SearchController extends BaseController {
 		$xpathQuery = sprintf('//%s', GROUP_NODE);
 		$groupNode = $xpath->query($xpathQuery, $this->_xmlObject);
 		
-		$groupArray = array(base64_encode(Lang::get('app.all_groups')) => Lang::get('app.all_groups'));
+		$groupArray = array(base64_encode(Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme')))) => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))));
 		
 		foreach ($groupNode as $group)
 		{
@@ -155,7 +158,9 @@ class SearchController extends BaseController {
 			$groupArray[$groupKey] = sprintf('%s&nbsp;%s', str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $depth).str_repeat('-', $depth), $group->getAttribute(GROUP_ATTR_NAME));
 		}
 		
-		return View::make('advanced_search')->with('groupArray', $groupArray);
+		//return View::make('advanced_search')->with('groupArray', $groupArray);
+		$this->layout->content = View::make(sprintf('%s/advanced_search', Config::get('app_settings.theme')), compact('groupArray'));
+		return;
 	}
 	
 	public function processAdvancedPage()
@@ -178,7 +183,7 @@ class SearchController extends BaseController {
 		
 		$query = trim(preg_replace('#[[:space:]]+#u', ' ', sprintf('%s %s %s %s', $phrase, $or, $not, $and)));
 		
-		if ($groupKey == base64_encode(Lang::get('app.all_groups'))) {
+		if ($groupKey == base64_encode(Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))))) {
 			return Helpers::redirect(sprintf('/search/%s', urlencode($query)));
 		}
 		else {

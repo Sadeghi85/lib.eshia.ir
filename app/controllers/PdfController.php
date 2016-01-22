@@ -27,7 +27,7 @@ class PdfController extends BaseController {
 		
 		if ($books->length == 0)
 		{
-			Helpers::setExceptionErrorMessage(Lang::get('app.query_search_result_not_found', array('query' => sprintf('"%s"', Request::segment(2)))));
+			Helpers::setExceptionErrorMessage(Lang::get(sprintf('%s/app.query_search_result_not_found', Config::get('app_settings.theme')), array('query' => sprintf('"%s"', Request::segment(2)))));
 			
 			App::abort(404);
 		}
@@ -35,6 +35,8 @@ class PdfController extends BaseController {
 		$book  = $books->item(0);
 		$bookName = $book->getAttribute(BOOK_ATTR_DISPLAYNAME);
 		
-		return View::make('pdf', compact('id', 'volume', 'bookName'));
+		//return View::make('pdf', compact('id', 'volume', 'bookName'));
+		$this->layout->content = View::make(sprintf('%s/pdf', Config::get('app_settings.theme')), compact('id', 'volume', 'bookName'));
+		return;
 	}
 }

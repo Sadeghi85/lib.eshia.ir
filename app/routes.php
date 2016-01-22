@@ -34,7 +34,7 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 	Route::get('/help/{id?}', function ($id = 0)
 	{
 		if ($id == 0) $id = '01';
-		return View::make('help/help-'.$id);
+		return View::make(sprintf('%s/help/help-%s', Config::get('app_settings.theme'), $id));
 	})->where('id', '\d+');
 
 	// Shenasnameh
@@ -44,9 +44,9 @@ Route::group(array('before' => 'needs.xml.navigation'), function()
 		if (($shenasnameh = file_get_contents(Config::get('app_settings.shenasnameh_url').'/'.$id)) && preg_replace('#[[:space:]\x{A0}]+#u', '', preg_replace('#<[^<>]+>#', '', $shenasnameh))) {
 			$content = $shenasnameh;
 		} else {
-			$content = Lang::get('app.shenasnameh_not_found');
+			$content = Lang::get(sprintf('%s/app.shenasnameh_not_found', Config::get('app_settings.theme')));
 		}
-		return View::make('shenasnameh')->with(compact('content'));
+		return View::make(sprintf('%s/shenasnameh', Config::get('app_settings.theme')), compact('content'));
 	})->where('id', '\d+');
 	
 	// PDF

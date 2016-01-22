@@ -275,7 +275,7 @@ class Helpers {
 		}
 		catch (\Exception $e) {
 			Log::error('Error loading xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-			self::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+			self::setExceptionErrorMessage(Lang::get(sprintf('%s/app.page_display_error', Config::get('app_settings.theme'))));
 			
 			App::abort(500);
 		}
@@ -303,7 +303,7 @@ class Helpers {
 		}
 		catch (\Exception $e) {
 			Log::error('Error loading persianized xml. ( '. __FILE__ .' on line '. __LINE__ .' )');
-			self::setExceptionErrorMessage(Lang::get('app.page_display_error'));
+			self::setExceptionErrorMessage(Lang::get(sprintf('%s/app.page_display_error', Config::get('app_settings.theme'))));
 			App::abort(500);
 		}
 		
@@ -491,7 +491,7 @@ class Helpers {
 		
 		if (empty($segments))
 		{
-			$groupArray[0][] = array('path' => '/', 'group' => Lang::get('app.index_main'), 'selected' => TRUE);
+			$groupArray[0][] = array('path' => '/', 'group' => Lang::get(sprintf('%s/app.index_main', Config::get('app_settings.theme'))), 'selected' => TRUE);
 			
 			$nodes = $xpath->query($baseXpath, $xml);
 			
@@ -531,8 +531,8 @@ class Helpers {
 				################################
 			}
 			
-			$groupArray[0][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-			$groupArray[0][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+			$groupArray[0][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => FALSE);
+			$groupArray[0][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 			$navigation[0] = '';
 		}
 		else
@@ -569,7 +569,7 @@ class Helpers {
 			{
 				if ($i == 1)
 				{
-					$groupArray[$i][] = array('path' => '/', 'group' => Lang::get('app.index_main'), 'selected' => FALSE);
+					$groupArray[$i][] = array('path' => '/', 'group' => Lang::get(sprintf('%s/app.index_main', Config::get('app_settings.theme'))), 'selected' => FALSE);
 				}
 				
 				$nodes = $xpath->query($baseXpath, $xml);
@@ -661,14 +661,14 @@ class Helpers {
 				switch ((isset($segments[$i]) ? $segments[$i] : ''))
 				{
 					case 'authors':
-						$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-						$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => TRUE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => FALSE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => TRUE);
 						$navigation[] = 'authors';
 					break;
 						
 					case 'all':
-						$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
-						$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => TRUE);
+						$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 						$navigation[] = 'all';
 					break;
 						
@@ -682,8 +682,8 @@ class Helpers {
 								
 								if ($nodes2->length > 0)
 								{
-									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => TRUE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => TRUE);
 									$navigation[] = $segments[$i];
 								}
 								else
@@ -691,7 +691,7 @@ class Helpers {
 									reset($groupArray[$i]);
 									$firstKey = key($groupArray[$i]);
 									
-									if ($nodes->length > 0 && $groupArray[$i][$firstKey]['group'] != Lang::get('app.index_main'))
+									if ($nodes->length > 0 && $groupArray[$i][$firstKey]['group'] != Lang::get(sprintf('%s/app.index_main', Config::get('app_settings.theme'))))
 									{
 										$groupArray[$i][$firstKey]['selected'] = TRUE;
 										
@@ -703,14 +703,14 @@ class Helpers {
 										
 										$haveSelected = TRUE;
 										
-										$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-										$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => FALSE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 									}
 									
 									if (isset($groupArray[$i][0]) && $haveSelected === FALSE)
 									{
-										$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
-										$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => TRUE);
+										$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 										$navigation[] = $segments[$i];
 									}
 								}
@@ -732,22 +732,22 @@ class Helpers {
 									
 									$haveSelected = TRUE;
 									
-									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 								}
 									
 								if (isset($groupArray[$i][0]) && $haveSelected === FALSE)
 								{
-									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => TRUE);
-									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => TRUE);
+									$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 									$navigation[] = '-';
 								}
 							}
 						}
 						else
 						{
-							$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get('app.all_groups'), 'selected' => FALSE);
-							$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get('app.authors'), 'selected' => FALSE);
+							$groupArray[$i][] = array('path' => $partialPath.'/'.'all', 'group' => Lang::get(sprintf('%s/app.all_groups', Config::get('app_settings.theme'))), 'selected' => FALSE);
+							$groupArray[$i][] = array('path' => $partialPath.'/'.'authors', 'group' => Lang::get(sprintf('%s/app.authors', Config::get('app_settings.theme'))), 'selected' => FALSE);
 						}
 					break;
 				}
