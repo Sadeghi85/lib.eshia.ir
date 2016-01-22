@@ -32,17 +32,22 @@ class Helpers {
 		);
 		
 		$pathes = array(
-			public_path() . '/views/',
+			app_path() . '/views/',
 			app_path() . '/lang/',
 		);
 		
 		foreach ($pathes as $path)
 		{
-			$Directory = new RecursiveDirectoryIterator($path);
-			$Iterator = new RecursiveIteratorIterator($Directory);
-			$Items = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
-			
-			$files = array_merge($files, array_flatten(iterator_to_array($Items)));
+			try
+			{
+				$Directory = new RecursiveDirectoryIterator($path);
+				$Iterator = new RecursiveIteratorIterator($Directory);
+				$Items = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);
+				
+				$files = array_merge($files, array_flatten(iterator_to_array($Items)));
+			}
+			catch (\Exception $e)
+			{ }
 		}
 		
 		return $files;
