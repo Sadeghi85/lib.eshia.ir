@@ -56,7 +56,7 @@ App::fatal(function($exception)
 	{
 		$message = Helpers::getExceptionErrorMessage();
 		//return Response::view('error.error', compact('message'), 500);
-		return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
+		return (Request::ajax() ? Response::make('', 200) : Response::view(sprintf('%s/error.error', Config::get('app_settings.theme')), compact('message'), 200));
 	}
 });
 
@@ -84,7 +84,7 @@ App::error(function(Exception $exception, $code)
 
 			default:
 				//return Response::view('error.error', compact('message'), 404);
-				return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
+				return (Request::ajax() ? Response::make('', 200) : Response::view(sprintf('%s/error.error', Config::get('app_settings.theme')), compact('message'), 200));
 		}
 	}
 });
@@ -98,14 +98,14 @@ App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $excepti
 {
 	$message = Helpers::getExceptionErrorMessage();
     //return Response::view('error.error', compact('message'), 404);
-	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
+	return (Request::ajax() ? Response::make('', 200) : Response::view(sprintf('%s/error.error', Config::get('app_settings.theme')), compact('message'), 200));
 });
 
 App::missing(function($exception)
 {
     $message = Helpers::getExceptionErrorMessage();
     //return Response::view('error.error', compact('message'), 404);
-	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
+	return (Request::ajax() ? Response::make('', 200) : Response::view(sprintf('%s/error.error', Config::get('app_settings.theme')), compact('message'), 200));
 });
 
 /*
@@ -125,7 +125,7 @@ App::down(function()
 	
 	$message = Helpers::getExceptionErrorMessage();
     //return Response::view('error.error', compact('message'), 503);
-	return (Request::ajax() ? Response::make('', 200) : Response::view('error.error', compact('message'), 200));
+	return (Request::ajax() ? Response::make('', 200) : Response::view(sprintf('%s/error.error', Config::get('app_settings.theme')), compact('message'), 200));
 });
 
 /*
