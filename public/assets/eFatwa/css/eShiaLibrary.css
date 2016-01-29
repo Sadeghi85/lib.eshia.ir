@@ -1,0 +1,1587 @@
+﻿
+/*----Start of font-face -------------------------------------------------------------------------------------------------------------*/
+@font-face {
+	font-family: "Nassim";
+	src: url("../fonts/Nassim.ttf") format("truetype");
+}
+@font-face {
+	font-family: "IE Nassim";
+	src: url("../fonts/Nassim.eot");
+	
+}
+@font-face {
+	font-family: "Alaem";
+	src: url("../fonts/Alaem1.ttf") format("truetype");
+}
+@font-face {
+	font-family: "IE Alaem";
+	src: url("../fonts/Alaem1.eot");
+}
+@font-face {
+	font-family: "other Alaem";
+	src: url("../fonts/Alaem1.woff") format("woff"), url("../fonts/Alaem1.svg#webfontYBMgNOwD") format("svg");
+}
+
+/*----End of font-face -------------------------------------------------------------------------------------------------------------*/
+
+/*----Start of Page -------------------------------------------------------------------------------------------------------------*/
+HTML, BODY {
+	background: #2c3e4e;
+	margin: 0;
+	padding: 0;
+	font-family:"Nassim", "IE Nassim";
+}
+A {
+	text-decoration: none;
+}
+A:link {
+	text-decoration: none;
+	color: #333333;
+}
+A:visited {
+	color: #333333;
+}
+A:hover {
+	text-decoration: none;
+	color: #0099FF;
+}
+.leftSection {
+	border:none;	
+	padding:0;
+	vertical-align:top;
+}
+input {
+	font-family:"Nassim", "IE Nassim" !important;
+
+}
+
+/*------End of Page -------------------------------------------------------------------------------------------------------------*/
+
+/*----Start of All page -------------------------------------------------------------------------------------------------------------*/
+#all_contents {
+	background:#2c3e4e;
+	margin:0;
+	width: 100%;
+	padding:0;
+	border:none;
+	vertical-align:central;
+	
+}
+/*----End of All page -------------------------------------------------------------------------------------------------------------*/
+
+/*----Start of rightsection -------------------------------------------------------------------------------------------------------------*/
+.rightsection {
+	width:180px;
+	vertical-align:top;
+	background:#2c3e4e url(../images/RightSection_BackGround.jpg) top repeat-y;
+	text-align:right;
+	padding:0;
+	margin:0;
+}
+.rightsection_end {
+	background:#2c3e4e url(../images/RightSection_End_BackGround.jpg) top no-repeat;
+	height:100px;	
+}
+.vertical-logo {
+	border:none;
+	outline:none;
+	top:0;
+	right:0;
+}
+.rightsectionlinks {
+	padding:0 5px 0 0;
+	border:none;
+	background:none;
+	width:170px;
+	top:185px;
+	right:0;
+	text-align:right;
+		
+}
+.rightsectionlinks UL LI {
+	font-size:0.9em;
+	cursor:pointer;
+	text-align:right;
+	list-style-type:none;
+	color:#858c91;
+	line-height:1.3em;
+	direction:rtl;
+}
+.rightsectionlinks UL LI A {
+	color:#858c91;
+}
+.rightsectionlinks UL LI A:Hover {
+	color:#FFF;
+}
+/*-----end of rightsection -------------------------------------------------------------------------------------------------------------*/
+
+/*----Start of header -------------------------------------------------------------------------------------------------------------*/
+#header {
+	border:none;
+	margin:5px auto;
+	width:91%
+}
+.topheader {
+	height:auto;
+	padding:0;
+	margin:0;
+	line-height:0;
+	text-align:right;
+	background:url(/assets/images/topheaderback.jpg) repeat-x top #3b5063;
+}
+.header-table {
+	border:none;
+	width:100%;
+}
+.header-link, .header-link a {
+	color:#858c91;
+	text-align:right;
+	font-size:1em;
+	width:80%;
+}
+.header-link a {
+	border:none;	
+	margin:0 6px;
+}
+.header-link a:Hover {
+	color:#FFF;
+}
+#mainSearchPanel {
+	background-color: #a9c3d9;
+	border:none;
+	margin:0;
+	position: relative;
+	line-height:60%;
+	text-align:right;
+}
+.searchp1 {
+	padding:0 5px;
+	border:2px solid #697a89;
+	background:#a9c3d9;
+	vertical-align:top;
+}
+.searchp1 .SearchInput {
+	width:165px;
+	height:22px;
+	border:none;
+	outline:none;
+	font-family:"Nassim", "IE Nassim";
+	font-size:1em;
+	color:#FFFFFF;
+	font-style:normal;
+	text-align:right;
+	padding:0 5px 0 0;
+	background:#a9c3d9;
+	direction: rtl;
+}
+.SearchInput ui-autocomplete-input empty-search-item {
+	outline:none;
+	border:none;
+}
+.SearchKey {
+	cursor: pointer;
+	border: 0;
+	position:absolute;
+	margin: 0em;
+	padding: 0em;
+	width: 26px;
+	height: 22px;
+	background: url("../Images/SearchButton.jpg") center no-repeat;
+	outline: none;
+	top:0;
+	left: 0px;
+}
+/*----End of header -------------------------------------------------------------------------------------------------------------*/
+
+/*----start of navigationbar-------------------------------------------------------------------------------------------------------------*/
+#navigationBar {
+	width: 100%;
+	margin: 0px auto;
+	padding: 0px;
+	border:none;
+	text-align:right;
+	font-size:1.2em;
+}
+.tab-panel {
+	border:none;
+	padding:0;
+	margin:0;
+	font-size:0.8em;
+	direction:rtl;
+	height:auto;
+}
+
+.tab-panel-table {
+	padding:0;
+	margin:0;
+	border:none;
+	width:100%;
+	height:auto;
+}
+.tab-panel-middle {
+	background:url(../images/tab-panel-back.jpg) top repeat-x;
+	border:none;
+	margin:0;
+	padding:0;
+}
+.tab-panel-left {
+	background:url(../images/tab-panel-left.jpg) top no-repeat;
+	width:50px;
+	border:none;	
+}
+.tab-panel-right {
+	background:url(../images/tab-panel-right.jpg) top no-repeat;
+	width:50px;
+	border:none;
+}
+.tab-panel-middle UL {
+	border:none;
+	margin:0;
+	padding:0 3px;
+}
+.tab-panel-middle UL LI {
+	border:none;
+	display:inline;
+	list-style-type:none;
+	color:#858c91;
+	text-align:center;
+	margin:0 0 3px;
+	padding:2px 5px 5px;
+	line-height:2.1em;
+}
+.tab-panel-middle UL LI A {
+	color:#858c91;
+}
+.tab-panel-middle UL LI A:Hover {
+	color:#FFF;
+}
+.tab-panel-middle UL LI.selected-tab {
+	color:#45c3d1;
+	background:url(../images/selectedtab.jpg) bottom no-repeat;
+}
+.tab-panel-middle UL LI.selected-tab A, .tab-panel-middle UL LI.selected-tab A:Link, .tab-panel-middle UL LI.selected-tab A:visited {
+	color:#45c3d1;
+	text-decoration:none;
+}
+/*----start of navigationbar-------------------------------------------------------------------------------------------------------------*/
+
+/*----start of page1-------------------------------------------------------------------------------------------------------------*/
+#contents {
+	margin:10px auto 0px;
+	background:#697a89 url(../images/Content_Back.gif) top center repeat ;
+	border:2px solid #697a89;
+	padding:10px;
+	font-size: 0.8em;
+	line-height: 260%;
+	min-height:300px;
+	width:89%;
+	height:auto;
+}
+#contents TD {
+	direction:rtl;
+}
+
+#contents.content-DefaultPage {
+	margin:10px auto 0px;
+	background:#697a89 url(../images/backbook.jpg) top center repeat ;
+	border:2px solid #697a89;
+	padding:10px;
+	font-size: 0.8em;
+	line-height: 200%;
+	width:89%;
+	height:250px;
+}
+
+#content-DefaultPage-Table {
+	border:none;
+	width:100%;	
+}
+
+.DefaultPage-Board {
+	border:none;
+	background:none;
+	padding:17px 10px 10px;
+	color: #FFFFFF;
+	font-size:2em;
+	text-align:center;
+}
+.DefaultPage-Board .welcome {
+	border: 2px solid #697a89;
+	width:auto;
+	background: #192631;
+	padding:10px 2px;
+	margin:0 25%;
+}
+.DefaultPage-Board .welcome SPAN {
+	border:none;
+	line-height:1.5em;	
+}
+.DefaultPage-down {
+	background:#FFFFFF;
+	border-right:2px solid #697a89;
+	border-left:2px solid #697a89;
+	border-top:none;
+	border-bottom:1px solid #697a89;
+	padding: 10px;
+	margin:auto;
+	font-size:1.1em;
+	font-weight:normal;
+	color:#2c3e4e;
+	width:89%;
+	text-align:center;
+	direction:rtl;
+}
+.DefaultPage-down A{
+	color:#2c3e4e;
+}
+.sitelink {
+padding:10px 5px;	
+}
+
+.sitelink, .sitelink a {
+color:#FFF;
+text-align:center;	
+}
+
+.book_Counter_Page1 {
+	color:#93d6ff;
+	letter-spacing:3px;
+}
+/*-----end of page1-------------------------------------------------------------------------------------------------------------*/
+
+/*-----Start of booklist--------------------------------------------------------------------------------------------------------*/
+#contents_cover {
+	border:none;
+	padding:0.8em;
+	margin:0px;
+}
+#BooksList {
+	width: 100%;
+	margin:10px auto;
+	border: 1px solid #fff;
+	background:#FFFFFF;
+	color: #fff;
+	font-weight: normal;
+	font-size: 19px;
+	font-family: "Nassim", "IE Nassim";
+	padding:3px;
+	border-spacing:1px;
+	direction:rtl;
+}
+#BooksList tr {
+	padding:3px;
+}
+#BooksList td {
+	background: #a9c3d9;
+	text-align: center;
+	padding:1px 10px;
+	color: #fff;
+	font-family: "Nassim", "IE Nassim";
+	font-size: 22px;
+}
+#BooksList td A {
+	color:#fff;
+}
+#BooksList td A:hover {
+	color: #FC9;	
+}
+
+#BooksList TH {
+	text-align: right;
+	border-radius:6px;
+	font-size: 19px;
+	font-weight:normal;
+	padding:1px 10px;
+	border: 1px solid #a9c3d9;
+	background: #FFFFFF;
+	color: #849CB1;
+}
+
+#BooksList .BookIndex {
+	width: 3%;
+}
+#BooksList .BookName {
+	width: 44%
+}
+#BooksList .BookAuthor {
+	width: 53%
+}
+#BooksList .BookVolumes {
+	width: 5%
+}
+#BooksList .BookName {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: right;
+	color: #849cb1;
+	padding: 0px 10px;
+}
+#BooksList .BookAuthor {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: right;
+	color: #849cb1;
+	padding: 0px 10px;
+}
+#BooksList .BookIndex {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: right;
+	color: #849cb1;
+	padding: 0px 10px;
+}
+#BooksList .BookVolumes {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: center;
+	color: #849cb1;
+	padding: 0px 10px;
+}
+
+#BooksList .BookIndex-sub {
+	text-align: center;
+}
+#BooksList .BookName-sub {
+	color: #fff;
+	padding: 0px 10px;
+	text-align: right;
+}
+#BooksList .BookName-sub A {
+	color: #fff;
+}
+#BooksList .BookAuthor-sub {
+	color: #fff;
+	padding: 0px 10px;
+	text-align: right;
+}
+#BooksList .BookAuthor-sub A {
+	color: #fff;
+}
+#BooksList .BookVolumes-sub {
+	text-align: center;
+}
+/*-----end of booklist--------------------------------------------------------------------------------------------------------*/
+
+/*-----Start of bookshowpage-----------------------------------------------------------------------------------------------------*/
+.content_headers {
+	margin:0 auto;
+	padding:0;
+	border: 1px solid #a9c3d9;
+	background: #a9c3d9;
+	width:100%;
+	color: #7d98ae;
+	direction:rtl;
+}
+.content_headers A {
+	color: #7d98ae;
+}
+.Tools-Table {
+	padding: 0px;
+	margin: 0px;
+	height: 28px;
+	max-height: 28px;
+	width: 100%;
+	border:none;
+	line-height:200%;
+	font-size:1.2em !important;
+	font-weight:normal !important;
+}
+.Tools {
+	background: #FFFFFF;
+	font-size: 1em;
+	height: 22px;
+	width: 90px;
+	margin: 0px;
+	padding: 2px 5px;
+	text-align: center;
+}
+.Tools-pdf {
+	background: #FFFFFF url("../images/pdf.gif") left no-repeat;
+	font-size: 1em;
+	height: 22px;
+	max-height: 22px;
+	margin: 0px;
+	padding: 2px 5px 2px 50px;
+}
+#Tools a {
+	color: #7d98ae;
+}
+#frmSearch {
+	border: none;
+	padding: 0px 2px;
+	text-align: right;
+}
+.Tools-certificate {
+	background: #FFFFFF;
+	font-size: 1em;
+	height: 22px;
+	margin: 0px;
+	padding: 2px 5px;
+	text-align: center;
+}
+.Tools-index {
+	background: #FFFFFF;
+	font-size: 1em;
+	height: 22px;
+	margin: 0px;
+	padding: 2px 5px;
+	text-align: center;
+}
+.Tools-serach {
+	width:75%;
+	background: #FFFFFF;
+	text-align: right;
+	vertical-align: middle;
+	padding:0px 2px;
+}
+
+.Tools-serach-table {
+	border:none;
+	width:100%;
+	line-height: 100%;
+}
+
+.Tools-serach-input-td {
+	border:none;
+}
+
+.Tools-serach-submit-td {
+	border:none;
+	width:27px;	
+}
+
+.Tools-serach .empty-search-item {
+	border:none;
+	color: #7d98ae;
+	font-size: 1em;
+	margin: 5px;
+	background: #FFFFFF;
+	outline: none;
+	width:100%;
+}
+.Tools-serach #searchContentInput1, .Tools-serach #searchContentInput2 {
+	border: none;
+	color: #7d98ae;
+	font-size: 18px;
+	width:100%;
+	margin: 0;
+	padding: 0;
+	outline: none;
+	height:28px;
+	font-weight:normal !important;
+}
+.dofindButton {
+	width: 31px;
+	text-align: right;
+	border: none;
+	background: url("../images/Search.gif") no-repeat left #7d98ae;
+	color: #FFFFFF;
+	font-size: 1em;
+	cursor: pointer;
+	margin: 2px 0px;
+	vertical-align: middle;
+	height: 28px;
+}
+
+.not-found {
+	color: #F00;
+}
+
+.waiting {
+	border:2px solid #a9c3d9;
+	background:#7d98ae;
+	width:100%;
+	text-align:center;
+	font-size:1.5em;
+	margin:0 auto;
+	padding:1em 0;
+	height:250px;
+	vertical-align:top;
+	color:#FFFFFF;
+}
+
+.Page-query-noresualt {
+	border:none;
+	background:#FFFFFF;
+	width:100%;
+	text-align:center;
+	font-size:1.5em;
+	margin:2em 0;
+	padding:1em 0;
+	height:250px;
+	vertical-align:top;
+}
+
+.Page-query-noresualt td {
+	margin:0px;	
+}
+
+.Page-query-show {
+	background:none;
+	font-size:1.1em;
+	
+}
+.frmQuickAccess {
+	border:none;
+	vertical-align:middle;
+}
+.BookAccessPanel {
+	border:2px solid #2c3e4e;
+	font-family:"Nassim", "IE Nassim";
+	vertical-align:middle;
+	margin:5px auto;
+	background:#FFF;
+	line-height:1em;
+}
+.BookAccessPanel TD {
+	border:none;
+	vertical-align:middle;
+	padding:0;
+	color:#2c3e4e;
+}
+.BookAccessPanel TD a {
+	vertical-align:middle;
+	color:#2c3e4e;
+}
+.BookAccessPanel input, .BookAccessPanel select {
+	vertical-align:middle;
+	font-family:"Nassim", "IE Nassim";
+	margin:0 2px;
+}
+.VolumeSelector {
+	min-width:60px;
+	height:22px;
+	padding-right: 15px;
+}
+
+.PageSelector {
+	width:60px;
+	border:1px solid #2c3e4e;
+	text-align:center;
+	height:18px;
+	direction: ltr;
+}
+.book-search-submit {
+	border:none;
+	color:#FFFFFF;
+	background:#2c3e4e;
+	height:22px;
+	cursor:pointer;
+	
+}
+.book-search-submit:hover {
+	border:none;
+	color:#FFFFFF;
+	background:#FF9900;
+	height:22px;
+	cursor:pointer;
+}
+.book-page-show {
+	font-size: 1.7em;
+	background: #FFFFFF;
+	color: #333;
+	margin:0;
+	padding:15px;
+	border: 2px solid #a9c3d9;
+	border-top: none;
+	border-bottom: none;
+	vertical-align: central;
+	width:96.65%;
+	line-height: none;
+	direction:rtl;
+	word-spacing:0.05em;
+	
+	text-align:justify; /* Changed by Javadi*/
+}
+.Page_showPage {
+	background:#7d98ae;
+	border:2px solid #a9c3d9 !important;	
+}
+
+.Page_showPage H4 {
+	background: #eaeff2;
+	margin: 0;
+	color: #7d98ae;
+	height: 50px;
+	line-height: 50px;
+}
+.Page_showPage FORM {
+	margin: 0;
+}
+#PrevPage {
+	right: 2.5em;
+	bottom: 0.5em;
+}
+#NextPage {
+	left: 2.5em;
+	bottom: 0.5em;
+}
+
+.resultTitleSearchWords {
+	color: red;
+}
+#pages DIV {
+	padding-bottom: 2em;
+}
+#pages DIV A {
+	display: block;
+}
+#pages DIV A:link {
+	text-decoration: underline;
+}
+#pages DIV SPAN {
+	padding-right: 1.5em;
+	display: block
+}
+#pages DIV SPAN SPAN {
+	padding: 0;
+	display: inline;
+}
+#pages DIV TABLE TBODY TR TD {
+	padding: 0 0.5em;
+}
+#search-query-form {
+	text-align:left;
+}
+/*-----End of bookshowpage-----------------------------------------------------------------------------------------------------*/
+
+/*-----Start of Book_Title---------------------------------------------------------------------------------------*/
+
+.Book_Title {
+	font-size: 1.5em;
+	background: #7d98ae;
+	color: #FFFFFF;
+	margin:0;
+	padding:4px 8px;
+	border: 2px solid #a9c3d9;
+	text-align:right;
+}
+.Book_Title a {
+	color: #FFFFFF !important;
+}
+.Book_Title SPAN {
+	margin:0 2px;
+}
+.current_Book_Info {
+	border:none;
+	direction:rtl;
+	margin:0;
+	padding:5px;
+}
+.current_book_name {
+	border:none;
+	display:inline;
+	list-style-type:none;
+}
+.current_book_Page {
+	border:none;
+	display:inline;
+	list-style-type:none;
+}
+/*------End of Book_Title---------------------------------------------------------------------------------------*/
+/*------Start of Author list------------------------------------------------------------------------------------*/
+#AuthorsList {
+	width: 100%;
+	margin:10px auto;
+	border: 1px solid #fff;
+	background:#FFFFFF;
+	color: #fff;
+	font-weight: normal;
+	font-size: 19px;
+	font-family: "Nassim", "IE Nassim";
+	padding:3px;
+	border-spacing:1px;
+	direction:rtl;
+}
+
+#AuthorsList .AuthorName {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: right;
+	color: #849cb1;
+	padding: 0px 10px;
+}
+#AuthorsList .AuthorIndex {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: right;
+	color: #849cb1;
+	padding: 0px 10px;
+	width: 3%;
+}
+#AuthorsList .AuthorBooks {
+	border: 1px solid #a9c3d9;
+	background: #fff;
+	text-align: right;
+	color: #849cb1;
+	padding: 0px 10px;
+}
+
+#AuthorsList TH {
+	text-align: right;
+	border-radius:6px;
+	font-size: 19px;
+	font-weight:normal;
+	padding:1px 10px;
+	border: 1px solid #a9c3d9;
+	background: #FFFFFF;
+	color: #849CB1;
+}
+
+#AuthorsList td {
+	background: #a9c3d9;
+	text-align: center;
+	padding:1px 10px;
+	color: #fff;
+	font-family: "Nassim", "IE Nassim";
+	font-size: 22px;
+}
+#AuthorsList .AuthorIndex-Sub {
+	text-align: center;
+}
+#AuthorsList .AuthorName-Sub {
+	color: #fff;
+	padding: 0px 10px;
+	text-align: right;
+}
+#AuthorsList .AuthorName-Sub A {
+	color: #fff;
+}
+#AuthorsList .AuthorName-Sub A:hover {
+	color: #FC9;	
+}
+#AuthorsList .AuthorBooks {
+	text-align: center;
+}
+#AuthorsList .AuthorBooksCount {
+	text-align: center;
+	
+}
+/*------End of Author list------------------------------------------------------------------------------------*/
+/*------Start of ui complete ---------------------------------------------------------------------------------*/
+.ui-helper-hidden-accessible  {
+	display:none;	
+}
+/*------End of ui complete------------------------------------------------------------------------------------*/
+/*------Start of Page query----------------------------------------------------------------------------------------*/
+	
+/*------End of page query------------------------------------------------------------------------------------------*/
+/* AdvancedSearch */
+.Page_advancedSearch INPUT {
+	font-size: 17px;
+	width: 70%;
+}
+.Page_advancedSearch H5 {
+	text-align: right;
+	margin: 0.2em 0 0.1em;
+}
+.Page_advancedSearch TABLE {
+	margin-right: 2em;
+	width: 100%;
+}
+.tdLabel {
+	width: 25%;
+	min-width: 220px;
+	font-size: 17px;
+}
+.tdInput {
+	width: 100%;
+}
+.Page_advancedSearch INPUT[type=radio] {
+	font-size: 17px;
+	width: 10%;
+}
+.Page_advancedSearch INPUT[type=submit] {
+	font-size: 17px;
+	width: 10%;
+}
+/* books tree */
+.BookGroup {
+	text-align: right;
+}
+.BookGroup DIV {
+	display: inline-block;
+}
+.color1 {
+	color: red;
+}
+.footnotes A {
+	color: #0099FF;
+}
+.p_layeonvan0, .p_layeonvan1 {
+	color: #0066FF;
+	text-align: center;
+} /* صحیفه نور */
+#search-result {
+	background:#FFFFFF ;
+	direction:rtl;
+	width:100%;
+}
+#search-result .id {
+	font-size:1.5em;
+	width: 20px;
+	text-align: center;
+	padding:2px;
+	color: #ffffff;
+	vertical-align: top;
+	background: url("../Images/Id-Back.jpg") repeat-x top;
+}
+#search-result .preview {
+	font-size:1.5em;
+	color: #333333;
+	padding:0 1.2em;
+	
+	-ms-word-break: break-all;
+	/* Be VERY careful with this, breaks normal words wh_erever */
+	word-break: break-all;
+	/* Non standard for webkit */
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+	
+}
+#search-result .result {
+	background: url("../Images/Resault_Sign.png") no-repeat right;
+	text-indent: 25px;
+	font-size: 1.5em;
+	color: #7d98ae;
+	margin:0 auto;
+}
+#search-result .result A {
+	color: #7990a3;
+}
+#search-result .data {
+	border-top: 2px solid #a9c3d9;
+}
+.hilight {
+	color:#FF0000;
+}
+.hilight_suggestion {
+	color:#f66127;
+}
+.pageSelectorPanel {
+	text-align: right;
+	margin-right: auto;
+	margin-left: auto;
+	width:100%;
+	border: 1px solid #FFFFFF;
+	background: #7d98ae;
+	padding: 5px;
+	font-size: 1.2em;
+	color: #FFFFFF;
+}
+.pageSelectorPanel TD {
+	line-height: 1.2em;
+	width:auto;
+}
+.pageSelectorPanel .current-page {
+	font-size:1.2em;
+	text-decoration: underline;
+	color: #13dff3;
+	padding:0 3px;
+}
+.pageSelectorPanel .unavailable {
+	font-size:1.2em;
+	/*text-decoration: underline;
+	color: #13dff3;*/
+	padding:0 3px;
+}
+
+.pageSelectorPanel .current-page TD {
+	padding:0 3px;
+}
+
+.pageSelectorPanel A, .pageSelectorPanel A:active {
+	font-size: 1.2em;
+	text-decoration: none;
+	color: #FFFFFF;
+	margin:0 3px;
+}
+.pageSelectorPanel A:hover {
+	text-decoration: none;
+}
+.pg-Left {
+	text-align: right;
+	font-size:1.05em;
+}
+.pg-right {
+}
+.preview {
+	color: #0066CC;
+}
+.pagination_links {
+	font-size:0.8em;
+}
+.result_count {
+	margin:0 5px;
+	letter-spacing:4px;
+}
+
+/*------Start of ui Menu------------------------------------------------------------------------------------------------*/
+.ui-autocomplete {
+	position: absolute;
+	cursor: pointer;
+	margin:0;
+	padding:0;
+}
+* html .ui-autocomplete {
+	width: 1px;
+} /* without this, the menu expands to 100% in IE6 */
+.ui-menu {
+	color: #FFFFFF;
+	font-size: 0.8em;
+	list-style: none;
+	padding:0;
+	margin:0;
+	direction: rtl;
+	border:2px solid #697a89;
+	background-color: #a9c3d9;
+}
+.ui-menu .ui-menu-item {
+	margin:0;
+	padding:5px;
+	zoom: 1;
+	clear: right;
+	border:none;
+	line-height:1.05em;
+	background-color: #a9c3d9;
+}
+.ui-menu .ui-menu-item a {
+	text-decoration: none;
+	display: block;
+	zoom: 1;
+}
+.ui-menu .ui-menu-item a.ui-state-hover, .ui-menu .ui-menu-item a.ui-state-active, .ui-menu .ui-menu-item a.ui-state-focus {
+	font-weight: normal;
+	background-color: #FF6600;
+	color: #006699;
+}
+.ui-autocomplete-loading {
+	background: url(../images/ui-anim_basic_16x16.gif) left center no-repeat !important ;
+}
+.ui-widget, .ui-widget input {
+	font-family:"Nassim", "IE Nassim";
+	font-size:12px;
+}
+.ui-widget-content a{
+	color: #FFFFFF;
+}
+
+.ui-dialog, .ui-corner-all {
+	font-size:17px;
+}
+/*------end of ui Menu------------------------------------------------------------------------------------------------*/
+/*-------start of help-------------------------------------------------------------------------------------------------*/
+.help-td-0 {
+	padding: 3px;
+	font-size: 1.2em;
+	border: 1px solid #345576;
+	background: #b0c8e0;
+	min-height: 40px;
+	color: #345576;
+	text-align: center;
+}
+.help-td-0 A {
+	cursor: pointer;
+	color: #345576;
+}
+.help-td-0 A:Hover {
+	color: #F60;
+}
+.help-td-0-current {
+	padding: 3px;
+	font-size: 1.2em;
+	font-weight: bold;
+	border: 1px solid #b0c8e0;
+	background: #345576;
+	min-height: 40px;
+	color: #b0c8e0;
+	text-align: center;
+	cursor: default;
+}
+.help-td-1 {
+	padding-top: 6px;
+	font-size: 1.2em;
+	vertical-align: top;
+}
+.Page_help {
+}
+#helpContent {
+	width: 95%;
+	margin: 0 auto;
+	border: none;
+	text-align: right;
+	background: #345576;
+	padding: 20px;
+	color: #FFF;
+	margin:20px auto;
+	min-height: 400px;
+	font-size:1.2em;
+	direction:rtl;
+}
+
+#helpContent td {
+	border-spacing:5px;	
+}
+
+.help-title {
+	font-size: 22px;
+}
+.help-text {
+	font-size: 19px;
+	text-align: justify;
+}
+.help-textpics-text A {
+	font-size: 1em;
+	text-align: justify;
+	color: #FFF;
+	text-decoration: none;
+}
+.help-textpics-text A:hover {
+	font-size: 1em;
+	text-align: justify;
+	color: #F90;
+	text-decoration: none;
+}
+.help-img {
+	border: none;
+}
+.help-textpics {
+	width: 100%;
+}
+.help-textpics-text {
+	border: none;
+	text-align: justify;
+	padding: 10px 0px 10px 0px;
+	vertical-align: top;
+}
+.help-textpics-pics {
+	border: none;
+	padding-right: 20px;
+	float: left;
+	margin-bottom: -20px;
+}
+.helptd {
+	vertical-align: top;
+}
+/*-------end of help---------------------------------------------------------------------------------------------------*/
+/*-------Start of author book list-------------------------------------------------------------------------------------*/
+#AuthorBooksList {
+	width: 100%;
+	margin:10px auto;
+	border: 1px solid #fff;
+	background:#FFFFFF;
+	color: #fff;
+	font-weight: normal;
+	font-size: 19px;
+	font-family: "Nassim", "IE Nassim";
+	padding:3px;
+	border-spacing:1px;
+	direction:rtl;
+}
+
+#AuthorBooksList TH {
+	text-align: right;
+	border-radius:6px;
+	font-size: 19px;
+	font-weight:normal;
+	padding:1px 10px;
+	border: 1px solid #a9c3d9;
+	background: #FFFFFF;
+	color: #849CB1;
+}
+
+#AuthorBooksList TD {
+	background: #a9c3d9;
+	text-align: center;
+	padding:1px 10px;
+	color: #fff;
+	font-family: "Nassim", "IE Nassim";
+	font-size: 22px;
+}
+#AuthorBooksList A {
+	color: #fff;
+}
+
+#AuthorBooksList td a:hover {
+	color: #FC9;	
+}
+
+#AuthorBooksList .BookIndex {
+	width: 3%;
+}
+#AuthorBooksList .BookVolumes {
+	text-align: center;
+}
+
+#AuthorBooksList .BookVolumes-vol {
+	text-align: center;
+}
+#AuthorBooksList .BookVolumes-vol {
+	text-align: center;
+}
+
+#AuthorBooksList .BookName {
+	text-align: Right;
+	padding-right: 10px;
+}
+#AuthorBooksList .BookName-name {
+	text-align: Right;
+	font-weight:normal;
+}
+#advancedsearch {
+	border: 1px solid #FFF;
+	background: #a9c3d9;
+	color: #FFF;
+	padding: 10px;
+}
+#advancedsearchtable Input {
+	background: #FFF;
+	width: 100%;
+	border: none;
+}
+#searchText {
+	background: #a9c3d9;
+	color: #FFF;
+	text-align: center;
+	border: none;
+}
+/*-------end of autor book list----------------------------------------------------------------------------------------*/
+
+/*--------start of shenasnameh-----------------------------------------------------------------------------------------*/
+.shenasnameh {
+	border: none;
+	color: #FFFFFF;
+	min-height: 200px;
+	font-size: 19px;
+	text-align: right;
+	margin: 2em auto;
+	direction: rtl;
+	padding-right: 50px;
+	line-height: 1.6em;
+	word-spacing: 2px;
+}
+/*--------end of shenasnameh-----------------------------------------------------------------------------------------*/
+/*--------start of pdf-----------------------------------------------------------------------------------------------*/
+.pdf_form {
+	border:1px solid #FFFFFF;
+	margin:1em auto;
+	font-size:1.5em;
+	color:#000000;
+	width:60%;
+	background:#FFFFFF;
+}
+.pdf_logo {
+	
+}
+.pdf_form td {
+	border:none;
+}
+.pdf_form .pdf_book_Name {
+	background:#FF0000;
+	color:#FFFFFF;
+	padding:5px;
+	text-align:center;
+	font-size:1.2em;
+}
+.pdf_left {
+	text-align:right;
+	width:50%;
+}
+.pdf_right {
+	text-align:left;
+	width:50%;
+}
+.pdf_Attention {
+	text-align:center;
+	font-size:0.9em;	
+}
+.pdf_submit {
+	text-align:center;
+}
+.pdf_submit_button {
+	border:none;
+	padding:4px;
+	background:#FFFFF;
+	color:#F00;
+	font-size:0.9em;
+	font-family:"Nassim", "IE Nassim";
+	width:auto;
+	cursor:pointer;
+}
+/*--------end of pdf-------------------------------------------------------------------------------------------------*/
+
+/*-------start of rafed books-------------------------------------------------------------------------*/
+.rfdAlaem {
+	font-family: Alaem, IE Alaem, other Alaem !important;
+	font-size: 150%;
+	line-height: 1;
+}
+/*-------end of rafed books---------------------------------------------------------------------------*/
+
+/*
+this css is only for book body style
+*/
+
+/*-----------------------------------------------------------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+/*-------NADERI----------------------------------------------------------------------*/
+
+h1{
+color:#758c9f;
+direction: rtl;
+font-family:"Nassim";
+font-size:28px;
+line-height:30px;
+text-align: center;
+text-decoration: none;
+}
+h2{
+color:#758c9f;
+direction: rtl;
+font-family:"Nassim";
+font-size:26px;
+line-height:30px;
+text-align: center;
+text-decoration: none;
+}
+h3{
+color:#758c9f;
+direction: rtl;
+font-family:"Nassim";
+font-size:24px;
+line-height:30px;
+text-align: center;
+text-decoration: none;
+}
+h4{
+color:#758c9f;
+direction: rtl;
+font-family:"Nassim";
+font-size:22px;
+line-height:30px;
+text-align: center;
+text-decoration: none;
+}
+
+p {
+text-indent:20px;
+}
+
+/* Alaem Style */
+.Alaem {	
+color: #2db191;
+font-family:"Nassim";
+font-size: 20px;
+}
+
+/* Ayat Style */
+.Aye, .FootnoteAye {
+font-family:"Nassim";
+color:#008a00;
+font-size:1.1em;
+}
+.Aye {
+font-family:"Nassim";
+color:#008a00;
+font-size:1.1em;
+}
+.FootnoteAye {
+font-family:"Nassim";
+color:#008a00;
+font-size:1.1em;
+}
+
+/*style for special word e.g Derived word and so on. */
+.KalamateKhas {
+color:#B37DB8;
+font-family:"Nassim";
+font-size: 1.1em;
+}
+
+
+.KalamateKhas2 {
+color:#B37DB8;
+font-family:"Nassim";
+font-size: 1.1em;
+}
+
+p.CenterAlign{
+	text-indent:0;
+	text-align:center;
+}
+
+/* parantez Style */
+.parantez {
+font-family:"Nassim";
+color:#b161a7;
+font-weight: bold;
+}
+
+/* ferest Style */
+
+.book-page-show table {
+background-color:#FFF;
+border:1px solid #7d98ae;
+width:100%;
+color:#4b6275;
+}
+.tdfehrest4 {
+background-color:#d7e3ee;
+border:1px solid #7d98ae;
+color:#4b6275;
+font-family:"Nassim";
+padding:0px 5px;
+}
+.tdfehrest3 {
+background-color:#d7e3ee;
+border:1px solid #7d98ae;
+color:#4b6275;
+font-family:"Nassim";
+text-align:right;
+padding:0px 5px;
+}
+.tdfehrest2 {
+background-color:#d7e3ee;
+border:1px solid #7d98ae;
+color:#4b6275;
+font-family:"Nassim";
+font-size: 18px;
+text-align: right;
+padding:0px 5px;
+}
+.tdfehrest1 {
+background-color:#d7e3ee;
+border:1px solid #7d98ae;
+color:#4b6275;
+text-align:right;
+padding:0px 5px;
+}
+.tdfehrest1 a {
+font-family:"Nassim";
+font-size:18px;
+color:#4b6275;
+}
+.tdfehrest2 a {
+font-family:"Nassim";
+font-size:18px;
+color:#4b6275;
+}
+div.list3 a {
+font-family:"Nassim";
+font-size: 18px;
+text-decoration: none;
+color:#4b6275;
+}
+div.list3 a:hover {
+color: red;
+font-family:"Nassim";
+font-size: 18px;
+text-decoration: none;
+color:#eebb41;
+}
+div.tdfehrest-shomare-safhe {
+color: #483D8B;
+font-size: 20 px;
+text-align:center;
+color:#4b6275;
+padding:0px 5px;
+}
+
+/*-------Misc Book------------------------------------------------------------------------------------*/
+	miscbooktitr {
+	font-weight:bold !important;
+	font-size:1.9em !important;
+	color:#0066CC !important;		
+}
+	miscbooktitr2 {
+	font-weight:bold !important;
+	font-size:1.8em !important;
+	color:#0066ff !important;		
+}
+	miscbooktitr3 {
+	font-weight:bold !important;
+	font-size:1.75em !important;
+	color:#0099FF !important;		
+}
+	miscbookayat {
+	font-weight:normal !important;
+	font-size:1.7em !important;
+	color:#006633 !important;		
+}
+	miscbookkeyword{
+	font-weight:normal !important;
+	font-size:1.7em !important;
+	color:#FF0000 !important;		
+}
+	.libimages {
+	border: 1px #000 solid;
+	max-width: 700px;
+	height: auto;
+	margin: 0 20%;
+	}
+
+/*--EndofMisc Book------------------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+/*         fehrest          */
+.fehrest1 a, .fehrest2 a, .fehrest3 a, .fehrest4 a, .fehrest5 a, .fehrest6 a {
+font-family:"Nassim";
+font-size: 18px;
+text-decoration: none;
+color:#4b6275;
+}
+
+.fehrest1 a {
+padding-right:0;
+}
+
+.fehrest2 a {
+padding-right:15px;
+}
+
+.fehrest3 a {
+padding-right:30px;
+}
+
+.fehrest4 a {
+padding-right:45px;
+}
+
+.fehrest5 a {
+padding-right:60px;
+}
+
+.fehrest6 a {
+padding-right:75px;
+}
+
+.fehrest1 a:hover,.fehrest2 a:hover,.fehrest3 a:hover,.fehrest4 a:hover,.fehrest5 a:hover,.fehrest6 a:hover {
+color: red;
+font-family:"Nassim";
+font-size: 18px;
+text-decoration: none;
+color:#eebb41;
+}
+
+/*         fehrest          */
+
+
+.shenasnameh_book_name {
+	background: #eaeff2;
+    margin: 0;
+    color: #7d98ae;
+    height: 50px;
+    line-height: 50px;
+    direction: rtl;
+    font-family: "Nassim";
+    font-size: 22px;
+    text-align: center;
+    text-decoration: none;
+}
