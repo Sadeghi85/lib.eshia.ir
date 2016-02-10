@@ -24,97 +24,121 @@
 @show
 
 </head>
-
 <body>
 
-@section('container')
+<!-- header -->
+<div class="header">
 
-<table id="all_contents" cellpadding="0" cellspacing="0" align="right">
-	<tr>
-		<td colspan="2" class="topheader"></td>
-		<td rowspan="2" class="rightsection">
-			<a href="/"><img class="vertical-logo" src="{{ asset(sprintf('/assets/%s/images/vertical-logo-%s.png', Config::get('app_settings.theme'), Config::get('app.locale'))) }}" alt="logo"></a>
+<div class="name">
+<a href="/"><img src="/assets/alfeker/images/name.png"></a>
+<!-- contacts -->
+<div class="contacts">
+<a href="http://www.facebook.com/alfekerbook"><img src="/assets/alfeker/images/fb.png"></a>
+<a href="http://www.twitter.com/alfekerbooks"><img src="/assets/alfeker/images/twitter.png"></a>
+<a href="http://www.instagram.com/alfeker"><img src="/assets/alfeker/images/instagram.png"></a>
+</div>
+</div>
+<!-- contacts end-->
 
-			@include(sprintf('%s/partials/links', Config::get('app_settings.theme')))
-		</td>		
-	</tr>
-	<tr>
-		<td class="leftSection" colspan="2">
-			<div id="header">
-				<table  class="header-table">
-					<tr>
-						<td class="searchp1">
-							<form action="#" id="mainSearchPanel" class="searchPanel" onsubmit="do_search(document.getElementById('search_input').value);return false;">
-								<div>
-									<label for="search_input" ></label>
-									<input name="key" id="search_input" value="@lang(sprintf('%s/app.default_search', Config::get('app_settings.theme')))" class="SearchInput ui-autocomplete-input empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang(sprintf('%s/app.default_search', Config::get('app_settings.theme')))') {this.value = ''; this.className='SearchInput ui-autocomplete-input'}" onblur="if (this.value == '') {this.value = '@lang(sprintf('%s/app.default_search', Config::get('app_settings.theme')))'; this.className='SearchInput ui-autocomplete-input empty-search-item'} a=setTimeout('hide_id(\'search_drop\')','500')" />
+</div>
+<!-- header end -->
 
-									<input type="submit" id="searchButton" value="" class="SearchKey">
-									<br />
-									<ul id="search_drop" class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 1000; display:none; width: 550px;"></ul>
-								</div>
-							</form>
-						</td>
-						<td class="header-link">
-							<span><a href="@lang(sprintf('%s/app.change_lang_link', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.change_lang', Config::get('app_settings.theme')))</a></span>
-							<span><a href="/help" title="@lang(sprintf('%s/app.lib_help', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.lib_help', Config::get('app_settings.theme')))</a></span>
-							<span><a href="/advanced-search" title="@lang(sprintf('%s/app.advanced_search', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.advanced_search', Config::get('app_settings.theme')))</a></span>
-						</td>
-					</tr>
-			   </table>
-			</div>
-			
-			<div id="navigationBar">
-				@include(sprintf('%s/partials/navigation', Config::get('app_settings.theme')))
-			</div>
-			
-			<!-- Content -->
-			@yield('content')
-			
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="sitelink">
-			<span>
-				@lang(sprintf('%s/app.footer_text', Config::get('app_settings.theme')), array('link' => sprintf('<a href="http://www.eShia.ir" title="%s"> %s </a>', trans(sprintf('%s/app.feqahat_school', Config::get('app_settings.theme'))), trans(sprintf('%s/app.feqahat_school', Config::get('app_settings.theme'))))))
-			</span>
-			<br>
-			<span><a href="http://www.eShia.ir">www.eShia.ir</a></span>
-		</td>
-		<td class="rightsection_end"></td>
-	</tr>
-</table>
+<div class="main">
 
-@show
 
-<!-- eShiaLibrary -->
-<script src="{{ asset(sprintf('/assets/%s/js/eShiaLibrary.js', Config::get('app_settings.theme'))) }}"></script>
+<!-- search -->
+<div class="nav">
 
-<script type="text/javascript">
-	function fixedEncodeURIComponent (str)
-	{
-		return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
-	}
 
-	function do_search(query, bookId)
-	{
-		query = query.replace(/^\s+|\s+$/g, '');
+<div class="search">
+	<form action="http://server2008:8097/#" method="post" accept-charset="utf-8" id="mainSearchPanel" class="searchPanel" onsubmit="do_search(document.getElementById('search_input').value);return false;">
+		<div>
+			<label for="search_input" accesskey="س"></label>
+				<div class="searchbox">
+					<input type="submit" name="" value="" id="searchButton" class="SearchKey"  />					<input type="text" name="key" value="جستجو..." id="search_input" class="SearchInput ui-autocomplete-input empty-search-item" autocomplete="off" accesskey="S" onfocus="if (this.value == 'جستجو...') {this.value = ''; this.className='SearchInput ui-autocomplete-input'}" onblur="if (this.value == '') {this.value = 'جستجو...'; this.className='SearchInput ui-autocomplete-input empty-search-item'} a=setTimeout('hide_id(\'search_drop\')','500')"  />
+				</div>
 
-		if (query && query != "@lang(sprintf('%s/app.default_search', Config::get('app_settings.theme')))" && query != "@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))")
-		{
-			query = query.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
-			window.location.assign('/search/' + (bookId ? bookId + '/' : '') + fixedEncodeURIComponent(query));
-		}
+				<div class="sujestlist">
+					<ul id="search_drop" class="ui-autocomplete ui-menu ui-widget ui-widget-content ui-corner-all" role="listbox" aria-activedescendant="ui-active-menuitem" style="z-index: 1000; display:none; width: 550px;">
+					</ul>
+				</div>
+		</div>
+	</form>
+</div>
 
-		return false;
-	}
-</script>
+
+</div>
+<!-- search end -->
+
+
+<!-- content -->
+
+<div class="content">
+@yield('content')
+</div>
+<!-- content end -->
+
+
+<!-- right -->
+<div class="right">
+
+<div class="righthead">
+القائمة
+</div>
+
+<div class="vernav">
+	<ul>
+		<li><a href="/"_blank">الرئيسية</a></li>
+		<li><a href="/all" target="_blank">جميع الكتب</a></li>
+		<li><a href="/authors/" target="_blank">المؤلفون</a></li>
+		<li><a href="#" target="_blank">المقالات</a></li>
+		<li><a href="#" target="_blank">الأقسام</a></li>
+	</ul>
+</div>
+
+@include(sprintf('%s/partials/navigation', Config::get('app_settings.theme')))
+
+
+</div>
+<!-- right end -->
+
+<div class="clear">
+</div>
+
+</div>
+<!-- main end -->
+
+
+<!-- footer -->
+<div class="footer">
+<span>
+	@lang(sprintf('%s/app.footer_text', Config::get('app_settings.theme')), array('link' => sprintf('<a href="http://www.eShia.ir" title="%s"> %s </a>', trans(sprintf('%s/app.feqahat_school', Config::get('app_settings.theme'))), trans(sprintf('%s/app.feqahat_school', Config::get('app_settings.theme'))))))
+</span>
+	<br>
+<span><a href="http://www.eShia.ir">www.eShia.ir</a></span>
+
+</div>
+<!-- footer end -->
+
+
+
+
 	
-@section('javascript')
-	<script type="text/javascript">
+	<script type="text/javascript" src="http://server2008:8097/assets/js/eShiaLibrary.js"></script>	
+	<script type="text/javascript" defer>
+		function do_search($term, $id)
+		{
+			$term = $term.replace(/^\s+|\s+$/g, '');
 
+			if ($term && $term != 'جستجو...')
+			{
+				$term = $term.replace(/ +/g, '_').replace(/['\0\\]+/g, '');
+				window.location.assign('/wait/' + ($id ? $id + '/' : '') + encodeURIComponent($term));
+			}
+
+			return false;
+		}
 	</script>
-@show
 
 </body>
 </html>
