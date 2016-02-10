@@ -15,6 +15,7 @@ HTML, BODY {
 	margin: 0;
 	padding: 0;
 	text-align: justify;
+	direction: rtl;
 }
 
 a, a:visited {
@@ -89,13 +90,13 @@ border: 2px #bbb solid;
 
 .searchbox {
 	clear: both;
-	height: 23px;
+	height: 19px;
 	margin:0 0 5px 0;
 }
 
 #search_input {
 	border: #b0b0b0 1px solid;
-	height: 23px;
+	height: 19px;
 	font-size: 16px;
 	margin: 0 0 0 2px;
 	width:250px;
@@ -170,7 +171,7 @@ border: #e2e2e2 1px solid;
 	color: #069;
 }
 
-.welcom {
+.welcome {
 	width: 400px;
 	margin: 50px auto;
 	background: #121713;
@@ -179,6 +180,14 @@ border: #e2e2e2 1px solid;
 	padding: 10px 0;
 }
 
+.DefaultPage-down {
+	width: 100%;
+	height: 50px;
+	padding: 20px 0 30px 0;
+	background: #eee;
+	text-align: center;
+	margin: 0 auto;
+}
 /*------------------------ right menu --*/
 .right {
 	width: 25%;
