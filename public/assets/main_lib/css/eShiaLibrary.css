@@ -1553,7 +1553,13 @@ color:#eebb41;
 }
 /*--EndofMisc Book------------------------------------------------------------------------------------*/
 
-.quraan:hover:after{
-	font-size: 1.6em;
+/*QURAAN*/
+.quraan:hover:after{ 
+	border: 1px #333 solid;
+	padding: 0 3px;
 	content: attr(id);
+	position: absolute;
+	z-index: 9999;
+	background: #d6f5f5;
+	border-radius: 5px;
 }
