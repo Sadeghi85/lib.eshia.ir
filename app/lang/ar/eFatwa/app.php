@@ -49,7 +49,7 @@ return array(
 	#Default Page------------------------------------------------------------------------------------------------------------
 	'title_meta' => 'المکتبة مدرسة الفقاهة',
 	'change_lang' => 'فارسی',
-	'change_lang_link' => 'http://lib.efatwa.ir/',
+	'change_lang_link' => 'http://lib.eshia.ir/',
 	'lib_help' => 'دلیل المکتبة',
 	'default_search' => 'بحث...',
 	'footer_text' => 'إن المکتبة :link هي مكتبة مجانية لتوثيق المقالات',
@@ -146,6 +146,12 @@ return array(
 	'level_3' => 'المستوی 3',
 	'wiki_feqh' => 'ويکي الفقه',
 	'wiki_porsesh' => 'ويکي السؤال',
+	'feqahat_lib' => 'المکتبة مدرسة الفقاهة',
+	'feqahatlib_shia' => 'المکتبة مدرسة الفقاهة',
+	'feqahatlib_image' => 'قسم pdf',
+	'feqahatlib_fatwa' => 'قسم الکتب لأهل السنة',
+	'feqahatlib_image_fatwa' => 'قسم pdf (لأهل السنة)',
+
 	#Help---------------------------------------------------------------------------------------------------------------------
 	'help_help' => 'الدلیل',
 	'help_help_text_title' => 'دلیل المکتبة مدرسة الفقاهة',
