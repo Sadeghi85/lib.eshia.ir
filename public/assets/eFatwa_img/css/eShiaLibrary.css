@@ -1562,3 +1562,9 @@ color:#eebb41;
 	background: #d6f5f5;
 	border-radius: 5px;
 }
+
+.libimages {
+	width: 70%;
+	height: auto;
+	border: 1px #777 solid;
+}
