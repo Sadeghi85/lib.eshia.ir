@@ -49,7 +49,7 @@ return array(
 	#Default Page------------------------------------------------------------------------------------------------------------
 	'title_meta' => 'کتابخانه مدرسه فقاهت',
 	'change_lang' => 'العربیة',
-	'change_lang_link' => 'http://ar.lib.efatwa.ir/',
+	'change_lang_link' => 'http://ar.pdf.lib.efatwa.ir/',
 	'lib_help' => 'راهنمای کتابخانه',
 	'default_search' => 'جستجو...',
 	'footer_text' => 'کتابخانه :link کتابخانه‌ای رایگان برای مستند کردن مقاله‌ها است',
