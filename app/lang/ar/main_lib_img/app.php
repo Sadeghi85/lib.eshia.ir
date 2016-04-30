@@ -49,7 +49,7 @@ return array(
 	#Default Page------------------------------------------------------------------------------------------------------------
 	'title_meta' => 'المکتبة مدرسة الفقاهة',
 	'change_lang' => 'فارسی',
-	'change_lang_link' => 'http://lib.eshia.ir/',
+	'change_lang_link' => 'http://pdf.lib.eshia.ir/',
 	'lib_help' => 'دلیل المکتبة',
 	'default_search' => 'بحث...',
 	'footer_text' => 'إن المکتبة :link هي مكتبة مجانية لتوثيق المقالات',
