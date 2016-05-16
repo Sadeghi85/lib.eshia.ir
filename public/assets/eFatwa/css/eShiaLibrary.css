@@ -974,16 +974,19 @@ text-align:center;
 	width:auto;
 }
 .pageSelectorPanel .current-page {
-	font-size:1.2em;
-	text-decoration: underline;
-	color: #13dff3;
-	padding:0 3px;
+	font-size:1.3em;
+	text-decoration: none;
+	color: #017d90;
+	border: 1px #017d90 solid;
+	background: #60e7fc;
+	padding: 0 5px;
+
 }
 .pageSelectorPanel .unavailable {
 	font-size:1.2em;
 	/*text-decoration: underline;
 	color: #13dff3;*/
-	padding:0 3px;
+	padding:0 5px;
 }
 
 .pageSelectorPanel .current-page TD {
@@ -1010,10 +1013,24 @@ text-align:center;
 }
 .pagination_links {
 	font-size:0.8em;
+	padding: 5px;
+	margin: 0 5px;
 }
+
+.pageSelectorPanel a {
+	border: 1px #697a89 solid;
+	background: #a9c3d9;
+	padding: 0 5px;
+}
+
+.pageSelectorPanel a:hover {
+	border: 1px #a9c3d9 solid;
+	background: #7d98ae;
+	padding: 0 5px;
+}
+
 .result_count {
 	margin:0 5px;
-	letter-spacing:4px;
 }
 
 /*------Start of ui Menu------------------------------------------------------------------------------------------------*/
