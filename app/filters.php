@@ -70,10 +70,10 @@ App::after(function($request, $response)
 	
 	if(App::Environment() != 'local')
     {
-        if($response instanceof Illuminate\Http\Response)
+        if( ! defined('PAGE_IS_CACHEABLE') and $response instanceof \Illuminate\Http\Response)
         {
             $output = $response->getOriginalContent();
-            
+			
 			$output = str_replace("\r\n", '<crlf>', $output);
 			$output = preg_replace('#[[:space:]]+#u', ' ', $output);
 			$output = str_replace('<crlf>', "\r\n", $output);
