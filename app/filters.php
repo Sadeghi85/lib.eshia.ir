@@ -28,6 +28,10 @@ App::before(function($request)
 			Config::set('app.locale', 'fa');
 	}
 	
+	define('REDIRECT_NODE', Config::get('xml_settings.redirect_node'));
+	define('REDIRECT_FROM_NODE', Config::get('xml_settings.redirect_from_node'));
+	define('REDIRECT_TO_NODE', Config::get('xml_settings.redirect_to_node'));
+	
 	define('MAIN_NODE', Config::get('xml_settings.main_node'));
 	define('GROUP_NODE', Config::get('xml_settings.group_node'));
 	define('GROUP_ATTR_NAME', Config::get('xml_settings.group_attr_name'));
@@ -63,6 +67,21 @@ App::after(function($request, $response)
 	}
 	
 	Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('cache.files.date.hash', Helpers::getModifiedDateHash(Helpers::getCacheableFiles()), 24 * 60);
+	
+	if(App::Environment() != 'local')
+    {
+        if($response instanceof Illuminate\Http\Response)
+        {
+            $output = $response->getOriginalContent();
+            
+			$output = str_replace("\r\n", '<crlf>', $output);
+			$output = preg_replace('#[[:space:]]+#u', ' ', $output);
+			$output = str_replace('<crlf>', "\r\n", $output);
+			$output = preg_replace('#[\r\n]+\s*[\r\n]*#u', "\r\n", $output);
+			
+            $response->setContent($output);
+        }
+    }
 });
 
 /*

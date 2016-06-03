@@ -29,7 +29,18 @@ class PageController extends BaseController {
 		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
-		$booksPath = Config::get('app_settings.books_path');
+		$xpathQuery = sprintf('//%s[@%s=\'%s\']', REDIRECT_NODE, REDIRECT_FROM_NODE, $id);
+		$redirect = $xpath->query($xpathQuery, $this->_xmlObject);
+		
+		if ($redirect->length)
+		{
+			if ($redirect[0]->hasAttribute(REDIRECT_TO_NODE))
+			{
+				$redirectTo = $redirect[0]->getAttribute(REDIRECT_TO_NODE);
+				
+				return Redirect::to(sprintf('%s/%s/%s', $redirectTo, $volume, $page));
+			}
+		}
 		
 		$xpathQuery = sprintf('//%s[@%s=\'%s\']/%s/%s', BOOK_NODE, BOOK_ATTR_NAME, $id, VOLUMES_NODE, VOL_NODE);
 		
@@ -109,6 +120,8 @@ class PageController extends BaseController {
 
 		$bookName   = $vols->item(0)->parentNode->parentNode->getAttribute(BOOK_ATTR_DISPLAYNAME);
 		$authorName = $vols->item(0)->parentNode->parentNode->getAttribute(BOOK_ATTR_AUTHOR);
+		
+		$booksPath = Config::get('app_settings.books_path');
 		
 		if ($vols->length >= 100)
 		{

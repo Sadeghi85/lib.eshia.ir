@@ -18,6 +18,10 @@ switch (Config::get('app.locale'))
 
 return array(
 
+	'redirect_node' => 'redirect',
+	'redirect_from_node' => 'from',
+	'redirect_to_node' => 'to',
+
 	'main_node' => 'Books',
 	'group_node' => 'group',
 	'group_attr_name' => $group_attr_name,
