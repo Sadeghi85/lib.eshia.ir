@@ -152,6 +152,7 @@ input {
 	position: relative;
 	line-height:60%;
 	text-align:right;
+	height:25px;
 }
 .searchp1 {
 	padding:0 5px;
@@ -160,7 +161,7 @@ input {
 	vertical-align:top;
 }
 .searchp1 .SearchInput {
-	width:165px;
+	width:90%;
 	border:none;
 	outline:none;
 	font-family:"Nassim", "IE Nassim";
