@@ -27,6 +27,12 @@ class PageController extends BaseController {
 			return Redirect::to(sprintf('%s/%s/%s', (int) Input::get('id', $id), ((preg_match('#[^0-9]#', Input::get('volume', $volume))) ? Input::get('volume', $volume) : ((int) Input::get('volume', $volume))), (int) Input::get('page', $page)));  // url should be updated too...
 		}
 		
+		// دانشنامه جهان اسلام
+		if ($id == 23019 and $volume > 1)
+		{
+			return Redirect::to(sprintf('%s/%s/%s', 23019, 1, $page));
+		}
+		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
 		$xpathQuery = sprintf('//%s[@%s=\'%s\']', REDIRECT_NODE, REDIRECT_FROM_NODE, $id);
