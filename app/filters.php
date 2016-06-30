@@ -29,8 +29,11 @@ App::before(function($request)
 	}
 	
 	define('REDIRECT_NODE', Config::get('xml_settings.redirect_node'));
-	define('REDIRECT_FROM_NODE', Config::get('xml_settings.redirect_from_node'));
-	define('REDIRECT_TO_NODE', Config::get('xml_settings.redirect_to_node'));
+	define('REDIRECT_FROM_ID_NODE', Config::get('xml_settings.redirect_from_id_node'));
+	define('REDIRECT_FROM_VOL_NODE', Config::get('xml_settings.redirect_from_vol_node'));
+	
+	define('REDIRECT_TO_ID_NODE', Config::get('xml_settings.redirect_to_id_node'));
+	define('REDIRECT_TO_VOL_NODE', Config::get('xml_settings.redirect_to_vol_node'));
 	
 	define('MAIN_NODE', Config::get('xml_settings.main_node'));
 	define('GROUP_NODE', Config::get('xml_settings.group_node'));

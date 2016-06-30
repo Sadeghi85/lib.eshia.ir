@@ -19,8 +19,10 @@ switch (Config::get('app.locale'))
 return array(
 
 	'redirect_node' => 'redirect',
-	'redirect_from_node' => 'from',
-	'redirect_to_node' => 'to',
+	'redirect_from_id_node' => 'fromID',
+	'redirect_from_vol_node' => 'fromVol',
+	'redirect_to_id_node' => 'toID',
+	'redirect_to_vol_node' => 'toVol',
 
 	'main_node' => 'Books',
 	'group_node' => 'group',

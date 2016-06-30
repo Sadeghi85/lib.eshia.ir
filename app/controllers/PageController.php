@@ -16,7 +16,7 @@ class PageController extends BaseController {
 		
 	}
 
-	public function showPage($id, $volume = -1, $page = -1, $highlight = null)
+	public function showPage($id, $volume = 0, $page = 0, $highlight = null)
 	{
 		$id = (int) $id;
 		$volume = (preg_match('#[^0-9]#', $volume)) ? $volume : ((int) $volume);
@@ -35,16 +35,41 @@ class PageController extends BaseController {
 		
 		$xpath = new DOMXpath($this->_xmlObject);
 		
-		$xpathQuery = sprintf('//%s[@%s=\'%s\']', REDIRECT_NODE, REDIRECT_FROM_NODE, $id);
+		// Redirect by ID and Vol
+		$xpathQuery = sprintf('//%s[@%s=\'%s\'][@%s=\'%s\']', REDIRECT_NODE, REDIRECT_FROM_ID_NODE, $id, REDIRECT_FROM_VOL_NODE, $volume);
 		$redirect = $xpath->query($xpathQuery, $this->_xmlObject);
 		
 		if ($redirect->length)
 		{
-			if ($redirect[0]->hasAttribute(REDIRECT_TO_NODE))
+			if ($redirect[0]->hasAttribute(REDIRECT_TO_ID_NODE))
 			{
-				$redirectTo = $redirect[0]->getAttribute(REDIRECT_TO_NODE);
+				$redirectToId = $redirect[0]->getAttribute(REDIRECT_TO_ID_NODE);
+				$redirectToVol = $volume;
+				if ($redirect[0]->hasAttribute(REDIRECT_TO_VOL_NODE))
+				{
+					$redirectToVol = $redirect[0]->getAttribute(REDIRECT_TO_VOL_NODE);
+				}
 				
-				return Redirect::to(sprintf('%s/%s/%s', $redirectTo, $volume, $page));
+				return Redirect::to(sprintf('%s/%s/%s', $redirectToId, $redirectToVol, $page));
+			}
+		}
+		
+		// Redirect by just ID
+		$xpathQuery = sprintf('//%s[@%s=\'%s\']', REDIRECT_NODE, REDIRECT_FROM_ID_NODE, $id);
+		$redirect = $xpath->query($xpathQuery, $this->_xmlObject);
+		
+		if ($redirect->length)
+		{
+			if ($redirect[0]->hasAttribute(REDIRECT_TO_ID_NODE))
+			{
+				$redirectToId = $redirect[0]->getAttribute(REDIRECT_TO_ID_NODE);
+				$redirectToVol = $volume;
+				if ($redirect[0]->hasAttribute(REDIRECT_TO_VOL_NODE))
+				{
+					$redirectToVol = $redirect[0]->getAttribute(REDIRECT_TO_VOL_NODE);
+				}
+				
+				return Redirect::to(sprintf('%s/%s/%s', $redirectToId, $redirectToVol, $page));
 			}
 		}
 		
