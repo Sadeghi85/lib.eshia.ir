@@ -518,12 +518,17 @@ text-align:center;
 	text-align: center;
 }
 .Tools-index {
-	background: #FFFFFF;
+	background: #fff;
 	font-size: 1em;
 	height: 22px;
+	width: 50px;
 	margin: 0px;
 	padding: 2px 5px;
 	text-align: center;
+}
+
+.Tools-index a:hover {
+	color: #ff9900;
 }
 .Tools-serach {
 	width:75%;
