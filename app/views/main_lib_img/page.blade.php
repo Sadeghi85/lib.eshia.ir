@@ -1,42 +1,23 @@
-
 @section('content')
 <div id="contents">
 	<div id="contents_cover" class="Page_showPage">
 		<table class="content_headers" align="center" cellpadding="0" cellspacing="0">
-		<tr>	
-            <td>
-            <table class="Tools-Table" align="right">
-				<tr>
-					<td class="Tools-pdf">
-						<a href="{{ sprintf('/pdf/%s/%s', $id, $volume) }}" title="@lang(sprintf('%s/app.save_this_book_to_pdf_format', Config::get('app_settings.theme')))" target="_blank">@lang(sprintf('%s/app.pdf_format', Config::get('app_settings.theme')))</a>
-					</td>
-					<td class="Tools-certificate">
-						<a href="{{ sprintf('/shenasnameh/%s', $id) }}" title="@lang(sprintf('%s/app.book_certificate', Config::get('app_settings.theme')))" target="_blank">@lang(sprintf('%s/app.certificate', Config::get('app_settings.theme')))</a>
-					</td>
-                    <td class="Tools-index">
-						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans(sprintf('%s/app.show', Config::get('app_settings.theme'))), trans(sprintf('%s/app.index_page', Config::get('app_settings.theme')))) }}">@lang(sprintf('%s/app.index_page', Config::get('app_settings.theme')))</a>
-					</td>
-					<td class="Tools-serach">
-						<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput1').value, {{ $id }});return false;">
-						<table class="Tools-serach-table"><tr><td class="Tools-serach-input-td">	
-							<input id="searchContentInput1" value="@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))'; this.className='empty-search-item'}" />
-						</td><td class="Tools-serach-submit-td">
-							<input type="submit" value="" class="dofindButton">
-						</td></tr></table>
-						</form>
-					</td>
-				</tr>
-			</table>
-            </td>
-			</tr>
-
+					
             <tr>
+		
+			
             <td>
 				<form method="post" action="{{ Request::url() }}" class="frmQuickAccess">
             	<!--<input type="hidden" name="id" value="{{ $id }}" />-->
 				
-				<table align="center" class="BookAccessPanel">
+					<table align="center" class="BookAccessPanel">
+
 					<tr>
+
+					<td class="Tools-index">
+						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans(sprintf('%s/app.show', Config::get('app_settings.theme'))), trans(sprintf('%s/app.index_page', Config::get('app_settings.theme')))) }}">@lang(sprintf('%s/app.index_page', Config::get('app_settings.theme')))</a>
+					</td>
+					
 						<td align="center">
 						@if ( ! is_null($firstPage))
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $firstPage) }}" title="{{ sprintf('%s %s', trans(sprintf('%s/app.show', Config::get('app_settings.theme'))), trans(sprintf('%s/app.first_page', Config::get('app_settings.theme')))) }}">&nbsp;&nbsp;&nbsp;««{{ trans(sprintf('%s/app.first_page', Config::get('app_settings.theme'))) }}&nbsp;&nbsp;&nbsp;</a>
@@ -101,11 +82,17 @@
         
         <tr>
             <td>
-            	<form method="post" action="{{ Request::url() }}" class="frmQuickAccess">
+				<form method="post" action="{{ Request::url() }}" class="frmQuickAccess">
             	<!--<input type="hidden" name="id" value="{{ $id }}" />-->
 				
-				<table align="center" class="BookAccessPanel">
+					<table align="center" class="BookAccessPanel">
+
 					<tr>
+
+					<td class="Tools-index">
+						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans(sprintf('%s/app.show', Config::get('app_settings.theme'))), trans(sprintf('%s/app.index_page', Config::get('app_settings.theme')))) }}">@lang(sprintf('%s/app.index_page', Config::get('app_settings.theme')))</a>
+					</td>
+					
 						<td align="center">
 						@if ( ! is_null($firstPage))
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $firstPage) }}" title="{{ sprintf('%s %s', trans(sprintf('%s/app.show', Config::get('app_settings.theme'))), trans(sprintf('%s/app.first_page', Config::get('app_settings.theme')))) }}">&nbsp;&nbsp;&nbsp;««{{ trans(sprintf('%s/app.first_page', Config::get('app_settings.theme'))) }}&nbsp;&nbsp;&nbsp;</a>
@@ -146,32 +133,7 @@
 		</td>
         </tr>
         
-        <tr>	
-            <td>
-            <table class="Tools-Table" align="right">
-				<tr>
-					<td class="Tools-pdf">
-						<a href="{{ sprintf('/pdf/%s/%s', $id, $volume) }}" title="@lang(sprintf('%s/app.save_this_book_to_pdf_format', Config::get('app_settings.theme')))" target="_blank">@lang(sprintf('%s/app.pdf_format', Config::get('app_settings.theme')))</a>
-					</td>
-					<td class="Tools-certificate">
-						<a href="{{ sprintf('/shenasnameh/%s', $id) }}" title="@lang(sprintf('%s/app.book_certificate', Config::get('app_settings.theme')))" target="_blank">@lang(sprintf('%s/app.certificate', Config::get('app_settings.theme')))</a>
-					</td>
-                    <td class="Tools-index">
-						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $indexPage) }}" title="{{ sprintf('%s %s', trans(sprintf('%s/app.show', Config::get('app_settings.theme'))), trans(sprintf('%s/app.index_page', Config::get('app_settings.theme')))) }}">@lang(sprintf('%s/app.index_page', Config::get('app_settings.theme')))</a>
-					</td>
-					<td class="Tools-serach">
-						<form action="#" id="search-query-form" onsubmit="do_search(document.getElementById('searchContentInput2').value, {{ $id }});return false;">
-						<table class="Tools-serach-table"><tr><td class="Tools-serach-input-td">	
-							<input id="searchContentInput2" value="@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))" class="empty-search-item" autocomplete="off" onfocus="if (this.value == '@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))') {this.value = ''; this.className=''}" onblur="if (this.value == '') {this.value = '@lang(sprintf('%s/app.search_in_this_book', Config::get('app_settings.theme')))'; this.className='empty-search-item'}" />
-						</td><td class="Tools-serach-submit-td">
-							<input type="submit" value="" class="dofindButton">
-						</td></tr></table>
-						</form>
-					</td>
-				</tr>
-			</table>
-            </td>
-			</tr>
+
         </table>
 	</div>
 </div>
