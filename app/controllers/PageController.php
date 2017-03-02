@@ -50,7 +50,7 @@ class PageController extends BaseController {
 					$redirectToVol = $redirect[0]->getAttribute(REDIRECT_TO_VOL_NODE);
 				}
 				
-				return Redirect::to(sprintf('%s/%s/%s', $redirectToId, $redirectToVol, $page));
+				return Redirect::to(sprintf('%s/%s/%s/%s', $redirectToId, $redirectToVol, $page, $highlight));
 			}
 		}
 		
@@ -69,7 +69,7 @@ class PageController extends BaseController {
 					$redirectToVol = $redirect[0]->getAttribute(REDIRECT_TO_VOL_NODE);
 				}
 				
-				return Redirect::to(sprintf('%s/%s/%s', $redirectToId, $redirectToVol, $page));
+				return Redirect::to(sprintf('%s/%s/%s/%s', $redirectToId, $redirectToVol, $page, $highlight));
 			}
 		}
 		
