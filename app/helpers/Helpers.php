@@ -318,11 +318,11 @@ class Helpers {
 			{
 				if ($persianized)
 				{
-					self::$_persianizedXMLObject = unserialize(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('persianized.xml.object'));
+					self::$_persianizedXMLObject = igbinary_unserialize(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('persianized.xml.object'));
 				}
 				else
 				{
-					self::$_xmlObject = unserialize(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('xml.object'));
+					self::$_xmlObject = igbinary_unserialize(Cache::tags(strtolower(Request::server('HTTP_HOST')))->get('xml.object'));
 				}
 			}
 			else
@@ -330,10 +330,10 @@ class Helpers {
 				Cache::tags(strtolower(Request::server('HTTP_HOST')))->flush();
 				
 				self::$_xmlObject = self::loadXML();
-				Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('xml.object', serialize(self::$_xmlObject), 24 * 60);
+				Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('xml.object', igbinary_serialize(self::$_xmlObject), 24 * 60);
 				
 				self::$_persianizedXMLObject = self::loadPersianizedXML();
-				Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('persianized.xml.object', serialize(self::$_persianizedXMLObject), 24 * 60);
+				Cache::tags(strtolower(Request::server('HTTP_HOST')))->put('persianized.xml.object', igbinary_serialize(self::$_persianizedXMLObject), 24 * 60);
 			}
 		}
 		
