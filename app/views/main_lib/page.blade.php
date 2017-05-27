@@ -11,6 +11,7 @@
 						<a href="{{ sprintf('/pdf/%s/%s', $id, $volume) }}" title="@lang(sprintf('%s/app.save_this_book_to_pdf_format', Config::get('app_settings.theme')))" target="_blank">@lang(sprintf('%s/app.pdf_format', Config::get('app_settings.theme')))</a>
 					</td>
 					<td class="Tools-certificate">
+						<!--ارجاع شناسنامه به صفحه اول کتاب-->
 						<!--<a href="{{ sprintf('/shenasnameh/%s', $id) }}" title="@lang(sprintf('%s/app.book_certificate', Config::get('app_settings.theme')))" target="_blank">@lang(sprintf('%s/app.certificate', Config::get('app_settings.theme')))</a>-->
 						<a href="{{ sprintf('/%s/%s/%s', $id, $volume, $firstPage) }}" title="@lang(sprintf('%s/app.book_certificate', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.certificate', Config::get('app_settings.theme')))</a>
 					</td>
