@@ -60,7 +60,7 @@
 							<td class="data">
 								<div class="result">
 								<a href="">&nbsp;</a>
-							<a href="{{ Helpers::to(sprintf('/%s/%s/%s/%s', (int) $result['attrs']['bookid'], (int) $result['attrs']['volume'], (int) $result['attrs']['page'], $query)) }}" title="">{{ sprintf(trans(sprintf('%s/app.search_info', Config::get('app_settings.theme'))), '<font color="#ff6c13">', '</font>', $result['attrs']['bookName'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['volume'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['page']) }}</a>
+							<a href="{{ Helpers::to(sprintf('/%s/%s/%s/%s', (int) $result['attrs']['bookid'], (int) $result['attrs']['volume'], (int) $result['attrs']['page'], $query)) }}" title="">{{ sprintf(trans(sprintf('%s/app.search_info', Config::get('app_settings.theme'))), '<font color="#ff6c13">', '</font>', $result['attrs']['bookName'], $result['attrs']['bookAuthor'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['volume'], '<font color="#ff6c13">', '</font>', (int) $result['attrs']['page']) }}</a>
 							
 							</div>
 						<div class="preview">{{ $result['attrs']['excerpt'] }}</div>

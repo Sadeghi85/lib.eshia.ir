@@ -100,6 +100,7 @@ class SearchController extends BaseController {
 				$bookNode = $xpath->query($xpathQuery, $this->_xmlObject);
 				
 				$thisPage[$i]['attrs']['bookName'] = $bookNode->item(0)->getAttribute(BOOK_ATTR_DISPLAYNAME);
+				$thisPage[$i]['attrs']['bookAuthor'] = $bookNode->item(0)->getAttribute(BOOK_ATTR_AUTHOR);
 				$thisPage[$i]['attrs']['excerpt'] = $excerpts[$i];
 			}
 

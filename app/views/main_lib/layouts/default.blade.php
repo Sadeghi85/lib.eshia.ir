@@ -59,6 +59,7 @@
 							<span><a href="@lang(sprintf('%s/app.change_lang_link', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.change_lang', Config::get('app_settings.theme')))</a></span>
 							<span><a href="/help" title="@lang(sprintf('%s/app.lib_help', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.lib_help', Config::get('app_settings.theme')))</a></span>
 							<span><a href="/advanced-search" title="@lang(sprintf('%s/app.advanced_search', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.advanced_search', Config::get('app_settings.theme')))</a></span>
+							<span><a href="http://total.lib.eshia.ir/" title="@lang(sprintf('%s/app.total_search', Config::get('app_settings.theme')))">@lang(sprintf('%s/app.total_search', Config::get('app_settings.theme')))</a></span>
 						</td>
 					</tr>
 			   </table>
