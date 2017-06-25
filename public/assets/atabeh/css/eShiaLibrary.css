@@ -1,5 +1,4 @@
-﻿
-/*----Start of font-face -------------------------------------------------------------------------------------------------------------*/
+﻿/*----Start of font-face -------------------------------------------------------------------------------------------------------------*/
 @font-face {
 	font-family: "Nassim";
 	src: url("../fonts/Nassim.ttf") format("truetype");
@@ -7,7 +6,6 @@
 @font-face {
 	font-family: "IE Nassim";
 	src: url("../fonts/Nassim.eot");
-	
 }
 @font-face {
 	font-family: "Alaem";
@@ -26,11 +24,12 @@
 
 /*----Start of Page -------------------------------------------------------------------------------------------------------------*/
 HTML, BODY {
-	background: #2c3e4e;
+	background: #252525;
 	margin: 0;
 	padding: 0;
 	font-family:"Nassim", "IE Nassim";
 }
+
 A {
 	text-decoration: none;
 }
@@ -46,7 +45,7 @@ A:hover {
 	color: #0099FF;
 }
 .leftSection {
-	border:none;	
+	border:none;
 	padding:0;
 	vertical-align:top;
 }
@@ -59,7 +58,7 @@ input {
 
 /*----Start of All page -------------------------------------------------------------------------------------------------------------*/
 #all_contents {
-	background:#2c3e4e;
+	background:#252525;
 	margin:0;
 	width: 100%;
 	padding:0;
@@ -73,13 +72,13 @@ input {
 .rightsection {
 	width:180px;
 	vertical-align:top;
-	background:#2c3e4e url(../images/RightSection_BackGround.jpg) top repeat-y;
+	background:#252525 url(../images/RightSection_BackGround.jpg) top repeat-y;
 	text-align:right;
 	padding:0;
 	margin:0;
 }
 .rightsection_end {
-	background:#2c3e4e url(../images/RightSection_End_BackGround.jpg) top no-repeat;
+	background:#252525 url(../images/RightSection_End_BackGround.jpg) top no-repeat;
 	height:100px;	
 }
 .vertical-logo {
@@ -117,8 +116,10 @@ input {
 /*----Start of header -------------------------------------------------------------------------------------------------------------*/
 #header {
 	border:none;
-	margin:5px auto;
-	width:91%
+	margin:0 auto;
+	padding: 3px 0;
+	width:100%;
+	background:#d5d1ca;
 }
 .topheader {
 	height:auto;
@@ -133,7 +134,7 @@ input {
 	width:100%;
 }
 .header-link, .header-link a {
-	color:#858c91;
+	color:#a21819;
 	text-align:right;
 	font-size:1em;
 	width:80%;
@@ -143,7 +144,7 @@ input {
 	margin:0 6px;
 }
 .header-link a:Hover {
-	color:#FFF;
+	color:#252525;
 }
 #mainSearchPanel {
 	background-color: #a9c3d9;
@@ -156,7 +157,7 @@ input {
 }
 .searchp1 {
 	padding:0 5px;
-	border:2px solid #697a89;
+	border:2px solid #e3ded7;
 	background:#a9c3d9;
 	vertical-align:top;
 }
@@ -267,8 +268,8 @@ input {
 /*----start of page1-------------------------------------------------------------------------------------------------------------*/
 #contents {
 	margin:10px auto 0px;
-	background:#697a89 url(../images/Content_Back.gif) top center repeat ;
-	border:2px solid #697a89;
+	background:#a21819 url(../images/Content_Back.gif) top center repeat ;
+	border:2px solid #e3ded7;
 	padding:10px;
 	font-size: 0.8em;
 	line-height: 260%;
@@ -282,8 +283,8 @@ input {
 
 #contents.content-DefaultPage {
 	margin:10px auto 0px;
-	background:#697a89 url(../images/backbook.jpg) top center repeat ;
-	border:2px solid #697a89;
+	background:#a21819 url(../images/backbook.jpg) top center repeat ;
+	border:2px solid #e3ded7;
 	padding:10px;
 	font-size: 0.8em;
 	line-height: 200%;
@@ -305,7 +306,7 @@ input {
 	text-align:center;
 }
 .DefaultPage-Board .welcome {
-	border: 2px solid #697a89;
+	border: 2px solid #d5d1ca;
 	width:auto;
 	background: #192631;
 	padding:10px 2px;
@@ -317,21 +318,21 @@ input {
 }
 .DefaultPage-down {
 	background:#FFFFFF;
-	border-right:2px solid #697a89;
-	border-left:2px solid #697a89;
+	border-right:2px solid #e3ded7;
+	border-left:2px solid #e3ded7;
 	border-top:none;
-	border-bottom:1px solid #697a89;
+	border-bottom:1px solid #a21819;
 	padding: 10px;
 	margin:auto;
 	font-size:1.1em;
 	font-weight:normal;
-	color:#2c3e4e;
+	color:#252525;
 	width:89%;
 	text-align:center;
 	direction:rtl;
 }
 .DefaultPage-down A{
-	color:#2c3e4e;
+	color:#252525;
 }
 .sitelink {
 padding:10px 5px;	
@@ -625,7 +626,7 @@ text-align:center;
 	vertical-align:middle;
 }
 .BookAccessPanel {
-	border:2px solid #2c3e4e;
+	border:2px solid #252525;
 	font-family:"Nassim", "IE Nassim";
 	vertical-align:middle;
 	margin:5px auto;
@@ -636,11 +637,11 @@ text-align:center;
 	border:none;
 	vertical-align:middle;
 	padding:0;
-	color:#2c3e4e;
+	color:#252525;
 }
 .BookAccessPanel TD a {
 	vertical-align:middle;
-	color:#2c3e4e;
+	color:#252525;
 }
 .BookAccessPanel input, .BookAccessPanel select {
 	vertical-align:middle;
@@ -655,7 +656,7 @@ text-align:center;
 
 .PageSelector {
 	width:60px;
-	border:1px solid #2c3e4e;
+	border:1px solid #252525;
 	text-align:center;
 	height:18px;
 	direction: ltr;
@@ -663,7 +664,7 @@ text-align:center;
 .book-search-submit {
 	border:none;
 	color:#FFFFFF;
-	background:#2c3e4e;
+	background:#252525;
 	height:22px;
 	cursor:pointer;
 	
@@ -681,7 +682,7 @@ text-align:center;
 	color: #333;
 	margin:0;
 	padding:15px;
-	border: 2px solid #a9c3d9;
+	border: 2px solid #d5d1ca;
 	border-top: none;
 	border-bottom: none;
 	vertical-align: central;
@@ -694,7 +695,7 @@ text-align:center;
 }
 .Page_showPage {
 	background:#7d98ae;
-	border:2px solid #a9c3d9 !important;	
+	border:2px solid #d5d1ca !important;	
 }
 
 .Page_showPage H4 {
@@ -752,7 +753,7 @@ text-align:center;
 	color: #FFFFFF;
 	margin:0;
 	padding:4px 8px;
-	border: 2px solid #a9c3d9;
+	border: 2px solid #d5d1ca;
 	text-align:right;
 }
 .Book_Title a {
@@ -794,7 +795,7 @@ text-align:center;
 }
 
 #AuthorsList .AuthorName {
-	border: 1px solid #a9c3d9;
+	border: 1px solid #d5d1ca;
 	background: #fff;
 	text-align: right;
 	color: #849cb1;
@@ -1019,7 +1020,7 @@ text-align:center;
 }
 
 .pageSelectorPanel a {
-	border: 1px #697a89 solid;
+	border: 1px #a21819 solid;
 	background: #a9c3d9;
 	padding: 0 5px;
 }
@@ -1051,7 +1052,7 @@ text-align:center;
 	padding:0;
 	margin:0;
 	direction: rtl;
-	border:2px solid #697a89;
+	border:2px solid #e3ded7;
 	background-color: #a9c3d9;
 }
 .ui-menu .ui-menu-item {
@@ -1070,7 +1071,7 @@ text-align:center;
 }
 .ui-menu .ui-menu-item a.ui-state-hover, .ui-menu .ui-menu-item a.ui-state-active, .ui-menu .ui-menu-item a.ui-state-focus {
 	font-weight: normal;
-	background-color: #FF6600;
+	background-color: #a21819;
 	color: #006699;
 }
 .ui-autocomplete-loading {
